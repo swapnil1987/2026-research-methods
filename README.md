@@ -1,7 +1,9 @@
 # Research Methods 2026
 
 Python programming and reproducible research with coding agents, for PhD
-students in economics. Instructor: Swapnil Singh.
+students in economics. 
+
+Instructor: Swapnil Singh.
 
 [Syllabus](syllabus.md)
 
