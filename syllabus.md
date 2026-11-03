@@ -2,21 +2,14 @@
 
 ## Python programming and reproducible research with coding agents
 
-**Draft syllabus**  
-**Instructor:** Swapnil  
-**Audience:** PhD students in economics  
+**Instructor:** [Swapnil  Singh](https://swapnil1987.github.io)
 **Contact time:** 24 hours, comprising 20 hours of teaching and supervised practice and 4 hours of individual assessment  
 **First class:** Wednesday 4 November 2026  
-**Format:** Three teaching days of eight contact hours each. Dates for the second and third days will be announced. Breaks are additional to contact time.  
 **Course repository:** [github.com/swapnil1987/2026-research-methods](https://github.com/swapnil1987/2026-research-methods)
 
 ## Course description
 
-This course introduces the programming skills needed to carry out small research projects in economics. Students will learn to use Python, work with economic data, track changes with Git and GitHub, and use coding agents under their own supervision. No previous programming experience is required.
-
-The course treats code as part of a research argument. Students must understand what a program calculates, which assumptions it makes, and how to check its results. They will write small programs themselves and learn to specify, inspect, and verify work produced by an agent.
-
-Most exercises use a small synthetic household dataset containing income, consumption, household size, employment, and survey year. Reusing this setting allows students to build a complete workflow while concentrating on one new programming idea at a time. The course emphasises descriptive analysis and computational reasoning; it does not assume prior knowledge of advanced econometrics.
+This course introduces the basic programming skills needed to carry out research projects in economics. Students will learn to use Python, work with economic data, track changes with Git and GitHub, and use coding agents under their own supervision.
 
 ## Learning outcomes
 
@@ -32,17 +25,9 @@ By the end of the course, students should be able to:
 
 ## Preparation and software
 
-Students should be familiar with basic economic concepts such as income, consumption, averages, ratios, and growth rates. Prior programming experience is welcome but is not expected.
-
-Students will need a laptop, a GitHub account, and access to the common Python environment and coding agent used in class. Setup instructions and a starter project will be provided before the first class. Students should complete the setup check by opening the project and running the supplied example. Difficulties should be reported before class where possible.
+Students will need a laptop, a GitHub account, and access to the common Python environment and coding agent used in class. Setup instructions and a starter project will be provided before the first class. Students should complete the setup check by opening the project and running the supplied example. **IT IS THE RESPONSIBILITY OF A STUDENT TO ENSURE SOFTWARES RUN ON HIS/HER COMPUTER.**
 
 The course will use Python, Jupyter notebooks, pandas, NumPy, and Matplotlib. Short scripts will be introduced alongside notebooks. All students will use a supported common setup, with equivalent access to the agent used for assessed work. Advanced features and paid upgrades will not be needed to complete the core tasks.
-
-## Teaching approach
-
-Classes combine short explanations, instructor demonstrations, and supervised exercises. Students will regularly predict a program's output before running it, trace its execution, explain an error, and make a small independent change. Worked examples will gradually give way to tasks with less scaffolding.
-
-Some exercises will be completed without AI so that students practise reasoning through code themselves. Other exercises will explicitly use an agent. For these tasks, students must state the intended calculation, review the changes, and provide evidence that the result is correct. Pair discussion is encouraged during practice; graded assessment is individual.
 
 ## Teaching schedule
 
@@ -64,77 +49,64 @@ Some exercises will be completed without AI so that students practise reasoning 
 
 **Take-home exercise 1 is released at the end of Day 1.**
 
-### Day 2 Economic data analysis and agent supervision
-
-**Date to be announced — eight contact hours**
-
-| Block | Hours | Topics and activities |
-|---|---:|---|
-| Cleaning and combining data | 2 | Filtering rows; missing values; duplicate identifiers; merging two small tables; checking which observations are retained and whether a merge duplicates rows. |
-| Summaries and figures | 1 | Grouped descriptive statistics and a labelled figure; mean of ratios versus ratio of totals; documenting units and the analysis sample. |
-| Git for reviewing and recovering work | 1 | Reading history and diffs; creating a branch; a simple pull request; restoring a file or reverting an unwanted change; reviewing an agent's edits before accepting them. |
-| Verification and reproducibility | 1 | Assertions for identifiers, ranges, and row counts; preserving raw data; relative paths; recording dependencies; restarting the environment and rerunning the analysis. |
-| Working with coding agents | 2 | Writing a task specification; stating inputs, outputs, and checks; requesting small changes; reviewing a plan and a diff; recognising unsupported assumptions; correcting or rejecting a change. |
-| Supervised integrated exercise | 1 | Extend the household analysis with an agent, inspect the code, verify the output, and commit the accepted change. |
-| **Total** | **8** | |
-
-**By the end of the day:** students should be able to produce a checked descriptive analysis and explain how they reviewed an agent's contribution.
-
-**Take-home exercise 2 is released at the end of Day 2.**
-
-### Day 3 Consolidation and individual assessment
-
-**Date to be announced — eight contact hours**
-
-| Block | Hours | Topics and activities |
-|---|---:|---|
-| Feedback and targeted practice | 1 | Discuss common difficulties from the take-home exercises; practise tracing, debugging, and explaining short pieces of code. |
-| Reproducing a small research result | 2 | Complete a guided workflow from supplied data to a table and figure; move repeated calculations into functions; write run instructions; check that the project runs from a clean start. |
-| Assessment preparation | 1 | Practise the published assessment format, including a short oral explanation and a small change to familiar code; review the verification checklist. |
-| Individual assessment | 4 | Independent Python practical, agent-assisted research practical, and individual oral check. |
-| **Total** | **8** | |
+The schedule for the remaining teaching days will be added closer to their dates.
 
 The complete course contains **20 hours of teaching and supervised practice and 4 hours of individual assessment**.
 
-## Take-home exercises
 
-The two take-home exercises are formative: they receive feedback but carry no direct marks. They prepare students for the individual assessment. AI use is permitted, and students remain responsible for understanding what they submit. Each exercise is designed to take approximately two to three hours outside the 24 contact hours.
+## Take-home exercise
+
+Take-home submissions contribute to the course grade as set out below. AI use is permitted, and students remain responsible for understanding and checking what they submit. Each exercise is designed to take approximately two to three hours outside the 24 contact hours. Only Exercise 1 is described here; later tasks will be added when they are released.
 
 ### Exercise 1 Small programs for household calculations
 
-Released after Day 1 and due at the start of Day 2. Students will complete and test small functions for income, consumption, or saving calculations; explain a short program; inspect the supplied CSV; and save their work in their own repository. Tasks will use only material already covered in class.
+Released at the end of Day 1, Wednesday 4 November 2026. **Submission deadline: Monday 9 November 2026 at 23:59, Europe/Vilnius time.** Students will complete and test small functions for income, consumption, or saving calculations; explain a short program; inspect the supplied CSV; and save their work on their own assignment branch in the course repository. Tasks will use only material already covered in class.
 
 The submission should include the code, a few hand-checkable examples, a short explanation of one error or correction, and a brief account of any AI assistance. Students should first attempt a short tracing or modification task independently, then use an agent where helpful.
 
-### Exercise 2 A reproducible descriptive analysis
+The task sheet and marking rubric will be provided when the exercise is released. Submit by pushing the assignment branch and opening a pull request to `main` in the course repository before the deadline. The instructor will record the latest commit pushed to the pull request by the deadline as the submission version. Students must not merge their own submissions; only the instructor may update `main`.
 
-Released after Day 2 and due at the start of Day 3. Students will clean and combine supplied synthetic data, produce a small table and figure, and add checks for specified data problems. They will use an agent for at least one bounded extension and review the resulting changes.
+The repository and pull requests are public. Detailed individual feedback and official marks will be provided privately. The review of Exercise 1 is planned for Tuesday 10 November 2026.
 
-The submission should include a repository with run instructions, the analysis code, checks, outputs, and a short note explaining the sample, the calculation, and how the agent's work was verified. Students should identify one proposed change that required correction or explain how they checked an accepted change. They do not need to manufacture an agent error.
+## Assessment and grading
 
-Exact task sheets will be provided when each exercise is released. Students should submit assignment links through the course submission channel. Private repositories may be used with instructor access; students are not required to publish their assessed work publicly.
+The Python programming and reproducible research component contributes **67% of the final course grade**. The writing component, taught and assessed by another lecturer, contributes **33%**. All weights below are percentages of the whole course.
 
-## Individual assessment
+![Grading: programming and research 67%, writing 33%. Each exercise contributes 10% for the submission and 15% for an individual test; the final practical contributes 17%. Passing requires at least 50/100 overall and 23.5/47 across the independent assessments combined.](docs/figures/grading-overview.png)
 
-The assessment measures both independent programming understanding and the ability to supervise an agent. It uses familiar concepts with small variations on classroom exercises.
+[Open the grading figure as a PDF](docs/figures/grading-overview.pdf).
 
 | Component | Weight | Format and criteria |
 |---|---:|---|
-| Independent Python practical | 35% | A 45-minute supervised task without AI. Read and trace code, modify a small function, diagnose an error, and explain a check. A supplied syntax reference is allowed. |
-| Agent-assisted research practical | 35% | An individual supervised analysis using the supported agent. Marks reward a clear task specification, appropriate code changes, verification, reproducibility, and a meaningful Git history. |
-| Individual oral check | 30% | A ten-minute discussion without AI. Explain a calculation or code fragment, justify a verification step, and respond to a small change in an input or requirement. |
+| Exercise 1 submission | 10% | Individual take-home work submitted through a pull request. AI assistance is permitted. Marks reward correctness, runnable code, appropriate checks, and clear explanations under the published rubric. |
+| Exercise 1 individual test | 15% | Supervised multiple-choice questions without AI, assessing understanding of the exercise and the concepts taught. |
+| Exercise 2 submission | 10% | Individual take-home work submitted through a pull request. AI assistance is permitted. The task, rubric, and deadline will be announced when it is released. |
+| Exercise 2 individual test | 15% | Supervised multiple-choice questions without AI, assessing understanding of the exercise and the concepts taught. |
+| Day 3 individual practical | 17% | A supervised task without AI: read and modify a short program, diagnose an error, check a result, and explain the output. |
+| Writing component | 33% | Assessed by the other lecturer under the writing component's published requirements. |
+| **Total** | **100%** | |
 
-**Assessment timetable:** 45 minutes for the independent practical, 15 minutes for collection and transition, and a three-hour block for the agent-assisted practical and scheduled oral checks. Each student has ten minutes away from the practical for the oral check and receives the same 170 minutes of practical working time. Practical submissions close at the end of the block.
+**Marks are additive.** Each exercise contributes up to 25 percentage points: 10 from the submission and 15 from its individual test. For example, full marks on a submission contribute 10 points; a score of 40% on the associated test contributes 6 points. Together, they contribute 16 out of the exercise's 25 points.
 
-The oral check may refer to the independent practical and the student's analysis so far. It assesses reasoning and understanding; students are not expected to memorise library documentation. Agent records and Git history support the discussion but do not replace an individual explanation.
+Individual tests will use submissions to identify relevant approaches and common difficulties. Questions will follow a common assessment blueprint with comparable difficulty for all students. They may ask students to trace code, predict the effect of changed inputs, diagnose a bug, select a useful check, or interpret a calculation. Tasks will assess material already taught. Dates, durations, permitted reference materials, and sample formats will be announced before each assessment.
 
-With one examiner, the three-hour block accommodates up to 17 ten-minute oral slots and a ten-minute buffer. A larger cohort requires additional examiners to keep the individual assessment within four hours. This staffing requirement must be settled once enrolment is known.
+**Pass requirements:** at least 50% overall and at least 50% of the marks available across the two individual tests and the Day 3 practical combined. These independent assessments contribute 47 percentage points to the course grade, so the independent-assessment requirement is at least **23.5 out of 47 points in aggregate**. A separate pass in each individual test is not required. These requirements remain subject to the institution's grading rules and confirmation.
 
-**Proposed pass requirement:** at least 50% overall and at least 50% of the marks available across the independent practical and oral check combined. These thresholds are subject to the institution's grading rules and must be confirmed before the course begins.
+AI tools may assist the instructor in checking submissions against the rubric and drafting questions. The instructor reviews the evidence, confirms the marks, and approves the assessment questions and answer keys.
+
+### Grade IDs and feedback
+
+Each student will privately receive a randomly assigned grade ID, separate from their name, official student number, and GitHub username. Grade summaries may be displayed using these IDs. Students must keep their grade ID out of public branches, pull requests, commits, and assignment files.
+
+The mapping between students and grade IDs will be kept privately outside the public repository. Public summaries will contain only grade IDs and component marks, with no links to student submissions. Detailed individual feedback and official marks will be provided privately. These IDs reduce direct identification; they do not guarantee anonymity where public submissions or other information allow a student to be identified.
+
+Unreleased assessment questions, answer keys, and instructor grading records will remain outside the public repository.
 
 ## Use of AI
 
-Students may use AI for take-home exercises and designated classroom activities. AI is permitted in the agent-assisted practical and is not permitted in the independent practical or oral check. Generative autocomplete must also be disabled during the independent practical.
+Students may use AI for take-home exercises and designated classroom activities. AI is not permitted in either individual test or the Day 3 individual practical. Generative autocomplete must also be disabled during these independent assessments.
+
+Permitted AI assistance does not reduce a submission's mark. Submissions are assessed against the published rubric; individual tests and the practical assess the student's independent understanding. A low individual-test score does not by itself establish academic misconduct.
 
 For work completed with an agent, students should record the tool used, the task delegated, the substantive changes accepted, and the checks performed. A short task record is sufficient; a complete transcript is not required unless a task sheet explicitly requests it. The quality of a prompt alone does not establish the correctness of the resulting analysis.
 

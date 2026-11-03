@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="464.988031pt" height="770.103591pt" viewBox="0 0 464.988031 770.103591" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <title>How your Research Methods grade works</title>
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title>How your Research Methods grade works</dc:title>
+    <dc:description>Programming 67% and writing 33%. Exercise 1: 10% submission plus 15% individual test. Exercise 2: 10% submission plus 15% individual test. Final practical: 17%. Pass requires at least 50/100 overall and 23.5/47 across the individual tests and practical combined.</dc:description>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Research Methods 2026</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 770.103591
+L 464.988031 770.103591
+L 464.988031 0
+L 0 0
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 18.732031 126.304956
+L 105.823231 126.304956
+L 105.823231 81.894047
+L 18.732031 81.894047
+z
+" clip-path="url(#p64af062dbd)" style="fill: #a75019; stroke: #ffffff; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 105.823231 126.304956
+L 310.487551 126.304956
+L 310.487551 81.894047
+L 105.823231 81.894047
+z
+" clip-path="url(#p64af062dbd)" style="fill: #225a84; stroke: #ffffff; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 310.487551 126.304956
+L 454.188031 126.304956
+L 454.188031 81.894047
+L 310.487551 81.894047
+z
+" clip-path="url(#p64af062dbd)" style="fill: #737373; stroke: #ffffff; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 18.732031 75.232411
+L 18.732031 67.682556
+L 310.487551 67.682556
+L 310.487551 75.232411
+" clip-path="url(#p64af062dbd)" style="fill: none; stroke: #57636d; stroke-width: 0.8; stroke-linecap: square"/>
+   </g>
+   <g id="text_1">
+    <text style="font-size: 13px; font-family: 'DejaVu Sans'; fill: #ffffff" transform="translate(27.095366 101.146064)">Take-home</text>
+    <text style="font-size: 13px; font-family: 'DejaVu Sans'; fill: #ffffff" transform="translate(47.830366 116.631298)">20%</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 15px; font-family: 'DejaVu Sans'; fill: #ffffff" transform="translate(160.614766 99.238564)">Independent</text>
+    <text style="font-size: 15px; font-family: 'DejaVu Sans'; fill: #ffffff" transform="translate(191.485469 118.559267)">47%</text>
+   </g>
+   <g id="text_3">
+    <text style="font-size: 15px; font-family: 'DejaVu Sans'; fill: #ffffff" transform="translate(355.553416 99.238564)">Writing</text>
+    <text style="font-size: 15px; font-family: 'DejaVu Sans'; fill: #ffffff" transform="translate(365.667869 118.559267)">33%</text>
+   </g>
+   <g id="text_4">
+    <text style="font-weight: 700; font-size: 13px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #202b33" x="164.609791" y="57.468047" transform="rotate(-0 164.609791 57.468047)">Programming &amp; research · 67%</text>
+   </g>
+  </g>
+  <g id="axes_2">
+   <g id="patch_5">
+    <path d="M 18.732031 278.833061
+L 143.148031 278.833061
+L 143.148031 240.729368
+L 18.732031 240.729368
+z
+" clip-path="url(#p5d47a36a1d)" style="fill: #a75019; stroke: #ffffff; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 143.148031 278.833061
+L 329.772031 278.833061
+L 329.772031 240.729368
+L 143.148031 240.729368
+z
+" clip-path="url(#p5d47a36a1d)" style="fill: #225a84; stroke: #ffffff; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 18.732031 347.078481
+L 143.148031 347.078481
+L 143.148031 308.974788
+L 18.732031 308.974788
+z
+" clip-path="url(#p5d47a36a1d)" style="fill: #a75019; stroke: #ffffff; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 143.148031 347.078481
+L 329.772031 347.078481
+L 329.772031 308.974788
+L 143.148031 308.974788
+z
+" clip-path="url(#p5d47a36a1d)" style="fill: #225a84; stroke: #ffffff; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 18.732031 415.323902
+L 230.239231 415.323902
+L 230.239231 377.220209
+L 18.732031 377.220209
+z
+" clip-path="url(#p5d47a36a1d)" style="fill: #225a84; stroke: #ffffff; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 18.732031 483.569322
+L 429.304831 483.569322
+L 429.304831 445.465629
+L 18.732031 445.465629
+z
+" clip-path="url(#p5d47a36a1d)" style="fill: #737373; stroke: #ffffff; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 18.732031 492.668711
+L 454.188031 492.668711
+" clip-path="url(#p5d47a36a1d)" style="fill: none; stroke: #dde2e5; stroke-width: 0.7; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 18.732031 492.668711
+L 18.732031 496.365338
+" style="fill: none; stroke: #dde2e5; stroke-width: 0.7; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 143.148031 492.668711
+L 143.148031 496.365338
+" style="fill: none; stroke: #dde2e5; stroke-width: 0.7; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 267.564031 492.668711
+L 267.564031 496.365338
+" style="fill: none; stroke: #dde2e5; stroke-width: 0.7; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_6">
+    <path d="M 391.980031 492.668711
+L 391.980031 496.365338
+" style="fill: none; stroke: #dde2e5; stroke-width: 0.7; stroke-linecap: square"/>
+   </g>
+   <g id="text_5">
+    <text style="font-weight: 700; font-size: 15px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #202b33" x="18.732031" y="233.820913" transform="rotate(-0 18.732031 233.820913)">Exercise 1</text>
+   </g>
+   <g id="text_6">
+    <text style="font-weight: 700; font-size: 15px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #202b33" x="454.188031" y="233.820327" transform="rotate(-0 454.188031 233.820327)">25%</text>
+   </g>
+   <g id="text_7">
+    <text style="font-size: 14px; font-family: 'DejaVu Sans'; fill: #ffffff" transform="translate(40.895656 256.600589)">Submission</text>
+    <text style="font-size: 14px; font-family: 'DejaVu Sans'; fill: #ffffff" transform="translate(65.381438 273.276995)">10%</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 14px; font-family: 'DejaVu Sans'; fill: #ffffff" transform="translate(204.355187 255.674183)">MCQ test</text>
+    <text style="font-size: 14px; font-family: 'DejaVu Sans'; fill: #ffffff" transform="translate(220.901437 273.276995)">15%</text>
+   </g>
+   <g id="text_9">
+    <text style="font-weight: 700; font-size: 15px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #202b33" x="18.732031" y="302.066334" transform="rotate(-0 18.732031 302.066334)">Exercise 2</text>
+   </g>
+   <g id="text_10">
+    <text style="font-weight: 700; font-size: 15px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #202b33" x="454.188031" y="302.065748" transform="rotate(-0 454.188031 302.065748)">25%</text>
+   </g>
+   <g id="text_11">
+    <text style="font-size: 14px; font-family: 'DejaVu Sans'; fill: #ffffff" transform="translate(40.895656 324.84601)">Submission</text>
+    <text style="font-size: 14px; font-family: 'DejaVu Sans'; fill: #ffffff" transform="translate(65.381438 341.522416)">10%</text>
+   </g>
+   <g id="text_12">
+    <text style="font-size: 14px; font-family: 'DejaVu Sans'; fill: #ffffff" transform="translate(204.355187 323.919603)">MCQ test</text>
+    <text style="font-size: 14px; font-family: 'DejaVu Sans'; fill: #ffffff" transform="translate(220.901437 341.522416)">15%</text>
+   </g>
+   <g id="text_13">
+    <text style="font-weight: 700; font-size: 15px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #202b33" x="18.732031" y="370.311754" transform="rotate(-0 18.732031 370.311754)">Day 3 practical</text>
+   </g>
+   <g id="text_14">
+    <text style="font-weight: 700; font-size: 15px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #202b33" x="454.188031" y="370.311168" transform="rotate(-0 454.188031 370.311168)">17%</text>
+   </g>
+   <g id="text_15">
+    <text style="font-size: 14px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #ffffff" x="124.485631" y="400.13518" transform="rotate(-0 124.485631 400.13518)">Individual practical · 17%</text>
+   </g>
+   <g id="text_16">
+    <text style="font-weight: 700; font-size: 15px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #202b33" x="18.732031" y="438.557174" transform="rotate(-0 18.732031 438.557174)">Writing</text>
+   </g>
+   <g id="text_17">
+    <text style="font-weight: 700; font-size: 15px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #202b33" x="454.188031" y="438.556588" transform="rotate(-0 454.188031 438.556588)">33%</text>
+   </g>
+   <g id="text_18">
+    <text style="font-size: 14px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #ffffff" x="224.018431" y="469.73685" transform="rotate(-0 224.018431 469.73685)">Other lecturer · 33%</text>
+   </g>
+   <g id="text_19">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #57636d" x="18.732031" y="504.042948" transform="rotate(-0 18.732031 504.042948)">0%</text>
+   </g>
+   <g id="text_20">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #57636d" x="143.148031" y="504.042948" transform="rotate(-0 143.148031 504.042948)">10%</text>
+   </g>
+   <g id="text_21">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #57636d" x="267.564031" y="504.042948" transform="rotate(-0 267.564031 504.042948)">20%</text>
+   </g>
+   <g id="text_22">
+    <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #57636d" x="391.980031" y="504.042948" transform="rotate(-0 391.980031 504.042948)">30%</text>
+   </g>
+  </g>
+  <g id="line2d_7">
+   <path d="M 18.732031 682.136447
+L 454.188031 682.136447
+" style="fill: none; stroke: #dde2e5; stroke-width: 0.8; stroke-linecap: square"/>
+  </g>
+  <g id="text_23">
+   <text style="font-size: 12.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #57636d" x="18.732031" y="20.298047" transform="rotate(-0 18.732031 20.298047)">Every percentage is a share of the whole course.</text>
+  </g>
+  <g id="text_24">
+   <text style="font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #57636d" x="18.732031" y="151.986047" transform="rotate(-0 18.732031 151.986047)">Take-home: AI allowed. Independent: no AI.</text>
+  </g>
+  <g id="text_25">
+   <text style="font-weight: 700; font-size: 19px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #202b33" x="18.732031" y="188.518847" transform="rotate(-0 18.732031 188.518847)">Where the marks come from</text>
+  </g>
+  <g id="text_26">
+   <text style="font-weight: 700; font-size: 18px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #202b33" x="18.732031" y="539.403647" transform="rotate(-0 18.732031 539.403647)">To pass, meet both requirements</text>
+  </g>
+  <g id="text_27">
+   <text style="font-weight: 700; font-size: 20px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #202b33" x="18.732031" y="570.838847" transform="rotate(-0 18.732031 570.838847)">At least 50 / 100 overall</text>
+  </g>
+  <g id="text_28">
+   <text style="font-weight: 700; font-size: 10.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #57636d" x="18.732031" y="594.627647" transform="rotate(-0 18.732031 594.627647)">AND</text>
+  </g>
+  <g id="text_29">
+   <text style="font-weight: 700; font-size: 17.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #225a84" x="18.732031" y="621.814847" transform="rotate(-0 18.732031 621.814847)">At least 23.5 / 47 independent points</text>
+  </g>
+  <g id="text_30">
+   <text style="font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #57636d" x="18.732031" y="643.904447" transform="rotate(-0 18.732031 643.904447)">Tests (15 + 15) and practical (17), combined.</text>
+  </g>
+  <g id="text_31">
+   <text style="font-size: 11.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #57636d" x="18.732031" y="663.445247" transform="rotate(-0 18.732031 663.445247)">At least 50% across these three assessments together.</text>
+  </g>
+  <g id="text_32">
+   <text style="font-size: 11.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #57636d" x="18.732031" y="703.376447" transform="rotate(-0 18.732031 703.376447)">Example: full submission marks + 40% on the test</text>
+  </g>
+  <g id="text_33">
+   <text style="font-weight: 700; font-size: 18px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #202b33" x="18.732031" y="727.165247" transform="rotate(-0 18.732031 727.165247)">10 + 6 = 16 / 25 for that exercise</text>
+  </g>
+  <g id="text_34">
+   <text style="font-size: 10px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #57636d" x="18.732031" y="756.901247" transform="rotate(-0 18.732031 756.901247)">Pass requirements subject to institutional confirmation.</text>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p64af062dbd">
+   <rect x="18.732031" y="33.042047" width="435.456" height="97.704"/>
+  </clipPath>
+  <clipPath id="p5d47a36a1d">
+   <rect x="18.732031" y="215.706047" width="435.456" height="278.6688"/>
+  </clipPath>
+ </defs>
+</svg>
