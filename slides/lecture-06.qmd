@@ -1,0 +1,637 @@
+---
+title: "First look at a dataset"
+subtitle: "Research Methods 2026 · Day 1 · One-hour lesson"
+author: "Swapnil Singh"
+date: "2026-11-04"
+date-format: "D MMMM YYYY"
+footer: "Research Methods 2026 · First look at a dataset"
+css: theme/basic-python.css
+title-slide-attributes:
+  data-notes: |
+    Clock 00:00–01:00 (1 minute). Final Day 1 block. Open the companion notebook
+    in codes/lecture-6/ and start from a fresh kernel. All four records are
+    synthetic, one household per row, survey year 2026. Amounts are EUR per month.
+    The source CSV is a byte-identical copy of the first lesson's fixture.
+    This lesson teaches inspection and simple calculations, not a full data
+    cleaning pipeline. The take-home task is released separately after Day 1.
+---
+
+## The same calculation, now from a file
+
+```python
+income = 1000
+consumption = 800
+print(income - consumption)
+```
+
+::: {.answer .fragment}
+`200` EUR per month. We will obtain these inputs from a CSV, repeat the
+calculation for four households, and check the results.
+:::
+
+::: {.notes}
+Clock 01:00–03:00 (2 minutes). Connect the first and last blocks of the day. Ask students
+what a row represents before discussing code. The goal is a checked result,
+not merely opening a file. Later lessons add merging, cleaning and graphs.
+:::
+
+## Open this lesson's folder
+
+In the **terminal**, starting at the course repository root:
+
+```bash
+conda activate research-methods
+cd codes/lecture-6
+jupyter lab
+```
+
+Open **`first_dataset.ipynb`**. Keep the `data/raw/` folder beside it.
+
+::: {.small-note}
+If you downloaded this lesson on its own, start in that folder and skip the
+`cd codes/lecture-6` line. Python code goes in notebook code cells.
+:::
+
+::: {.notes}
+Clock 03:00–05:00 (2 minutes). If JupyterLab is already open at the course root, navigate to
+codes/lecture-6 in the file browser. An older server rooted at lecture-1 cannot
+necessarily browse a sibling folder; start at the repository root or this
+lesson folder. No new packages or external data downloads are needed.
+:::
+
+## A CSV is a plain-text table
+
+An excerpt showing **three of the six columns**:
+
+```{.text code-line-numbers="false"}
+household_id,income_eur_month,consumption_eur_month
+1,1000,800
+2,1200,800
+```
+
+- The first line contains column names.
+- Each subsequent line contains one household's values.
+- Commas separate fields; they are not thousands separators here.
+
+::: {.notes}
+Clock 05:00–07:00 (2 minutes). Open the real CSV in a text editor without saving changes.
+The complete file contains four data rows and also household_size, employed
+and survey_year. This slide is explicitly an excerpt, not a different dataset.
+Do not double-count the header as a household.
+:::
+
+## Define the observation and its units
+
+```python
+household_id = 4
+income_eur_month = 800
+consumption_eur_month = 850
+print(income_eur_month - consumption_eur_month)
+```
+
+::: {.answer .fragment}
+`-50` EUR per month: this household consumes more than its current income.
+:::
+
+One row is **one synthetic household in 2026**. Household size is persons;
+`employed` is an invented `0`/`1` indicator.
+
+::: {.notes}
+Clock 07:00–09:00 (2 minutes). Read the column names as part of the data documentation.
+There is no real population or sampling design behind this teaching fixture.
+Negative saving is permitted. The binary employment indicator is supplied for
+practice and should not be mistaken for a documented survey definition.
+:::
+
+## Import pandas once
+
+```python
+import pandas as pd
+
+print("pandas is ready")
+```
+
+::: {.terminal-output}
+```{.text code-line-numbers="false"}
+pandas is ready
+```
+:::
+
+**pandas** provides tools for tables. `pd` is the conventional short name used
+throughout this notebook.
+
+::: {.notes}
+Clock 09:00–10:00 (1 minute). pandas is already in the course environment. An import makes
+its tools available to this Python process; it does not install the package.
+Do not change environments or install extra packages during the lesson.
+Reference: https://pandas.pydata.org/docs/getting_started/intro_tutorials/02_read_write.html
+:::
+
+## Check the path, then read the CSV
+
+```python
+from pathlib import Path
+
+data_path = Path("data/raw/households.csv")
+print(data_path.is_file())
+households = pd.read_csv(data_path)
+print(type(households).__name__)
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+True
+DataFrame
+```
+:::
+
+::: {.small-note}
+If the file check is `False`, check your working folder and filename first.
+The path is relative to the folder from which this notebook runs.
+:::
+
+::: {.notes}
+Clock 10:00–13:00 (3 minutes). Explain read_csv as reading a table into a DataFrame. The
+__name__ display is supplied so students see a short type label; memorising
+that syntax is not required. Run setup cells before the later examples, which
+reuse households. Use Path.cwd() to diagnose a path problem; do not edit the
+CSV or insert a machine-specific absolute path into the shared notebook.
+:::
+
+## Look at a few rows before calculating
+
+```python
+columns = ["household_id", "income_eur_month",
+           "consumption_eur_month"]
+preview = households[columns]
+print(preview.head(2).to_string(index=False))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+ household_id  income_eur_month  consumption_eur_month
+            1              1000                    800
+            2              1200                    800
+```
+:::
+
+`head(2)` selects the first two rows for inspection. It does not remove the others.
+
+::: {.notes}
+Clock 13:00–15:00 (2 minutes). Explain that columns is an ordinary list of names; indexing
+the DataFrame with that list selects columns. We use to_string only to keep
+the printed slide output compact and consistent; a notebook can display
+preview.head(2) directly. The full households DataFrame still contains six columns.
+:::
+
+## Count rows and columns
+
+```python
+print(households.shape)
+print(len(households))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+(4, 6)
+4
+```
+:::
+
+::: {.definition}
+`.shape` reports **(rows, columns)**. `len(...)` reports the number of rows here.
+:::
+
+::: {.notes}
+Clock 15:00–17:00 (2 minutes). Ask students to explain why the CSV header does not create a
+fifth row. The shape is for the unmodified households DataFrame. Later derived
+columns will be stored in a separate working table called analysis.
+:::
+
+## Inspect the column names exactly
+
+```python
+for name in households.columns:
+    print(name)
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+household_id
+income_eur_month
+consumption_eur_month
+household_size
+employed
+survey_year
+```
+:::
+
+Spelling, underscores, and capitalisation matter when selecting a column.
+
+::: {.notes}
+Clock 17:00–19:00 (2 minutes). This reuses a for loop from the earlier block. Inspect names
+before trying to guess them. A KeyError for a column often reflects a name
+mismatch, but students should read the actual message before choosing a repair.
+:::
+
+## Inspect stored types and economic meaning
+
+```python
+columns = ["household_id", "income_eur_month"]
+print(households[columns].dtypes.to_string())
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+household_id        int64
+income_eur_month    int64
+```
+:::
+
+Both are stored as integers, but **an identifier is not an income measurement**.
+The storage type alone does not tell you what a column means.
+
+::: {.notes}
+Clock 19:00–21:00 (2 minutes). Explain int64 simply as an integer storage type. Exact dtype
+labels can differ for other inputs and environments. Averaging household IDs
+would be meaningless even though pandas can add their numeric representations.
+The fixture has only integer fields; real files can contain strings and missing values.
+:::
+
+## Select one column
+
+```python
+incomes = households["income_eur_month"]
+
+print(type(incomes).__name__)
+print(incomes.to_list())
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+Series
+[1000, 1200, 2000, 800]
+```
+:::
+
+One selected column is a **Series**. `.to_list()` shows its values as a familiar list.
+
+::: {.notes}
+Clock 21:00–23:00 (2 minutes). A Series also has an index, which to_list omits. We are using
+the list representation to connect to Basic Python, not discarding the index
+throughout the analysis. Reference: https://pandas.pydata.org/docs/getting_started/intro_tutorials/03_subset_data.html
+:::
+
+## Select a table with two columns
+
+```python
+columns = ["household_id", "income_eur_month"]
+selected = households[columns]
+
+print(type(selected).__name__)
+print(selected.shape)
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+DataFrame
+(4, 2)
+```
+:::
+
+The selection uses a **list of column names**. It leaves the original table unchanged.
+
+::: {.notes}
+Clock 23:00–25:00 (2 minutes). Point out the difference between households["income_eur_month"]
+and households[["income_eur_month"]]: the first is a Series, the second a
+one-column DataFrame. Students need not memorise every return type today;
+they should know how to inspect the object they have.
+:::
+
+## Select a row by its position
+
+```python
+first_household = households.iloc[0]
+
+print(first_household["household_id"])
+print(first_household["income_eur_month"])
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+1
+1000
+```
+:::
+
+`.iloc[0]` selects the first row by **position**. Its household ID happens to be `1`.
+
+::: {.notes}
+Clock 25:00–27:00 (2 minutes). Position, index label and household identifier are different
+concepts. Position starts at zero. Sorting a table could change which household
+is first; position zero would still mean the first row of the current table.
+:::
+
+## Your turn · Predict three inspections
+
+::: {.exercise}
+1. Predict each output before running the code.
+2. Run it and check your predictions.
+3. Explain which expression selects rows and which selects columns.
+:::
+
+```python
+print(households.shape)
+print(households["income_eur_month"].iloc[-1])
+print(households[["household_id", "employed"]].shape)
+```
+
+::: {.answer .fragment}
+`(4, 6)`, then `800`, then `(4, 2)`.
+:::
+
+::: {.notes}
+Clock 27:00–32:00 (5 minutes). Allow three minutes for prediction and running and two for
+discussion. The .iloc[-1] expression selects the last income value; the list
+of two names selects columns. Keep the input table unchanged.
+:::
+
+## Use a Boolean mask to select households
+
+```python
+employed = households["employed"] == 1
+print(employed.to_list())
+print(households.loc[employed, "household_id"].to_list())
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+[True, True, True, False]
+[1, 2, 3]
+```
+:::
+
+The comparison produces **one Boolean per row**. `.loc[mask, column]` keeps rows
+whose mask is `True` and selects the named column.
+
+::: {.notes}
+Clock 32:00–35:00 (3 minutes). The name employed is a Boolean Series here, while the column
+employed contains the original 0/1 indicator. Trace the four comparisons by
+hand. This is selection for a question, not an instruction to delete other
+households from the source data.
+:::
+
+## Combine two column comparisons
+
+```python
+mask = ((households["employed"] == 1)
+        & (households["income_eur_month"] >= 1200))
+
+print(households.loc[mask, "household_id"].to_list())
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+[2, 3]
+```
+:::
+
+Use **`&`** between these pandas comparisons and put each comparison in parentheses.
+Python's plain `and` is for the scalar Boolean questions shown earlier.
+
+::: {.notes}
+Clock 35:00–37:00 (2 minutes). Make the distinction explicit rather than implying that the
+earlier and lesson was wrong. Each comparison here is a whole column of
+Boolean values. Do not introduce complicated filters or operator precedence
+rules beyond this parenthesised pattern.
+:::
+
+## Calculate saving for every row
+
+```python
+analysis = households.copy()
+analysis["saving_eur_month"] = (
+    analysis["income_eur_month"]
+    - analysis["consumption_eur_month"]
+)
+
+print(analysis["saving_eur_month"].to_list())
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+[200, 400, 500, -50]
+```
+:::
+
+The subtraction works **row by row**. The raw CSV and `households` remain unchanged.
+
+::: {.notes}
+Clock 37:00–40:00 (3 minutes). Connect to the earlier loop over household inputs. pandas
+expresses this column calculation without writing that loop ourselves. We use
+a separate analysis table to distinguish inputs from derived values. The CSV
+on disk changes only if code explicitly writes to its path.
+Reference: https://pandas.pydata.org/docs/getting_started/intro_tutorials/05_add_columns.html
+:::
+
+## Check a row against a hand calculation
+
+```python
+fourth_household = analysis.iloc[3]
+print(fourth_household["saving_eur_month"])
+
+assert fourth_household["saving_eur_month"] == 800 - 850
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+-50
+```
+:::
+
+The fourth household's negative saving is an interpretable result.
+An assertion should check the intended calculation, not forbid valid outcomes.
+
+::: {.notes}
+Clock 40:00–42:00 (2 minutes). Use exact equality for this integer example. A numerical
+assertion passing for one row is evidence for that row, not a guarantee that
+an entire real data pipeline is correct. Ask students to check the first row too.
+:::
+
+## Summarise with the denominator in mind
+
+```python
+print(analysis["saving_eur_month"].sum())
+print(analysis["saving_eur_month"].mean())
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+1050
+262.5
+```
+:::
+
+**Total:** EUR 1,050 per month across four households.\
+**Mean:** EUR 262.50 per household per month.
+
+::: {.notes}
+Clock 42:00–44:00 (2 minutes). Hand check 200 + 400 + 500 - 50 = 1050, then divide by 4.
+These describe the four invented records, not the country or all households.
+Missing values affect denominators in real datasets; inspect them explicitly
+before interpreting an average.
+:::
+
+## Check identifiers and missing inputs
+
+```python
+print(households["household_id"].is_unique)
+print(households.isna().sum().sum())
+
+assert households["household_id"].is_unique
+assert households["income_eur_month"].notna().all()
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+True
+0
+```
+:::
+
+The fixture has unique IDs and no missing cells. A failed check is a reason to investigate.
+
+::: {.notes}
+Clock 44:00–47:00 (3 minutes). Explain isna as a table of missing-value indicators. The first
+sum counts by column; the second sums those counts. In a real dataset an ID
+may repeat across years, so define the observation key first. Do not drop rows
+or replace missing values with zero just to make a check pass.
+:::
+
+## Calculate income per person
+
+```python
+assert (analysis["household_size"] > 0).all()
+analysis["income_per_person"] = (
+    analysis["income_eur_month"] / analysis["household_size"]
+)
+
+print(analysis["income_per_person"].round(2).to_list())
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+[1000.0, 600.0, 666.67, 400.0]
+```
+:::
+
+Check the denominator **before dividing**. Rounding here is for the display;
+the stored analysis column keeps the calculated precision.
+
+::: {.notes}
+Clock 47:00–49:00 (2 minutes). Household sizes are 1, 2, 3 and 2. This is a household's income
+divided by its persons; it is a different quantity from the original household
+income. The positive-size check is appropriate for the supplied fixture and
+the intended definition.
+:::
+
+## Your turn · Build and check a small analysis
+
+::: {.exercise}
+1. Calculate each household's saving in a copy of the input table.
+2. Select the IDs of households with negative saving.
+3. Print mean saving and explain its units.
+:::
+
+```{.python .practice}
+practice = households.copy()
+# TODO: create saving_eur_month
+# TODO: select IDs where saving is negative
+# TODO: print mean saving
+```
+
+::: {.answer .fragment}
+Negative-saving IDs: `[4]`. Mean saving: **262.5 EUR per household per month**.
+:::
+
+::: {.notes}
+Clock 49:00–54:00 (5 minutes). Allow three minutes for students to type and check, followed
+by two for discussion. The worked script provides a reference. No saving-rate
+threshold or non-negative saving rule should be invented. Keep the source CSV
+untouched. The following export uses analysis from the worked examples.
+:::
+
+## Save a derived result in `outputs/`
+
+```python
+output_path = Path("outputs/household_saving.csv")
+output_path.parent.mkdir(parents=True, exist_ok=True)
+
+columns = ["household_id", "saving_eur_month"]
+analysis[columns].to_csv(output_path, index=False)
+print(output_path.is_file())
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+True
+```
+:::
+
+`index=False` omits pandas' row index. The household ID remains an explicit column.
+
+::: {.notes}
+Clock 54:00–56:00 (2 minutes). Name the output path aloud and contrast it with data/raw.
+The directory creation is supplied standard-library scaffolding. Never save
+this analysis over data/raw/households.csv. Generated outputs are ignored by
+Git in this repository; the source code and raw teaching fixture are tracked.
+:::
+
+## Restart, run all, then check the saved result
+
+In JupyterLab: **Kernel → Restart Kernel and Run All Cells…**
+
+```python
+reloaded = pd.read_csv("outputs/household_saving.csv")
+print(reloaded["saving_eur_month"].to_list())
+assert reloaded.shape == (4, 2)
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+[200, 400, 500, -50]
+```
+:::
+
+A clean run and read-back check complement the earlier hand calculations.
+
+::: {.notes}
+Clock 56:00–58:00 (2 minutes). Restarting removes hidden state. The complete run recreates
+analysis and the output file from saved code and the supplied input. An output
+file existing is not by itself proof that the current source created it.
+:::
+
+## Exit check · Explain the table and the result
+
+```python
+print(households.shape)
+print(analysis["saving_eur_month"].sum())
+print(households["household_id"].is_unique)
+```
+
+::: {.answer .fragment}
+`(4, 6)`, `1050`, `True`. Explain the observation unit and units of saving.
+:::
+
+::: {.small-note}
+References: pandas [reading tables](https://pandas.pydata.org/docs/getting_started/intro_tutorials/02_read_write.html),
+[selecting data](https://pandas.pydata.org/docs/getting_started/intro_tutorials/03_subset_data.html),
+[derived columns](https://pandas.pydata.org/docs/getting_started/intro_tutorials/05_add_columns.html).
+:::
+
+::: {.notes}
+Clock 58:00–60:00 (2 minutes). Collect a short explanation of row count, total saving and
+identifier uniqueness. Hand out Exercise 1 separately with its rubric and
+Monday 9 November deadline, 23:59 Europe/Vilnius. Do not turn these classroom
+worked answers into the unreleased assessment question bank.
+:::

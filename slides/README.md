@@ -38,7 +38,8 @@ To use an existing compatible Conda environment without changing it:
 RESEARCH_METHODS_ENV=topics-econometrics bash scripts/render-slides.sh
 ```
 
-Output: `slides/_site/student-setup.html` and `slides/_site/lecture-01.html`.
+Output: `slides/_site/student-setup.html` and the six Day 1 decks,
+`slides/_site/lecture-01.html` through `slides/_site/lecture-06.html`.
 Resources are embedded for a single-file
 handoff. Use a browser for presenting; the `.qmd` is the editable source.
 To print, open the HTML with `?print-pdf` appended and print to PDF with browser
@@ -66,7 +67,7 @@ python scripts/package-student-kit.py
 ```
 
 The result is `slides/_site/downloads/research-methods-student-kit.zip`. It contains only
-the installation instructions, student environment, checker and first lesson's
+the installation instructions, student environment, checker and all six lessons'
 runtime files, under a single `research-methods/` folder. It contains no slides
 or PDFs. GitHub Pages publishes the archive alongside the rendered HTML decks;
 build output is ignored by Git.
@@ -82,3 +83,21 @@ For another block, copy `template.qmd`, update its metadata and notes, add
 the file to `project.render` in `_quarto.yml`, and add its GitHub Pages browser
 link to the main README. Keep generated HTML, PDF, ZIP files and caches under
 `_site/` and out of commits.
+
+`lecture-02.qmd` covers the two-hour Basic Python block. Every slide has speaker
+notes with a contiguous 120-minute clock. Worked code, expected outputs,
+prediction questions, and five numbered notebook exercises use only built-in
+Python tools and synthetic household amounts. Its companion notebook and
+worked script are in `codes/lecture-2/`; the notebook is distributed without
+saved output. Deliberate errors appear as Markdown rather than executable
+notebook cells. These classroom materials are linked directly from the README.
+`theme/basic-python.css` enlarges code to 30 pixels in Lectures 2–6 for classroom
+projection; the original template, setup guide and Lecture 1 retain their styles.
+
+Lectures 3–6 cover the rest of Day 1: conditions, loops and functions (120 minutes),
+errors and checks (60), Git and GitHub (60), and reading a dataset (60). Each deck
+has timed speaker notes, worked code and outputs, and classroom exercises. The
+Python lessons have unexecuted notebooks and runnable scripts; the Git lesson
+uses a terminal/browser handout and a practice starter. Class code and data live
+under the matching `codes/lecture-N/` folders. They are separate from the graded
+Exercise 1 task sheet.

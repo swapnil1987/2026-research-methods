@@ -1,0 +1,889 @@
+---
+title: "Conditions, loops and functions"
+subtitle: "Research Methods 2026 · Day 1 · Two-hour lesson"
+author: "Swapnil Singh"
+date: "2026-11-04"
+date-format: "D MMMM YYYY"
+footer: "Research Methods 2026 · Conditions, loops and functions"
+css: theme/basic-python.css
+title-slide-attributes:
+  data-notes: |
+    Clock 00:00–01:00 (1 minute). This block follows Basic Python. Open
+    codes/lecture-3/control_flow.ipynb and control_flow.py in the course Python
+    environment. This lesson contains 120 contact minutes including practice
+    and discussion; breaks are additional. All households and amounts are
+    synthetic, with income and consumption measured in EUR per month.
+---
+
+## What will you be able to do?
+
+```{.python}
+saving = -50
+if saving < 0:
+    print("Consumption exceeds income")
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+Consumption exceeds income
+```
+:::
+
+::: {.key-idea}
+Choose a calculation, repeat it for several households, and put it in a function you can check.
+:::
+
+::: {.notes}
+Clock 01:00–03:00 (2 minutes). Connect to Basic Python. Students already know names, lists and comparisons. Open control_flow.ipynb in codes/lecture-3/. This lesson teaches if, for and def; it does not introduce pandas or advanced algorithms.
+:::
+
+## A Boolean question comes before a decision
+
+```{.python}
+income = 1000
+consumption = 1200
+print(consumption > income)
+print(income == 0)
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+True
+False
+```
+:::
+A comparison gives `True` or `False`. An `if` statement uses that result to choose which instructions run.
+
+::: {.notes}
+Clock 03:00–05:00 (2 minutes). Ask students to predict both Booleans. Separate calculating a Boolean from choosing a block of instructions. These are invented household amounts in EUR per month.
+:::
+
+## Run a block only when its condition is true
+
+```{.python}
+saving = -50
+if saving < 0:
+    print("Negative saving")
+print("Calculation complete")
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+Negative saving
+Calculation complete
+```
+:::
+The colon `:` begins the block. The indented line belongs to `if`. The final line runs after the block.
+
+::: {.notes}
+Clock 05:00–08:00 (3 minutes). Read top to bottom. Change saving to 50 and ask which printed line disappears. Keep the final print aligned with if, not with its indented body. A condition controls execution; it does not change the amount.
+:::
+
+## Indentation changes what the program does
+
+```{.python}
+saving = 50
+if saving < 0:
+    print("Negative saving")
+    print("Inside the condition")
+print("Outside the condition")
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+Outside the condition
+```
+:::
+
+::: {.key-idea}
+Use four spaces for each indentation level. Indent each block consistently; unindenting ends that block.
+:::
+
+::: {.notes}
+Clock 08:00–10:00 (2 minutes). Both indented print calls are skipped. Students should explain why the unindented call still runs. JupyterLab normally inserts spaces automatically. Do not mix tabs and spaces. Show the indentation on the live code.
+:::
+
+## Use else for the other case
+
+```{.python}
+saving = 0
+if saving < 0:
+    print("Negative saving")
+else:
+    print("Saving is zero or positive")
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+Saving is zero or positive
+```
+:::
+`else` has no comparison after it. It handles the cases that did not satisfy `if`.
+
+::: {.notes}
+Clock 10:00–13:00 (3 minutes). Ask specifically about the boundary saving = 0. The other case is non-negative, not strictly positive. This wording matters for interpreting a condition correctly.
+:::
+
+## Use elif to distinguish three cases
+
+```{.python}
+saving = 0
+if saving < 0:
+    print("Negative")
+elif saving == 0:
+    print("Zero")
+else:
+    print("Positive")
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+Zero
+```
+:::
+Python chooses the **first true branch**. In this chain, only one branch runs.
+
+::: {.notes}
+Clock 13:00–16:00 (3 minutes). Try -50, 0 and 200 one at a time. Explain elif as an additional question if earlier branches were false. A chain differs from several separate if statements. We will use that difference in checking code.
+:::
+
+## The order of conditions matters
+
+```{.python}
+income = 1000
+if income <= 1500:
+    print("At most 1500")
+elif income <= 1000:
+    print("At most 1000")
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+At most 1500
+```
+:::
+
+::: {.key-idea}
+A broad earlier condition can make a later branch unreachable. Put the intended, more specific case first.
+:::
+
+::: {.notes}
+Clock 16:00–19:00 (3 minutes). This is an invented classification, not a benefit rule. For income 1000 the first test is already true, so Python does not reach elif. Reverse the thresholds in a live correction. Both versions can run without raising an exception.
+:::
+
+## Combine comparisons before choosing a branch
+
+```{.python}
+income = 1200
+household_size = 2
+if (income <= 1200) and (household_size >= 2):
+    print("Meets both classroom conditions")
+else:
+    print("Does not meet both conditions")
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+Meets both classroom conditions
+```
+:::
+The boundary values `1200` and `2` are included by `<=` and `>=`.
+
+::: {.notes}
+Clock 19:00–21:00 (2 minutes). Revisit Basic Python comparisons and and. Change income to 1201, then restore it and change size to 1. Explain both failed cases. Keep the condition within parentheses for readability.
+:::
+
+## Your turn · Classify the saving amount
+
+::: {.exercise}
+1. Predict the label when saving is `-50`, `0`, and `200`.
+2. Complete the three-way classification below.
+3. Run all three cases and compare with your predictions.
+:::
+```{.python .practice}
+saving = 0
+
+# TODO: negative, zero, or positive?
+# Use if, elif, and else.
+# Print exactly one label.
+```
+
+::: {.notes}
+Clock 21:00–26:00 (5 minutes). Practice 1. Allow three minutes to write and run the code, then two minutes for discussion. Students should make their first attempt independently. Do not reveal the next slide until they have tried the boundary case.
+:::
+
+## Worked answer · Exactly one label
+
+```{.python}
+saving = 0
+if saving < 0:
+    print("Negative")
+elif saving == 0:
+    print("Zero")
+else:
+    print("Positive")
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+Zero
+```
+:::
+Change the input to `-50` and `200`. Check that the output changes to `Negative` and `Positive`.
+
+::: {.notes}
+Clock 26:00–28:00 (2 minutes). Debrief the colon and indentation as well as the comparisons. A second independent if can accidentally lead to more than one label when paired with an else; the chain expresses mutually exclusive alternatives.
+:::
+
+## A for loop visits each item
+
+```{.python}
+incomes = [1000, 1200, 800]
+for income in incomes:
+    print(income)
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+1000
+1200
+800
+```
+:::
+`income` refers to the current item. The indented body runs once for each item in list order.
+
+::: {.notes}
+Clock 28:00–31:00 (3 minutes). Say iteration means one visit through the loop body. The loop variable is not automatically an index. Students do not need to initialise income before this for loop. Reference: https://docs.python.org/3.12/tutorial/controlflow.html#for-statements
+:::
+
+## Distinguish one item from the whole list
+
+```{.python}
+incomes = [1000, 1200, 800]
+for income in incomes:
+    print(income / 2)
+print(incomes)
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+500.0
+600.0
+400.0
+[1000, 1200, 800]
+```
+:::
+The calculation uses one number at a time. This loop does not change the original list.
+
+::: {.notes}
+Clock 31:00–33:00 (2 minutes). All households in this toy example have two members. Distinguish the singular loop-variable name from the plural list name. Calculating a new result is different from assigning back to a list item.
+:::
+
+## Accumulate a total
+
+```{.python}
+incomes = [1000, 1200, 800]
+total = 0
+for income in incomes:
+    total = total + income
+print(total)
+print(sum(incomes))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+3000
+3000
+```
+:::
+Start the total **before** the loop. Update it **inside** the loop. Print the final total **after** the loop.
+
+::: {.notes}
+Clock 33:00–36:00 (3 minutes). Compare with the built-in sum from Basic Python. We write the loop to understand accumulation, not because it is the shortest way to total a list. Ask what happens if total = 0 is moved inside the loop.
+:::
+
+## Your turn · Predict the running totals
+
+::: {.exercise}
+1. Write the value of `total` after each loop iteration.
+2. Run the code and compare the three output lines.
+3. Explain why `total` starts at zero.
+:::
+```{.python}
+total = 0
+for income in [1000, 1200, 800]:
+    total = total + income
+    print(total)
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+1000
+2200
+3000
+```
+:::
+
+::: {.notes}
+Clock 36:00–40:00 (4 minutes). Allow two minutes for prediction, one to run and one for discussion. The print call is inside the loop, so it displays three intermediate totals. This contrasts with the previous slide final total printed after the loop.
+:::
+
+## Count records that satisfy a condition
+
+```{.python}
+savings = [200, 0, -50, 300]
+count = 0
+for saving in savings:
+    if saving > 0:
+        count = count + 1
+print(count)
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+2
+```
+:::
+The inner block runs only for positive saving. Saving equal to zero is excluded by `> 0`.
+
+::: {.notes}
+Clock 40:00–43:00 (3 minutes). Show two indentation levels: the if is inside the for, and updating count is inside the if. Ask what would change if the question were non-negative saving. The answer would be 3 using >= 0.
+:::
+
+## Build a new list of results
+
+```{.python}
+incomes = [1000, 1200, 800]
+per_person = []
+for income in incomes:
+    per_person.append(income / 2)
+print(per_person)
+print(incomes)
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+[500.0, 600.0, 400.0]
+[1000, 1200, 800]
+```
+:::
+Create the empty result list before the loop. Append one result per iteration.
+
+::: {.notes}
+Clock 43:00–46:00 (3 minutes). This is the explicit loop version, not a list comprehension. The fixed household size of 2 is a teaching assumption. Do not append into the same list being iterated over. Remind students that append changes the list and returns None.
+:::
+
+## Use range when you need a sequence of positions
+
+```{.python}
+incomes = [1000, 1200, 800]
+for position in range(len(incomes)):
+    print(position, incomes[position])
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+0 1000
+1 1200
+2 800
+```
+:::
+`range(3)` gives positions `0`, `1`, and `2`. The stopping value is excluded.
+
+::: {.notes}
+Clock 46:00–48:00 (2 minutes). Prefer directly looping over items when the position is unnecessary. This example connects list indexing to iteration. Do not introduce complex range steps or nested loops. Reference: https://docs.python.org/3.12/tutorial/controlflow.html#the-range-function
+:::
+
+## Pair two lists carefully
+
+```{.python}
+incomes = [1000, 1200, 800]
+consumptions = [800, 900, 850]
+if len(incomes) == len(consumptions):
+    for income, consumption in zip(incomes, consumptions):
+        print(income - consumption)
+else:
+    print("Lengths differ; check the data")
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+200
+300
+-50
+```
+:::
+`zip` pairs items by position. These lists describe the same households in the same order.
+
+::: {.notes}
+Clock 48:00–51:00 (3 minutes). Explain two loop-variable names as receiving the two values in a pair. zip stops at the shorter input, so this example checks the lengths first. Equal length is not evidence of correct identity matching; real data require identifiers. The supplied example is aligned by construction.
+:::
+
+## Your turn · Count and total positive saving
+
+::: {.exercise}
+1. For `[200, 0, -50, 300]`, predict the count and total of **positive** saving.
+2. Complete the loop.
+3. Run it, then change the condition to include zero and explain what changes.
+:::
+```{.python .practice}
+savings = [200, 0, -50, 300]
+positive_count = 0
+positive_total = 0
+
+# TODO: visit each saving amount
+# TODO: update both totals only when saving > 0
+# TODO: print the count and total after the loop
+```
+
+::: {.notes}
+Clock 51:00–57:00 (6 minutes). Practice 2. Four minutes for an attempt, two for checking and interpretation. Count is 2 and positive total is 500. Including zero changes the count to 3 but leaves the total at 500. Keep answers on the next slide until after predictions.
+:::
+
+## Worked answer · Two accumulators
+
+```{.python}
+positive_count = 0
+positive_total = 0
+for saving in [200, 0, -50, 300]:
+    if saving > 0:
+        positive_count = positive_count + 1
+        positive_total = positive_total + saving
+print(positive_count, positive_total)
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+2 500
+```
+:::
+Check the count by listing the included records. Check the total with `200 + 300`.
+
+::: {.notes}
+Clock 57:00–60:00 (3 minutes). Trace the zero and negative entries without updating either accumulator. Ask students to point to the two places where initialization occurs and the two updates. These initializations belong outside the loop.
+:::
+
+## Define a function for one calculation
+
+```{.python}
+def saving_amount(income, consumption):
+    return income - consumption
+
+print(saving_amount(1000, 800))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+200
+```
+:::
+`def` names the function and its parameters. `return` sends the calculated value back to the caller.
+
+::: {.notes}
+Clock 60:00–63:00 (3 minutes). Read the definition first and the call second. Defining the function does not run its body for a household. This first version assumes numeric inputs; we add validation later. Reference: https://docs.python.org/3.12/tutorial/controlflow.html#defining-functions
+:::
+
+## Call the same function with different inputs
+
+```{.python}
+def saving_amount(income, consumption):
+    return income - consumption
+
+print(saving_amount(1000, 800))
+print(saving_amount(1200, 900))
+print(saving_amount(800, 850))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+200
+300
+-50
+```
+:::
+Each call runs the function using that call's inputs. Negative saving is a valid result here.
+
+::: {.notes}
+Clock 63:00–65:00 (2 minutes). Connect the three calls to the earlier list-pair example. The function names the economic calculation once. Ask students to predict the sign of the third result before calculating it.
+:::
+
+## Returning a value and printing it are different
+
+```{.python}
+def show_saving(income, consumption):
+    print(income - consumption)
+
+result = show_saving(1000, 800)
+print(result)
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+200
+None
+```
+:::
+
+::: {.key-idea}
+A function without an explicit return value returns `None`. Use `return` when you need the result for another calculation.
+:::
+
+::: {.notes}
+Clock 65:00–68:00 (3 minutes). The first printed line comes from inside the function. The second prints the value assigned to result, which is None. The name show_saving makes the display purpose explicit. Do not suggest that print is a substitute for return.
+:::
+
+## Match arguments to parameters
+
+```{.python}
+def saving_amount(income, consumption):
+    return income - consumption
+
+print(saving_amount(1000, 800))
+print(saving_amount(income=1000, consumption=800))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+200
+200
+```
+:::
+The first call matches by position. The second names the arguments explicitly.
+
+::: {.notes}
+Clock 68:00–70:00 (2 minutes). Parameters are the names in the definition; arguments are the values supplied at a call. Named arguments can make economic roles clearer. Do not introduce default values, variable argument lists or positional-only syntax today.
+:::
+
+## Local variables stay inside the function
+
+```{.python}
+def saving_amount(income, consumption):
+    saving = income - consumption
+    return saving
+
+saving = 999
+result = saving_amount(1000, 800)
+print(result)
+print(saving)
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+200
+999
+```
+:::
+The local name `saving` inside the function does not overwrite this outside name.
+
+::: {.notes}
+Clock 70:00–73:00 (3 minutes). Keep the explanation to this example. A function should receive its changing inputs as parameters rather than depending on remembered notebook variables. Do not introduce global statements or closures. Repeatedly test the function with explicit arguments.
+:::
+
+## Your turn · Write income per person
+
+::: {.exercise}
+1. Define `income_per_person(income, household_size)`.
+2. Return income divided by household size.
+3. Test `(1200, 3)` and `(1000, 2)`, then use the result in a labelled print call.
+:::
+```{.python .practice}
+# All supplied household sizes in this task are positive.
+# TODO: define income_per_person
+# TODO: print results for the two input pairs
+```
+
+::: {.notes}
+Clock 73:00–79:00 (6 minutes). Practice 3. Give four minutes to write and run, two for debrief. The expected values are 400.0 and 500.0. This practice deliberately assumes positive size; deciding how to reject invalid inputs is the next part of the lesson. A function that only prints does not satisfy the requested return contract.
+:::
+
+## Worked answer · Use the returned value
+
+```{.python}
+def income_per_person(income, household_size):
+    return income / household_size
+
+first = income_per_person(1200, 3)
+second = income_per_person(1000, 2)
+print(first, second)
+print(f"Income per person: {first:.2f} EUR/month")
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+400.0 500.0
+Income per person: 400.00 EUR/month
+```
+:::
+The returned number can be stored, formatted, or used in another calculation.
+
+::: {.notes}
+Clock 79:00–82:00 (3 minutes). Ask students to identify the parameters and arguments. The two calls are independent. Remind them that a household size of zero is invalid; the assumptions on this simple first version are part of its specification.
+:::
+
+## Decide what zero income means before dividing
+
+```{.python}
+income = 0
+consumption = 100
+saving = income - consumption
+if income == 0:
+    print("Saving share is undefined")
+else:
+    print(saving / income)
+print("Saving amount:", saving)
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+Saving share is undefined
+Saving amount: -100
+```
+:::
+Saving in EUR is still defined. Saving **divided by income** is undefined when income is zero.
+
+::: {.notes}
+Clock 82:00–85:00 (3 minutes). Do not replace the undefined share with zero. That would claim the household saved zero percent of income. The amount is -100 in this example, while the ratio has a zero denominator. Missing or undefined values need an explicit policy.
+:::
+
+## Use None for this undefined result
+
+```{.python}
+share = None
+if share is None:
+    print("No defined saving share")
+else:
+    print(f"{share:.1%}")
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+No defined saving share
+```
+:::
+`None` is not `0`, not an empty string, and not the text `"None"`. Test it with `is None`.
+
+::: {.notes}
+Clock 85:00–88:00 (3 minutes). Use is None as the conventional identity check for this single marker. Do not generalise is to ordinary numeric equality. In our function contract None means specifically undefined due to zero income; other lessons may distinguish different reasons for missing information.
+:::
+
+## Reject input values outside the specification
+
+```{.python}
+income = -100
+consumption = 50
+if income < 0 or consumption < 0:
+    print("Invalid input: check the amounts")
+else:
+    print(income - consumption)
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+Invalid input: check the amounts
+```
+:::
+Our classroom contract accepts numeric, finite, **non-negative inputs**. It still allows negative **saving**.
+
+::: {.notes}
+Clock 88:00–91:00 (3 minutes). This is a declared exercise specification, not a universal claim that economic income can never be negative. We reject negative inputs here so students practise explicit validation. Numeric types and finite values are supplied preconditions; we do not claim this comparison validates arbitrary text or missing values.
+:::
+
+## A complete saving-share function
+
+```{.python}
+def saving_share(income, consumption):
+    if income < 0 or consumption < 0:
+        raise ValueError("Amounts must be non-negative")
+    if income == 0:
+        return None
+    return (income - consumption) / income
+
+print(saving_share(1000, 800))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+0.2
+```
+:::
+`raise ValueError(...)` stops this call with an explanation. `return` ends the function call immediately.
+
+::: {.notes}
+Clock 91:00–95:00 (4 minutes). The function contract is consistent across the companion script and later lessons. It accepts numeric finite amounts, rejects negative income or consumption, returns None for zero income, and otherwise returns a fractional share. Invalid values are checked before the zero-income case. Error interpretation follows in Lecture 4.
+:::
+
+## Check ordinary, boundary, and negative-saving cases
+
+```{.python}
+def saving_share(income, consumption):
+    if income < 0 or consumption < 0:
+        raise ValueError("Amounts must be non-negative")
+    if income == 0:
+        return None
+    return (income - consumption) / income
+
+print(saving_share(1000, 800))
+print(saving_share(1000, 1000))
+print(saving_share(1000, 1100))
+print(saving_share(0, 100) is None)
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+0.2
+0.0
+-0.1
+True
+```
+:::
+
+::: {.notes}
+Clock 95:00–98:00 (3 minutes). Each check has a different purpose: ordinary positive saving, exact zero saving, negative saving, and an undefined ratio. The values are hand-checkable; tests should exercise the stated cases, not just call the same easy example repeatedly. These four examples do not exhaust all possible numeric input problems.
+:::
+
+## An invalid input should give a clear error
+
+```{.python data-expected-error="ValueError"}
+def saving_share(income, consumption):
+    if income < 0 or consumption < 0:
+        raise ValueError("Amounts must be non-negative")
+    if income == 0:
+        return None
+    return (income - consumption) / income
+
+saving_share(-100, 50)
+```
+
+::: {.key-idea}
+Expected error: `ValueError: Amounts must be non-negative`.
+:::
+
+::: {.notes}
+Clock 98:00–100:00 (2 minutes). This is a deliberate error demonstration. It appears as Markdown in the companion notebook, so Restart and Run All succeeds. Try the error in an extra scratch cell if desired. Error handling with try/except is outside this lesson; the next lecture teaches how to read such messages.
+:::
+
+## Call a function inside a loop
+
+```{.python}
+def saving_amount(income, consumption):
+    return income - consumption
+
+incomes = [1000, 1200, 800]
+consumptions = [800, 900, 850]
+for income, consumption in zip(incomes, consumptions):
+    amount = saving_amount(income, consumption)
+    print(amount)
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+200
+300
+-50
+```
+:::
+The function handles **one household**. The loop decides which households to pass to it.
+
+::: {.notes}
+Clock 100:00–103:00 (3 minutes). The lists are supplied with equal lengths and aligned household order. Repeat the caveat that zip is not an identifier-based merge and stops at the shorter input. Separating one-record calculation from iteration makes the code easier to test and explain.
+:::
+
+## Put the pieces together · A checked rate report
+
+::: {.exercise}
+1. Use the `saving_share` function defined above.
+2. Visit the matching income and consumption pairs.
+3. Print a percentage for defined shares and `Rate: undefined` for zero income.
+:::
+```{.python .practice}
+incomes = [1000, 0, 2000]
+consumptions = [800, 100, 1500]
+
+# TODO: loop over the matching pairs
+# TODO: call saving_share for each pair
+# TODO: check for None before formatting the rate
+```
+
+::: {.notes}
+Clock 103:00–110:00 (7 minutes). Practice 4. Five minutes to attempt the report and two to compare with hand calculations. Students may look back at the function definition and None example. Do not invent a zero rate for the zero-income household. The supplied lists are equal length and aligned. The worked answer follows.
+:::
+
+## Worked answer · Choose how to display each result
+
+Use `saving_share` from the earlier function-definition slide.
+
+```{.python}
+incomes = [1000, 0, 2000]
+consumptions = [800, 100, 1500]
+for income, consumption in zip(incomes, consumptions):
+    share = saving_share(income, consumption)
+    if share is None:
+        print("Rate: undefined")
+    else:
+        print(f"Rate: {share:.1%}")
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+Rate: 20.0%
+Rate: undefined
+Rate: 25.0%
+```
+:::
+
+::: {.notes}
+Clock 110:00–114:00 (4 minutes). Run the earlier saving_share definition before this reporting loop. There are three outputs for three households, including the zero-income household. A None check must happen before percentage formatting. A failed input validation would stop a call rather than manufacture a plausible result. Keep the reporting loop full width so every Python line is visible.
+:::
+
+## Change an input and check what should change
+
+```{.python}
+def saving_amount(income, consumption):
+    return income - consumption
+
+print(saving_amount(1000, 800))
+print(saving_amount(1000, 1100))
+print(saving_amount(1000, 800) - 300)
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+200
+-100
+-100
+```
+:::
+
+::: {.key-idea}
+Holding income fixed, adding 300 to consumption reduces saving by 300. Check that economic relationship as well as the code.
+:::
+
+::: {.notes}
+Clock 114:00–117:00 (3 minutes). This is a simple change-based check. The result supports this specified calculation, not a broad claim that every economic model must behave this way. Invite students to propose another hand-checkable pair and explain the expected sign before calling the function.
+:::
+
+## Exit check · Explain the return values
+
+```{.python}
+def saving_share(income, consumption):
+    if income < 0 or consumption < 0:
+        raise ValueError("Amounts must be non-negative")
+    if income == 0:
+        return None
+    return (income - consumption) / income
+
+print(saving_share(500, 500))
+print(saving_share(0, 500))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+0.0
+None
+```
+:::
+Explain why a valid zero share differs from an undefined share. Reference: [Python 3.12 control flow and functions](https://docs.python.org/3.12/tutorial/controlflow.html).
+
+::: {.notes}
+Clock 117:00–120:00 (3 minutes). Collect an individual explanation of the difference between 0.0 and None. Students should also be able to point to the return that ends each call. The next lecture checks exceptions, tracebacks and tests in more detail. Restart and Run All in the companion notebook verifies execution order, not the economic specification by itself.
+:::

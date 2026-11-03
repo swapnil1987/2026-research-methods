@@ -10,10 +10,17 @@ Instructor: Swapnil Singh.
 ##  Lecture Slides
 
 
-| Session | Slides |
-|---|---|
-| Before the first class | [Set up your computer](https://swapnil1987.github.io/2026-research-methods/student-setup.html) |
-| Day 1, Lecture 1 | [Getting a project running](https://swapnil1987.github.io/2026-research-methods/lecture-01.html) |
+| Session | Time | Slides |
+|---|---|---|
+| Before the first class | Self-paced | [Set up your computer](https://swapnil1987.github.io/2026-research-methods/student-setup.html) |
+| Day 1, Lecture 1 | 1 hour | [Getting a project running](https://swapnil1987.github.io/2026-research-methods/lecture-01.html) |
+| Day 1, Lecture 2 | 2 hours | [Basic Python](https://swapnil1987.github.io/2026-research-methods/lecture-02.html) |
+| Day 1, Lecture 3 | 2 hours | [Conditions, loops and functions](https://swapnil1987.github.io/2026-research-methods/lecture-03.html) |
+| Day 1, Lecture 4 | 1 hour | [Reading errors and checking calculations](https://swapnil1987.github.io/2026-research-methods/lecture-04.html) |
+| Day 1, Lecture 5 | 1 hour | [First steps with Git and GitHub](https://swapnil1987.github.io/2026-research-methods/lecture-05.html) |
+| Day 1, Lecture 6 | 1 hour | [First look at a dataset](https://swapnil1987.github.io/2026-research-methods/lecture-06.html) |
+
+Day 1 contains eight contact hours. Open each lecture directly in your browser.
 
 ## Grading at a glance
 
@@ -23,11 +30,16 @@ Instructor: Swapnil Singh.
 
 ## Code and data
 
-- [Download the student starter project](https://swapnil1987.github.io/2026-research-methods/downloads/research-methods-student-kit.zip)
+- [Download the Day 1 code and data](https://swapnil1987.github.io/2026-research-methods/downloads/research-methods-student-kit.zip)
 - [Browse the starter code, notebook and synthetic data](codes/lecture-1/)
 - [Exercise instructions](codes/lecture-1/README.md)
+- [Basic Python notebook, worked script, and classroom exercises](codes/lecture-2/)
+- [Conditions, loops and functions](codes/lecture-3/)
+- [Reading errors and checking calculations](codes/lecture-4/)
+- [Git and GitHub classroom practice](codes/lecture-5/)
+- [First dataset notebook, script, and CSV](codes/lecture-6/)
 
-The ZIP contains the files students run on their computers: code, a notebook,
+The ZIP contains the files students run on their computers: code, notebooks,
 synthetic data, an environment specification, and setup instructions. Slides are
 provided through the browser links above.
 

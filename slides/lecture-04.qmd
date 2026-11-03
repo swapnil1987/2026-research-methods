@@ -1,0 +1,672 @@
+---
+title: "Reading errors and checking calculations"
+subtitle: "Research Methods 2026 · Day 1 · One-hour lesson"
+author: "Swapnil Singh"
+date: "2026-11-04"
+date-format: "D MMMM YYYY"
+footer: "Research Methods 2026 · Errors and checks"
+css: theme/basic-python.css
+title-slide-attributes:
+  data-notes: |
+    Clock 00:00–01:00 (1 minute). Continue after Conditions, loops and functions.
+    Open checking_calculations.ipynb and checking_calculations.py in
+    codes/lecture-4/. Students use the existing course environment. All amounts
+    are synthetic EUR per month. This is 60 contact minutes, including practice
+    and discussion; breaks are additional. Deliberate failing examples are
+    Markdown in the notebook, so a complete run succeeds. No new packages.
+---
+
+## Start with a result you can calculate by hand
+
+```python
+income = 1000
+consumption = 800
+saving_share = (income - consumption) / income
+print(saving_share)
+```
+
+::: {.terminal-output}
+```{.text code-line-numbers="false"}
+0.2
+```
+:::
+
+::: {.key-idea}
+State the inputs, expected result, and actual result before changing the code.
+:::
+
+Open **`codes/lecture-4/checking_calculations.ipynb`**. Predict first, then run.
+
+::: {.notes}
+Clock 01:00–03:00 (2 minutes). Ask students for saving 200 and share 0.2, or 20%, before
+running. This tiny case will help us distinguish an execution failure from a
+wrong calculation. Keep inputs and units explicit in any report of a problem.
+:::
+
+## Three problems need different checks
+
+```python
+income = 1000
+consumption = 800
+print(income + consumption)
+```
+
+| Problem | What happens? | First check |
+|---|---|---|
+| Syntax problem | Python cannot parse the instructions. | Symbols and indentation. |
+| Runtime exception | An operation fails during execution. | Exception type, message, and line. |
+| Wrong calculation | Code runs and prints `1800`. | Formula, units, and a hand calculation. |
+
+::: {.notes}
+Clock 03:00–04:00 (1 minute). The example is syntactically valid and runs, but addition does
+not calculate saving. Do not imply that every incorrect result raises an
+exception. A syntax error can be found before the program begins executing.
+:::
+
+## Read the exception, then find the failing line
+
+::: columns
+::: {.column width="48%"}
+
+### `analysis.py`
+
+```{.python data-expected-error="ZeroDivisionError"}
+def share(income, consumption):
+    saving = income - consumption
+    return saving / income
+
+print(share(0, 100))
+```
+
+:::
+::: {.column width="48%"}
+
+### Shortened traceback
+
+```{.text code-line-numbers="false"}
+File "analysis.py", line 5
+    print(share(0, 100))
+File "analysis.py", line 3
+    return saving / income
+ZeroDivisionError: division by zero
+```
+
+:::
+:::
+
+1. Read the **last line**: what operation failed?
+2. Find the file and line, then inspect the values passed into that operation.
+
+::: {.notes}
+Clock 04:00–07:00 (3 minutes). Start with ZeroDivisionError and its message. The most recent
+frame identifies the division in share; the caller shows where zero arrived.
+This is an abbreviated traceback, not the exact display of every notebook.
+Notebook cell labels and paths vary. A highlighted line can be where the
+problem became visible rather than where the wrong input was first created.
+Reference: https://docs.python.org/3.12/tutorial/errors.html
+:::
+
+## Reduce the problem to a small example
+
+```{.python data-expected-error="ZeroDivisionError"}
+income = 0
+consumption = 100
+print((income - consumption) / income)
+```
+
+::: {.definition}
+A **small reproducible example** keeps just enough code and input to show the problem.
+:::
+
+Record the error before making one change. Rerun the same example afterwards.
+
+::: {.notes}
+Clock 07:00–08:00 (1 minute). The same denominator problem appears without data loading,
+loops, or an agent. Do not remove the input that triggers the problem merely
+to make it disappear. We will decide explicitly what zero income means below.
+:::
+
+## Check the colon and the indented block
+
+::: columns
+::: {.column width="48%"}
+
+### Two deliberate errors
+
+```{.python data-expected-error="SyntaxError"}
+if 1000 > 0
+    print("positive income")
+```
+
+```{.python data-expected-error="IndentationError"}
+if 1000 > 0:
+print("positive income")
+```
+
+:::
+::: {.column width="48%"}
+
+### A valid block
+
+```python
+if 1000 > 0:
+    print("positive income")
+```
+
+```{.text code-line-numbers="false"}
+positive income
+```
+
+:::
+:::
+
+Use a colon after the condition and consistent indentation for its body.
+
+::: {.notes}
+Clock 08:00–10:00 (2 minutes). The first example lacks a colon. The second lacks indentation
+after the colon. IndentationError is a type of syntax error. Use four spaces
+per level in the course. The exact caret and error wording can vary by Python
+version; locate the structure that needs repair, not just the caret position.
+:::
+
+## `NameError`: which name has no value?
+
+```{.python data-expected-error="NameError"}
+income = 1000
+consumption = 800
+saving = Income - consumption
+```
+
+::: {.answer .fragment}
+`Income` and `income` are different names. Change `Income` to `income`.
+:::
+
+In a notebook, also check whether the cell defining the name actually ran.
+
+::: {.notes}
+Clock 10:00–11:00 (1 minute). A misspelling and a missing earlier execution can produce
+the same exception type. Check source and execution order before defining an
+arbitrary new value just to silence the error. Restart and run all later.
+:::
+
+## `TypeError`: inspect the values and their types
+
+```{.python data-expected-error="TypeError"}
+income = "1000"
+consumption = 800
+print(income - consumption)
+```
+
+::: {.answer .fragment}
+`income` is text. If the intended input is numeric text, convert it deliberately:
+
+```python
+income = float("1000")
+consumption = 800
+print(income - consumption)
+```
+
+```{.text code-line-numbers="false"}
+200.0
+```
+:::
+
+::: {.notes}
+Clock 11:00–13:00 (2 minutes). Ask what type each operand has before proposing a repair.
+Conversion is appropriate because the original field is intended to represent
+an amount. Converting everything to text would not repair subtraction.
+:::
+
+## `ValueError`: conversion cannot invent a number
+
+```{.python data-expected-error="ValueError"}
+income_text = "unknown"
+income = float(income_text)
+```
+
+::: {.key-idea}
+Decide what the input means. Replacing an unknown amount with zero changes the data.
+:::
+
+```python
+income_text = "1000"
+income = float(income_text)
+print(income)
+```
+
+::: {.answer .fragment}
+The valid numeric text converts to `1000.0`. An unknown amount needs an explicit policy.
+:::
+
+::: {.notes}
+Clock 13:00–15:00 (2 minutes). Distinguish an incompatible operation from a value that
+cannot be converted. Do not recommend deleting arbitrary non-numeric
+characters or treating unknown as genuine zero income. Data policies belong
+in the task specification and later cleaning workflow.
+:::
+
+## `IndexError`: count the positions
+
+```{.python data-expected-error="IndexError"}
+incomes = [1000, 1200, 800]
+print(incomes[3])
+```
+
+::: {.answer .fragment}
+The valid non-negative positions are `0`, `1`, and `2`.
+:::
+
+```python
+incomes = [1000, 1200, 800]
+print(len(incomes))
+print(incomes[-1])
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+3
+800
+```
+:::
+
+::: {.notes}
+Clock 15:00–17:00 (2 minutes). len is the count, not the final valid index. -1 selects the
+last item only when the list is non-empty. In a loop, iterating directly over
+the list often avoids unnecessary manual indexing; refer to Lecture 3.
+:::
+
+## Zero income needs a decision about the result
+
+```{.python data-expected-error="ZeroDivisionError"}
+income = 0
+consumption = 100
+saving = income - consumption
+print(saving / income)
+```
+
+::: {.key-idea}
+Saving is `-100` EUR per month. Saving **as a share of zero income is undefined**.
+:::
+
+Our function returns `None` for that share. Returning `0` would claim that the share is zero.
+
+::: {.notes}
+Clock 17:00–20:00 (3 minutes). Separate the amount from the ratio. The numerator is defined;
+the ratio is not. The function contract agreed in Lecture 3 returns None for
+zero income and rejects negative income or consumption with ValueError. Do
+not divide first and hope an if statement afterwards will repair the failure.
+:::
+
+## `FileNotFoundError`: check the starting folder
+
+```{.python data-expected-error="FileNotFoundError"}
+with open("missing_households.csv") as file:
+    print(file.readline())
+```
+
+Use these checks before changing the path:
+
+```python
+from pathlib import Path
+
+print(Path.cwd())
+print(Path("missing_households.csv").is_file())
+```
+
+The folder depends on your computer. `False` means this path does not identify a file there.
+
+::: {.notes}
+Clock 20:00–22:00 (2 minutes). missing_households.csv is deliberately absent. The with block
+is a short error example, not required file-reading syntax for this lesson.
+Check the working directory, spelling, extension and supplied folder tree.
+Do not create an empty CSV or reinstall Python to hide a wrong-path problem.
+The next data block uses pandas to read the supplied file.
+:::
+
+## Your turn · Locate the cause
+
+::: {.exercise}
+1. Read the code and identify the operation that will fail.
+2. Predict the exception type, then check the shortened message.
+3. Propose a repair that preserves the intended saving calculation.
+:::
+
+```{.python data-expected-error="TypeError"}
+def saving(income, consumption):
+    return income - consumption
+
+income = "1200"
+print(saving(income, 900))
+```
+
+::: {.answer .fragment}
+`TypeError`: subtraction receives a string and an integer. The text input needs conversion.
+:::
+
+::: {.notes}
+Clock 22:00–27:00 (5 minutes). Give three minutes for an individual prediction and repair,
+then two to compare explanations. Ask students to identify both the failing
+subtraction and the caller that supplied text. The next slide shows a repair.
+Do not change the function to join strings, as that changes the question.
+:::
+
+## Worked repair · Convert the intended input
+
+```python
+def saving(income, consumption):
+    return income - consumption
+
+income_text = "1200"
+income = float(income_text)
+result = saving(income, 900)
+print(result)
+```
+
+::: {.terminal-output}
+```{.text code-line-numbers="false"}
+300.0
+```
+:::
+
+Check by hand: `1200 - 900 = 300` EUR per month.
+
+::: {.notes}
+Clock 27:00–29:00 (2 minutes). The repair changes the input to the operation while preserving
+the definition of saving. Converting a valid whole-number string with int
+would also work for this case. A successful conversion alone would not show
+that the field's units or its economic interpretation are correct.
+:::
+
+## This program runs, but its formula is wrong
+
+```python
+income = 1000
+consumption = 800
+share = income - consumption / income
+print(share)
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+999.2
+```
+:::
+
+::: {.answer .fragment}
+Use `(income - consumption) / income`. The expected share is `0.2`.
+:::
+
+::: {.notes}
+Clock 29:00–31:00 (2 minutes). Division happens before subtraction. The program's syntax
+is valid, so no exception points to the wrong grouping. Units also expose
+the problem: the code subtracts a dimensionless ratio from an amount in EUR.
+:::
+
+## Choose examples with different meanings
+
+```python
+def saving(income, consumption):
+    return income - consumption
+
+print(saving(1000, 800))
+print(saving(1000, 1000))
+print(saving(800, 850))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+200
+0
+-50
+```
+:::
+
+Positive, zero, and negative saving are all meaningful outcomes here.
+
+::: {.notes}
+Clock 31:00–34:00 (3 minutes). Ask students to hand-calculate all three cases first. One
+ordinary positive-saving case does not show how a function handles a zero
+balance or consumption above income. These are deterministic examples, not
+a comprehensive test of every possible input.
+:::
+
+## Turn an expectation into an assertion
+
+```python
+income = 1000
+consumption = 800
+saving = income - consumption
+
+assert saving == 200, "Check the saving formula"
+print("Hand-check passed")
+```
+
+::: {.terminal-output}
+```{.text code-line-numbers="false"}
+Hand-check passed
+```
+:::
+
+`assert` continues when its condition is true and raises `AssertionError` when false.
+
+::: {.notes}
+Clock 34:00–36:00 (2 minutes). Read the assertion as an executable expectation. The message
+helps locate a failed check. Assertions are development checks and can be
+disabled by Python optimisation; keep required input validation in explicit
+if/raise code, as in Lecture 3. Reference: https://docs.python.org/3.12/reference/simple_stmts.html#the-assert-statement
+:::
+
+## A failed assertion tells us to investigate
+
+```{.python data-expected-error="AssertionError"}
+income = 1000
+consumption = 800
+saving = income + consumption
+
+assert saving == 200, "Check the saving formula"
+print("Hand-check passed")
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+AssertionError: Check the saving formula
+```
+:::
+
+The final `print` is not reached. Check whether the code **or the expected answer** is wrong.
+
+::: {.notes}
+Clock 36:00–38:00 (2 minutes). Here the hand-worked expectation is correct and the formula
+is wrong. In general an assertion failure does not prove which side is wrong.
+Do not simply change 200 to 1800 to make the assertion pass. Repair the cause.
+:::
+
+## Compare floats with an explicit tolerance
+
+```python
+from math import isclose
+
+total = 0.1 + 0.2
+print(total == 0.3)
+print(isclose(total, 0.3, rel_tol=1e-9, abs_tol=1e-12))
+assert isclose(total, 0.3, rel_tol=1e-9, abs_tol=1e-12)
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+False
+True
+```
+:::
+
+::: {.small-note}
+Choose tolerances for the scale and units of your calculation. Display rounding is a separate decision.
+:::
+
+::: {.notes}
+Clock 38:00–42:00 (4 minutes). Let students predict the equality test, recall Lecture 2's
+floating-point example, and run the code. 1e-9 means 0.000000001. Relative
+tolerance scales with the values; absolute tolerance is useful near zero.
+These illustrative tolerances are not a universal rule for empirical work.
+Reference: https://docs.python.org/3.12/library/math.html#math.isclose
+:::
+
+## State the function's contract before testing it
+
+```python
+def saving_share(income, consumption):
+    if income < 0 or consumption < 0:
+        raise ValueError("Amounts must be non-negative")
+    if income == 0:
+        return None
+    return (income - consumption) / income
+```
+
+- Inputs are numeric, finite monthly amounts in the same currency.
+- Negative income or consumption is outside this teaching specification.
+- Zero income returns `None`; consumption above income can produce a negative share.
+
+::: {.notes}
+Clock 42:00–45:00 (3 minutes). This matches Lecture 3 exactly. The function assumes numeric,
+finite inputs; it is not a complete data-validation system. A real project
+must decide whether negative income has a valid meaning in its source data.
+The teaching specification rejects negative input amounts but permits negative
+saving. Use explicit input checks, rather than assertions, for this contract.
+:::
+
+## Check the contract, including the boundary
+
+Using the function just defined:
+
+```python
+from math import isclose
+
+assert isclose(saving_share(1000, 800), 0.2)
+assert isclose(saving_share(800, 850), -0.0625)
+assert saving_share(0, 100) is None
+print("Three checks passed")
+```
+
+::: {.terminal-output}
+```{.text code-line-numbers="false"}
+Three checks passed
+```
+:::
+
+`saving_share(-100, 50)` should raise `ValueError`, not return a share.
+
+::: {.notes}
+Clock 45:00–47:00 (2 minutes). Ask why the None check uses is None rather than applying
+isclose to None. This slide depends on the preceding function-definition
+cell in the notebook. A fourth invalid-input example is displayed as text in
+the notebook; the verification script separately confirms its exception.
+:::
+
+## Your turn · Check a proposed agent change
+
+::: {.exercise}
+1. Predict the share for income `1000` and consumption `800` by hand.
+2. Run the proposed function below. Does it match?
+3. Check its zero-income rule and its treatment of negative input amounts.
+:::
+
+```python
+def proposed_share(income, consumption):
+    if income == 0:
+        return 0
+    return (income - consumption) / consumption
+
+print(proposed_share(1000, 800))
+print(proposed_share(0, 100))
+```
+
+::: {.answer .fragment}
+The outputs are `0.25` and `0`. Compare both with the stated contract before accepting the change.
+:::
+
+::: {.notes}
+Clock 47:00–53:00 (6 minutes). Give four minutes for prediction and checks, then two for
+discussion. The function divides by consumption, reports an undefined share
+as zero, and lacks the specified negative-input validation. No actual external
+agent needs to run; this is a supplied proposed change. Students should cite
+a concrete failing example rather than guess whether AI wrote the code.
+:::
+
+## Worked repair · Keep the definition and checks together
+
+```python
+def saving_share(income, consumption):
+    if income < 0 or consumption < 0:
+        raise ValueError("Amounts must be non-negative")
+    if income == 0:
+        return None
+    return (income - consumption) / income
+
+print(saving_share(1000, 800))
+print(saving_share(0, 100))
+```
+
+::: {.terminal-output}
+```{.text code-line-numbers="false"}
+0.2
+None
+```
+:::
+
+::: {.notes}
+Clock 53:00–55:00 (2 minutes). The denominator is income, undefined is preserved as None,
+and the stated invalid-input check remains. Re-run the earlier positive,
+negative-saving, zero-income and invalid-input cases after changing code.
+Do not assume that repairing one demonstrated case establishes every case.
+:::
+
+## Finish with a clean run
+
+```python
+income = 1200
+consumption = 800
+saving = income - consumption
+print(saving)
+```
+
+1. Save the code with **inputs → calculations → output** in order.
+2. In JupyterLab: **Kernel → Restart Kernel and Run All Cells…**
+3. Confirm `400`, then check it by hand.
+
+::: {.key-idea}
+A clean run checks dependencies. It does not prove that the formula is correct.
+:::
+
+::: {.notes}
+Clock 55:00–58:00 (3 minutes). Students restart and run the companion notebook. Its failing
+examples are Markdown, so the full run succeeds. For a script, run python
+checking_calculations.py in a fresh process. A restart clears remembered
+values but cannot repair a wrong formula or a wrong order of assignments.
+:::
+
+## Exit check · What fails, and what would you change?
+
+```{.python data-expected-error="AssertionError"}
+income = 1000
+consumption = 800
+saving = income + consumption
+assert saving == 200, "Check the saving formula"
+```
+
+::: {.answer .fragment}
+`AssertionError`. Change `+` to `-`; preserve the hand-worked expectation of `200`.
+:::
+
+::: {.small-note}
+Python 3.12 references: [errors and exceptions](https://docs.python.org/3.12/tutorial/errors.html),
+[assertions](https://docs.python.org/3.12/reference/simple_stmts.html#the-assert-statement),
+[float comparisons](https://docs.python.org/3.12/library/math.html#math.isclose).
+:::
+
+::: {.notes}
+Clock 58:00–60:00 (2 minutes). Ask for the exception type, the incorrect calculation, and a
+repair before revealing the answer. Encourage students to use this same
+sequence when reviewing their own or an agent's code: reproduce, locate,
+explain, repair, and rerun the relevant checks. The next block saves reviewed
+changes with Git and GitHub.
+:::

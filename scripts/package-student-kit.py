@@ -15,6 +15,22 @@ files = {
     "codes/lecture-1/project_running.ipynb": "codes/lecture-1/project_running.ipynb",
     "codes/lecture-1/data/raw/households.csv": "codes/lecture-1/data/raw/households.csv",
     "codes/lecture-1/outputs/README.md": "codes/lecture-1/outputs/README.md",
+    "codes/lecture-2/README.md": "codes/lecture-2/README.md",
+    "codes/lecture-2/basic_python.py": "codes/lecture-2/basic_python.py",
+    "codes/lecture-2/basic_python.ipynb": "codes/lecture-2/basic_python.ipynb",
+    "codes/lecture-3/README.md": "codes/lecture-3/README.md",
+    "codes/lecture-3/control_flow.py": "codes/lecture-3/control_flow.py",
+    "codes/lecture-3/control_flow.ipynb": "codes/lecture-3/control_flow.ipynb",
+    "codes/lecture-4/README.md": "codes/lecture-4/README.md",
+    "codes/lecture-4/checking_calculations.py": "codes/lecture-4/checking_calculations.py",
+    "codes/lecture-4/checking_calculations.ipynb": "codes/lecture-4/checking_calculations.ipynb",
+    "codes/lecture-5/README.md": "codes/lecture-5/README.md",
+    "codes/lecture-5/saving_start.py": "codes/lecture-5/saving_start.py",
+    "codes/lecture-6/README.md": "codes/lecture-6/README.md",
+    "codes/lecture-6/first_dataset.py": "codes/lecture-6/first_dataset.py",
+    "codes/lecture-6/first_dataset.ipynb": "codes/lecture-6/first_dataset.ipynb",
+    "codes/lecture-6/data/raw/households.csv": "codes/lecture-6/data/raw/households.csv",
+    "codes/lecture-6/outputs/README.md": "codes/lecture-6/outputs/README.md",
 }
 
 for source in files.values():

@@ -1,0 +1,670 @@
+---
+title: "First steps with Git and GitHub"
+subtitle: "Research Methods 2026 · Day 1 · One-hour lesson"
+author: "Swapnil Singh"
+date: "2026-11-04"
+date-format: "D MMMM YYYY"
+footer: "Research Methods 2026 · Git and GitHub"
+css: theme/basic-python.css
+title-slide-attributes:
+  data-notes: |
+    Clock 00:00–01:00 (1 minute). This is the Day 1 Git block after Python
+    functions and checking calculations. The course repository is public.
+    Students use their own collaborator accounts and unique practice branches;
+    only the instructor may push or merge to main. Have collaborator invitations
+    accepted and HTTPS authentication prepared before the lesson. Do not spend
+    the hour creating accounts or tokens. Never display a credential or private
+    grade ID. This is classroom PR practice, not the graded Exercise 1 task.
+---
+
+## The result you will produce
+
+```{.text code-line-numbers="false"}
+Your own branch
+    → one checked Python change
+    → two meaningful commits
+    → one pull request for review
+```
+
+```bash
+git status --short --branch
+git log --oneline -2
+```
+
+::: {.key-idea}
+Save a checked change, share it from your own branch, and show what changed.
+:::
+
+::: {.notes}
+Clock 01:00–03:00 (2 minutes). Show the destination before teaching commands. The first
+commit will add a baseline file; the second changes one income input. A pull
+request proposes a change and provides a place to review it. It is not an
+instruction for students to merge. Explain that outputs and commit hashes shown
+in this lesson are examples; students will see their own values.
+:::
+
+## Git and GitHub have different jobs
+
+::: columns
+::: {.column width="48%"}
+
+### Git: on your computer
+
+```bash
+git status
+git diff
+git commit
+```
+
+Tracks versions and compares changes.
+
+:::
+::: {.column width="48%"}
+
+### GitHub: in your browser
+
+```{.text code-line-numbers="false"}
+Repository → Branch → Pull request
+```
+
+Hosts shared copies and review discussions.
+
+:::
+:::
+
+::: {.notes}
+Clock 03:00–05:00 (2 minutes). Git is the version-control program; GitHub is the service we
+use to share repositories and review proposed changes. Saving in an editor,
+committing locally, and pushing to GitHub are three distinct actions. Do not
+ask students to run the bare git commit example yet; the bounded command later
+includes a message. The lines here name the operations we are about to learn.
+:::
+
+## Three local places, then the shared copy
+
+```{.text code-line-numbers="false"}
+Working files  -- git add -->  Staged snapshot
+                              |
+                          git commit
+                              v
+                         Local history
+                              |
+                           git push
+                              v
+                         GitHub branch
+```
+
+**Saving a file** changes the working file. **Staging** chooses what the next commit records.
+
+::: {.notes}
+Clock 05:00–07:00 (2 minutes). A repository includes its Git history; the working files are
+the version currently checked out. Staging records the selected content at the
+time of git add. If a file changes again after staging, the later edits need
+another git add to enter the next commit. A commit is a local snapshot with a
+message; pushing shares commits. Avoid calling staging a permanent backup.
+:::
+
+## Use a terminal, not a Python code cell
+
+In your prepared **terminal**:
+
+```bash
+git --version
+```
+
+::: {.terminal-output}
+```{.text code-line-numbers="false"}
+git version 2.x.y
+```
+:::
+
+- Keep the course Python environment available for running the script.
+- Sign in to your GitHub account in the browser.
+- Accept the instructor's collaborator invitation before the first push.
+
+::: {.notes}
+Clock 07:00–09:00 (2 minutes). The x and y are placeholders, not literal output to match.
+These Git commands work in the prepared Windows, WSL, macOS or Linux terminal.
+Keep all Git operations for this copy in the same environment. The Python
+script is run using the already prepared course Python environment; Git itself
+does not need pandas or another Python package. Handle authentication problems
+with a helper rather than sharing an account or copying another student's token.
+:::
+
+## Get one working copy
+
+If you do **not** already have a Git clone, run from its intended parent folder:
+
+```bash
+git clone https://github.com/swapnil1987/2026-research-methods.git
+cd 2026-research-methods
+```
+
+If you already have a clone, open a terminal at its repository root instead.
+
+::: {.small-note}
+A downloaded ZIP contains files but no Git history. For this lesson, use a clone.
+:::
+
+::: {.notes}
+Clock 09:00–12:00 (3 minutes). A clone includes the repository history and a configured
+remote. Public cloning can work without collaborator permission; pushing later
+requires authentication and permission. Do not clone inside an existing copy
+or copy a .git folder by hand. Students with a standalone starter ZIP should
+keep it and make a separate clone for the Git exercise. This does not require
+deleting their earlier notebook work.
+Reference: https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository
+:::
+
+## Check the repository and starting branch
+
+From the **course repository root**:
+
+```bash
+git status --short --branch
+git remote get-url origin
+```
+
+::: {.terminal-output}
+```{.text code-line-numbers="false"}
+## main...origin/main
+https://github.com/swapnil1987/2026-research-methods.git
+```
+:::
+
+For an existing clone, preserve unexplained changes and ask for help.
+Once the working tree is clean, update `main` before creating your branch:
+
+```bash
+git switch main
+git pull --ff-only
+```
+
+::: {.notes}
+Clock 12:00–15:00 (3 minutes). These are representative outputs from a clean clone on main.
+Check both the directory and the branch; origin is the remote nickname created
+by clone. If status lists existing changes, students should preserve them and
+ask for help before switching branches or pulling. If they are on a previous
+personal branch, only switch to main after confirming the working tree is
+clean. Never use a reset or forced checkout to clear unexplained changes.
+:::
+
+## Set the identity recorded in commits
+
+Replace both quoted placeholders with your own chosen details:
+
+```bash
+git config --local user.name "YOUR NAME"
+git config --local user.email "YOUR COMMIT EMAIL"
+git config --get user.name
+git config --get user.email
+```
+
+Use your exact GitHub-provided **no-reply email** if you want to keep your usual email private.
+
+::: {.small-note}
+Commit identity is recorded in history. It does not sign you in to GitHub.
+:::
+
+::: {.notes}
+Clock 15:00–17:00 (2 minutes). --local applies to this repository. Students should copy their
+actual no-reply address from GitHub Settings > Emails rather than inventing one.
+The name and email in public commits can be visible to others. Do not use the
+private grade ID as the commit identity. GitHub authentication is a separate
+step; changing user.name does not grant permission to push.
+Reference: https://docs.github.com/en/account-and-profile/how-tos/email-preferences/setting-your-commit-email-address
+:::
+
+## Prepare authentication before pushing
+
+```bash
+git remote get-url origin
+```
+
+The course uses the **HTTPS** remote shown earlier.
+
+1. Use the prepared Git credential setup, such as Git Credential Manager.
+2. If it opens a browser, sign in with **your own account**.
+3. If authentication fails, keep your local commits and ask for setup help.
+
+::: {.key-idea}
+Your GitHub account password is not a password for Git HTTPS operations.
+Never put a token in a command, file, notebook, or screenshot.
+:::
+
+::: {.notes}
+Clock 17:00–19:00 (2 minutes). Git Credential Manager can handle browser authentication and
+secure credential storage when it is installed and configured. The exact
+dialog depends on OS and credential setup. Do not promise that every Git
+installation opens a browser automatically. GitHub no longer accepts account
+passwords for Git HTTPS operations. The official guide also describes other
+authentication methods; this lesson does not require installing gh CLI or
+creating a token during class. References:
+https://docs.github.com/en/get-started/git-basics/caching-your-github-credentials-in-git
+https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/about-authentication-to-github
+:::
+
+## Create your own practice branch
+
+Replace `YOUR-GITHUB-USERNAME` with your **public GitHub username** in every command.
+
+```bash
+git switch -c practice/YOUR-GITHUB-USERNAME
+git branch --show-current
+```
+
+::: {.terminal-output}
+```{.text code-line-numbers="false"}
+practice/YOUR-GITHUB-USERNAME
+```
+:::
+
+::: {.key-idea}
+Only the instructor can push or merge to `main`. Work on your own branch.
+:::
+
+::: {.notes}
+Clock 19:00–21:00 (2 minutes). A branch names a line of commits; it is not a second folder.
+All students begin from main but choose unique branch names. The displayed
+username is a placeholder; their real output contains their public username.
+Never put the privately assigned grade ID in branch names, files or PRs. If a
+practice branch already exists, inspect it and use git switch with its name;
+do not recreate it with a force option.
+:::
+
+## Make a file in your own practice folder
+
+In the **editor or JupyterLab file browser**, create this structure:
+
+```{.text code-line-numbers="false"}
+2026-research-methods/
+└── practice/
+    └── YOUR-GITHUB-USERNAME/
+        └── saving.py
+```
+
+Copy the contents of `codes/lecture-5/saving_start.py` into your new `saving.py`.
+
+::: {.small-note}
+Keep the shared files under `codes/` unchanged. Your practice work belongs in your own folder.
+:::
+
+::: {.notes}
+Clock 21:00–24:00 (3 minutes). Creating folders with the file browser avoids OS-specific
+shell commands. If JupyterLab is rooted in an earlier lesson folder, open the
+course repository root or use an editor that can access it. File creation
+must happen inside this clone, not inside a standalone starter ZIP folder.
+The directory name matches the public GitHub username used in the branch.
+:::
+
+## Check the baseline before recording it
+
+Your new **`practice/YOUR-GITHUB-USERNAME/saving.py`** contains:
+
+```python
+income = 1000
+consumption = 800
+saving = income - consumption
+print("Monthly saving (EUR):", saving)
+```
+
+In the **course Python terminal**, from the repository root:
+
+```bash
+python practice/YOUR-GITHUB-USERNAME/saving.py
+```
+
+::: {.answer .fragment}
+Expected: `Monthly saving (EUR): 200`. Verify `1000 - 800` by hand.
+:::
+
+::: {.notes}
+Clock 24:00–26:00 (2 minutes). Saving is EUR per month for one synthetic household. The
+script needs no dataset or external package. Students must save the new file
+before running it, and the terminal must use the prepared Python environment.
+If the path fails, first check the repository root and the actual username
+folder. Do not change the shared starter script.
+:::
+
+## `status` shows what Git has noticed
+
+```bash
+git status --short
+```
+
+::: {.terminal-output}
+```{.text code-line-numbers="false"}
+?? practice/
+```
+:::
+
+`??` means **untracked**: the new file has not been staged or committed.
+
+::: {.small-note}
+Git may show the whole new folder first. Inspect the exact file you intend to add.
+:::
+
+::: {.notes}
+Clock 26:00–28:00 (2 minutes). In a fresh clone, practice may not exist before this exercise,
+so short status commonly groups untracked files under practice/. If that
+directory already contains tracked work, Git may show a more specific path.
+Do not require exact equality with this illustrative output. status reports
+state; it does not record a version or send anything to GitHub.
+:::
+
+## Stage the exact file, then inspect it
+
+```bash
+git add -- practice/YOUR-GITHUB-USERNAME/saving.py
+git diff --cached -- practice/YOUR-GITHUB-USERNAME/saving.py
+git status --short
+```
+
+::: {.terminal-output}
+```{.text code-line-numbers="false"}
+A  practice/YOUR-GITHUB-USERNAME/saving.py
+```
+:::
+
+`A` in the first column means **staged addition**. `--cached` shows the staged content.
+
+::: {.notes}
+Clock 28:00–30:00 (2 minutes). Inspect the staged diff before committing. git add takes a
+snapshot of this file's current content. Later edits are not automatically
+staged. -- separates options from the path. Avoid git add . in this shared
+course exercise: an unrelated notebook, generated output or credential should
+not be accidentally included. The actual diff will include headers and + lines.
+Reference: https://git-scm.com/docs/git-add
+:::
+
+## Commit a checked baseline
+
+```bash
+git commit -m "Add baseline household saving calculation"
+git status --short
+git log --oneline -1
+```
+
+::: {.terminal-output}
+```{.text code-line-numbers="false"}
+a1b2c3d Add baseline household saving calculation
+```
+:::
+
+The hash above is illustrative. Your own short hash will differ.
+
+::: {.key-idea}
+A commit records the staged snapshot locally. It has not been pushed yet.
+:::
+
+::: {.notes}
+Clock 30:00–32:00 (2 minutes). The real commit command also prints a summary, omitted here;
+the example shown is the output of git log. A clean git status --short prints
+no changed paths. If other files are listed, preserve and inspect them rather
+than trying to make the screen match by deleting them. Prefer a message that
+describes the change over a message such as update or final.
+:::
+
+## Watch first · Make one small change
+
+In the instructor's own **practice file**, change only the income input:
+
+```diff
+-income = 1000
++income = 1200
+```
+
+Save, then run the script:
+
+```bash
+python practice/YOUR-GITHUB-USERNAME/saving.py
+```
+
+::: {.answer .fragment}
+Expected: `Monthly saving (EUR): 400`.
+:::
+
+::: {.notes}
+Clock 32:00–35:00 (3 minutes). This is a short instructor demonstration; students repeat
+the change in the upcoming exercise. Say explicitly which file is being
+edited. Saving in the editor changes the working file, not the previous
+commit. Both input cases are synthetic, positive-income examples. Recheck
+1200 - 800 by hand before trusting the output.
+:::
+
+## Inspect the change with `diff`
+
+```bash
+git diff -- practice/YOUR-GITHUB-USERNAME/saving.py
+```
+
+The relevant lines of the diff are:
+
+```diff
+-income = 1000
++income = 1200
+```
+
+- `-` is the old line; `+` is the new line.
+- Here, plain `git diff` compares unstaged edits with the staged snapshot.
+
+::: {.notes}
+Clock 35:00–38:00 (3 minutes). With no currently staged changes, the staged snapshot still
+matches the baseline commit. The actual output includes paths, hashes, @@
+location information and unchanged context lines; focus attention on the two
+changed lines. The leading +/- symbols are diff notation, not characters to
+type into Python. After git add, plain git diff can be empty even though a
+change is staged; use git diff --cached for that comparison.
+:::
+
+## Your turn · Save, run, and review
+
+::: {.exercise}
+1. In your own `saving.py`, change income from `1000` to `1200` and save.
+2. Predict the saving, then run the script and check the result.
+3. Run the two commands below. Explain which line changed and whether it is staged.
+:::
+
+```bash
+git diff -- practice/YOUR-GITHUB-USERNAME/saving.py
+git status --short
+```
+
+::: {.answer .fragment}
+Saving is `400`. Before staging, status shows a modification in its second column: ` M`.
+:::
+
+::: {.notes}
+Clock 38:00–43:00 (5 minutes). Allocate three minutes to the individual change and checks,
+then two to explanations in pairs. Students should be editing their own
+personal file, not codes/lecture-5/saving_start.py. If the script still prints
+200, check that the editor saved and that Python ran the same file. Ask what
+an empty diff means only after establishing whether the change was staged.
+:::
+
+## Record the change you just checked
+
+```bash
+git add -- practice/YOUR-GITHUB-USERNAME/saving.py
+git diff --cached -- practice/YOUR-GITHUB-USERNAME/saving.py
+git commit -m "Check saving with income of 1200 EUR"
+git status --short
+```
+
+::: {.key-idea}
+Inspect the staged diff again. Record one understandable change per commit.
+:::
+
+::: {.notes}
+Clock 43:00–45:00 (2 minutes). Students should review that only the income line changed.
+The commit message records the calculation being checked rather than merely
+saying the file was saved. If the file was edited after staging, repeat git
+add for that specific path and recheck the staged diff. No force operations
+are needed, and nothing should be committed on main in this workflow.
+:::
+
+## Read your local history
+
+```bash
+git log --oneline -2
+git show --stat --oneline HEAD
+```
+
+::: {.terminal-output}
+```{.text code-line-numbers="false"}
+d4e5f6a Check saving with income of 1200 EUR
+a1b2c3d Add baseline household saving calculation
+```
+:::
+
+Newest first. **`HEAD`** identifies the currently checked-out commit.
+
+::: {.notes}
+Clock 45:00–47:00 (2 minutes). The displayed hashes are illustrative. git show --stat adds
+a compact summary of files changed in the newest commit; that extra output is
+not shown in this abbreviated example. A meaningful sequence helps a reviewer
+understand the baseline and the change. A commit is not proof that the
+calculation is correct; retain the hand check and executable result.
+:::
+
+## Push your own branch to GitHub
+
+First confirm the branch, then push it:
+
+```bash
+git branch --show-current
+git push -u origin practice/YOUR-GITHUB-USERNAME
+git status --short --branch
+```
+
+`-u` records the upstream for this local branch. On later pushes from it, use `git push`.
+
+::: {.small-note}
+Push only your own practice branch. If authentication or permission fails,
+your local commits are still saved.
+:::
+
+::: {.notes}
+Clock 47:00–50:00 (3 minutes). The first push creates the corresponding branch on origin
+if it does not exist and the account has permission. The instructor must have
+invited the student's account as a collaborator and the student must have
+accepted. Never solve a rejection by pushing to main, forcing a push or using
+someone else's credentials. If the branch already exists remotely with
+unexpected history, stop and inspect with help.
+:::
+
+## Open a pull request in the browser
+
+On the course repository's **GitHub page**:
+
+```{.text code-line-numbers="false"}
+Pull requests → New pull request
+base: main
+compare: practice/YOUR-GITHUB-USERNAME
+```
+
+1. Check **Files changed** contains only your practice file.
+2. Give the PR a clear title and describe the change and your check.
+3. Choose **Create pull request**, then leave it for the instructor to review.
+
+::: {.notes}
+Clock 50:00–53:00 (3 minutes). GitHub may also offer Compare & pull request after a push.
+The essential choice is base main and compare the student's own branch; do
+not reverse them. Explain that opening a PR does not merge it. This is
+classroom practice, not the graded Exercise 1 submission. The later task sheet
+will state assignment paths, deadline and rubric. Reference:
+https://docs.github.com/en/pull-requests/how-tos/create-pull-requests/creating-a-pull-request
+:::
+
+## A useful PR describes evidence
+
+```{.text code-line-numbers="false"}
+Title: Check saving after a higher income input
+
+Changed income from 1000 to 1200 EUR per month.
+Consumption stays at 800 EUR per month.
+Hand check: 1200 - 800 = 400.
+Ran saving.py; it prints Monthly saving (EUR): 400.
+```
+
+For a requested correction, edit your file on the **same branch**, check it,
+commit it, and run `git push`. The open PR then includes the new commit.
+
+::: {.notes}
+Clock 53:00–55:00 (2 minutes). Keep the explanation short and concrete. Students should not
+include private grade IDs, credentials or confidential data in a public PR.
+The instructor reviews and decides whether to merge; only the instructor may
+update main. For graded submissions, later commits do not retroactively change
+the version captured at the deadline under the syllabus policy.
+:::
+
+## Keep source inputs separate from outputs
+
+The repository's `.gitignore` includes patterns such as:
+
+```{.text code-line-numbers="false"}
+__pycache__/
+.ipynb_checkpoints/
+codes/**/outputs/*
+!codes/**/outputs/README.md
+```
+
+```bash
+git status --short
+git diff --cached --name-only
+```
+
+Commit the intended source and instructions. Inspect generated files before including them.
+
+::: {.notes}
+Clock 55:00–57:00 (2 minutes). The script in this lesson prints output, so it does not create
+an output file. The shown patterns already exist in the course .gitignore;
+students need not edit that shared file. Supplied synthetic raw data can be
+versioned; never overwrite it casually. .gitignore helps exclude untracked
+files, but does not remove files already tracked. No ignore pattern replaces
+checking the staged file list. Do not say that all CSVs should be ignored.
+:::
+
+## If something looks wrong, inspect before changing it
+
+```bash
+git status --short --branch
+git remote get-url origin
+git diff
+git diff --cached
+```
+
+- Wrong folder? Return to the intended clone.
+- Unexpected changes or a rejected push? Preserve the work and ask for help.
+- Leave other students' branches and the protected `main` branch alone.
+
+::: {.notes}
+Clock 57:00–58:00 (1 minute). The hour does not teach destructive recovery commands,
+rebasing, conflict resolution or force pushes. Reassure students that a failed
+push does not erase their local commits. A helper should inspect actual status
+and the error message before proposing a fix. Do not run cleanup commands on
+the course checkout just to demonstrate failure recovery.
+:::
+
+## Exit check · Which action does what?
+
+```bash
+git add -- practice/YOUR-GITHUB-USERNAME/saving.py
+git commit -m "Describe the checked change"
+git push
+```
+
+Before running anything, identify the action that **stages**, **records locally**,
+and **shares commits**. Who may merge your PR into `main`?
+
+::: {.answer .fragment}
+`add` stages; `commit` records locally; `push` shares. Only the instructor may merge to `main`.
+:::
+
+::: {.notes}
+Clock 58:00–60:00 (2 minutes). This is an explanation question, not an instruction to make
+an empty extra commit. Confirm each student can show the intended branch and
+PR link, or explain the specific unresolved setup problem. References and
+step-by-step commands are in codes/lecture-5/README.md. Course workflow is a
+collaborator workflow; forking is a different option, not required here.
+:::

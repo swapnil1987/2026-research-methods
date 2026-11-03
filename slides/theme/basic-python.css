@@ -1,0 +1,18 @@
+/* Larger code for this introductory lesson; the shared course theme is intact. */
+.reveal pre,
+.reveal pre.sourceCode {
+  font-size: 30px;
+  line-height: 1.22;
+}
+
+.reveal pre code {
+  font-size: inherit;
+  line-height: inherit;
+  max-height: none;
+}
+
+@media screen and (max-width: 600px) {
+  .reveal .footer {
+    display: none !important;
+  }
+}

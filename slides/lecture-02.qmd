@@ -1,0 +1,1197 @@
+---
+title: "Basic Python"
+subtitle: "Research Methods 2026 · Day 1 · Two-hour lesson"
+author: "Swapnil Singh"
+date: "2026-11-04"
+date-format: "D MMMM YYYY"
+footer: "Research Methods 2026 · Basic Python"
+css: theme/basic-python.css
+title-slide-attributes:
+  data-notes: |
+    Clock 00:00–01:00 (1 minute). Continue after Getting a project running.
+    Students should already have JupyterLab working. Keep basic_python.ipynb
+    and basic_python.py from codes/lecture-2/ open. The lesson contains 120
+    contact minutes, including practice and debriefs; breaks are additional.
+    Use synthetic household amounts in EUR per month throughout. Students
+    first predict and attempt short exercises independently, then run and check.
+    Conditions, loops, user-defined functions, pandas and Git come later.
+---
+
+## What will you be able to do?
+
+```python
+income = 1000
+consumption = 800
+saving = income - consumption
+print(saving)
+```
+
+::: {.key-idea}
+Read, change, and check a small Python calculation yourself.
+:::
+
+- Work with numbers, text, logical values, and lists.
+- Predict a result before running the code.
+- Explain what a household calculation means.
+
+::: {.notes}
+Clock 01:00–03:00 (2 minutes). Reconnect to the first lesson's saving of 200. Ask students
+which parts of the program they can already explain. All percentages in this
+lesson concern household saving, not the grading scheme. Today we unpack the
+syntax, rather than asking an agent to produce the first answer for us.
+:::
+
+## Open the notebook and run a cell
+
+Open **`codes/lecture-2/basic_python.ipynb`** in JupyterLab.
+
+1. Select the Python kernel in the course environment.
+2. Click the code cell shown below; press **Shift + Enter**.
+3. Work from top to bottom. Type Python code into **code cells**.
+
+```python
+print("Ready for basic Python")
+```
+
+::: {.terminal-output}
+```{.text code-line-numbers="false"}
+Ready for basic Python
+```
+:::
+
+::: {.notes}
+Clock 03:00–05:00 (2 minutes). If JupyterLab is open at codes/lecture-1/, use File > New >
+Terminal and start a new JupyterLab session from the repository root, or open
+the supplied lecture-2 folder directly. Do not paste shell commands into a
+Python cell. This lesson needs no data files or new packages. The notebook
+contains worked examples, practice cells and visible worked answers; this is
+classroom practice, not a graded submission.
+:::
+
+## Python can be a calculator
+
+```python
+print(1000 - 800)
+print(250 + 75)
+print(12 * 1000)
+print(200 / 1000)
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+200
+325
+12000
+0.2
+```
+:::
+
+Read each line aloud: **subtract, add, multiply, divide**.
+
+::: {.notes}
+Clock 05:00–07:00 (2 minutes). Explain parentheses as enclosing what we pass to print.
+print displays a value. Students predict the four lines before execution.
+Use a decimal point, not a decimal comma, in Python numeric literals.
+Reference: https://docs.python.org/3.12/tutorial/introduction.html#numbers
+:::
+
+## Give values meaningful names
+
+```{.python code-line-numbers="1-2|3|4"}
+income = 1000
+consumption = 800
+saving = income - consumption
+print(saving)
+```
+
+::: {.definition}
+A **variable** is a name that refers to a value. `=` assigns the value on
+the right to the name on the left.
+:::
+
+::: {.answer .fragment}
+Python calculates `1000 - 800`, then assigns `200` to `saving`.
+:::
+
+::: {.notes}
+Clock 07:00–10:00 (3 minutes). Point to the right-hand calculation before the left-hand name.
+Python evaluates the right-hand side first. Assignment is an instruction,
+not a mathematical equation to solve. The source file runs from top to bottom.
+Avoid a physical storage-box explanation that would later mislead about lists.
+:::
+
+## Choose names you can read
+
+```python
+monthly_income = 1000
+household_size = 2
+income_per_person = monthly_income / household_size
+print(income_per_person)
+```
+
+::: {.answer .fragment}
+`500.0` EUR per person per month.
+:::
+
+- Use descriptive names and underscores: `household_size`.
+- Names are case-sensitive: `income` and `Income` are different names.
+- Avoid spaces, names beginning with a digit, and names such as `print` or `sum`.
+
+::: {.notes}
+Clock 10:00–12:00 (2 minutes). Explain that snake_case is our convention. Python can accept
+other identifier forms; these are practical beginner rules, not the complete
+language grammar. sum and print are names of existing Python tools, so do not
+overwrite them. The slash produces a float even when the result is a whole number.
+:::
+
+## Updating an input does not rerun a formula
+
+```{.python code-line-numbers="1-3|5-6|8-9"}
+income = 1000
+consumption = 800
+saving = income - consumption
+
+income = 1200
+print(saving)
+
+saving = income - consumption
+print(saving)
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+200
+400
+```
+:::
+
+::: {.notes}
+Clock 12:00–15:00 (3 minutes). Reuse the notebook-state lesson but show that this also happens
+inside a single script. A stored value is not a live spreadsheet formula.
+The second assignment to income changes which value that name refers to.
+The name saving changes only when we execute its assignment again.
+:::
+
+## Your turn · Predict the two outputs
+
+::: {.exercise}
+1. Without running the code, predict the three values displayed by the **first** `print`.
+2. Predict the value displayed by the **second** `print`.
+3. Run the code and check your predictions. Why does `saving` change?
+:::
+
+```python
+income = 1000
+consumption = 800
+saving = income - consumption
+income = income + 100
+consumption = consumption - 50
+print(income, consumption, saving)
+saving = income - consumption
+print(saving)
+```
+
+::: {.answer .fragment}
+```{.text code-line-numbers="false"}
+1100 750 200
+350
+```
+:::
+
+::: {.notes}
+Clock 15:00–20:00 (5 minutes). Ask separately for the first three-value output
+and the second single-value output. Give three minutes for prediction and running,
+then two minutes to explain the unchanged saving of 200 before its reassignment.
+The right-hand income in income = income + 100 refers to its previous value.
+Do not introduce augmented assignment yet. Ask for a hand calculation of 350.
+:::
+
+## Comments record meaning and units
+
+```python
+# One synthetic household; amounts are EUR per month.
+income = 1000
+consumption = 800
+
+# Saving can be negative when consumption exceeds income.
+saving = income - consumption
+print(saving)
+```
+
+::: {.definition}
+`#` starts a comment. Python ignores the remainder of that line.
+:::
+
+Blank lines help you separate inputs, calculations, and output.
+
+::: {.notes}
+Clock 20:00–22:00 (2 minutes). Explain the economic meaning of saving, including negative
+saving, without inventing a non-negative restriction. A comment should explain
+units or a decision. A # inside a quoted string is ordinary text. For a real
+dataset we would also record the observation unit and time period.
+:::
+
+## Numbers have types
+
+```python
+income = 1000
+price = 2.50
+
+print(type(income))
+print(type(price))
+print(type(income / 2))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+<class 'int'>
+<class 'float'>
+<class 'float'>
+```
+:::
+
+**`int`:** integer. **`float`:** floating-point number. `type(...)` reports the type.
+
+::: {.notes}
+Clock 22:00–25:00 (3 minutes). Students need not memorise the angle-bracket display. Contrast
+the integer 1000 with the float 1000.0. A float can have an integer-valued
+quantity. / on these built-in numbers produces a float. Python names are not
+permanently locked to a type, but reusing a name for a different purpose makes
+research code hard to follow.
+:::
+
+## More arithmetic tools
+
+```python
+print(7 / 2)       # division
+print(7 // 2)      # floor division
+print(7 % 2)       # remainder
+print(2 ** 3)      # power
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+3.5
+3
+1
+8
+```
+:::
+
+Use `/` for a saving rate. `^` is **not** Python's power operator.
+
+::: {.notes}
+Clock 25:00–27:00 (2 minutes). These examples use positive integers. // rounds the quotient
+down, not toward zero in general; do not teach it simply as deleting digits.
+For the research calculations today students mostly need +, -, *, / and **.
+The % symbol here is remainder, not percentage; formatting percentages comes later.
+:::
+
+## Parentheses make the calculation explicit
+
+```python
+income = 1000
+consumption = 800
+
+print(income - consumption / income)
+print((income - consumption) / income)
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+999.2
+0.2
+```
+:::
+
+::: {.key-idea}
+Multiplication and division happen before addition and subtraction.
+Write the intended grouping with parentheses.
+:::
+
+::: {.notes}
+Clock 27:00–30:00 (3 minutes). Work through 800 / 1000 first in the incorrect expression.
+Both programs run, but only the second answers saving divided by income.
+Use the mismatch in units as a second check: the first expression subtracts
+a dimensionless ratio from an amount in EUR. Do not introduce a complete
+operator precedence table; focus on this concrete calculation.
+:::
+
+## A share and a percentage are different displays
+
+```python
+income = 1000
+consumption = 800
+saving = income - consumption
+saving_share = saving / income
+
+print(saving_share)
+print(100 * saving_share)
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+0.2
+20.0
+```
+:::
+
+The denominator is **income**. All examples on this slide use positive income.
+
+::: {.notes}
+Clock 30:00–33:00 (3 minutes). Ask what 200 / 800 would measure and why it differs. Keep
+saving_share as a fraction for later percent formatting. Multiplying an amount
+by 100 is not a saving rate. Zero-income validation is taught with conditions
+in the next block; do not suggest that division by zero has a meaningful rate.
+:::
+
+## Your turn · Calculate for one household
+
+::: {.exercise}
+**Five minutes.** Add the three calculations and print their values.
+Predict each answer by hand before running.
+:::
+
+```{.python .practice}
+income = 1250         # EUR per month
+consumption = 1000    # EUR per month
+household_size = 2    # persons
+
+# TODO: saving in EUR per month
+# TODO: saving as a share of income
+# TODO: income per person per month
+```
+
+Use descriptive names. Keep a share such as `0.2` separate from a percentage such as `20.0`.
+
+::: {.notes}
+Clock 33:00–38:00 (5 minutes). This is Practice 1 in the companion notebook. Students should
+type three assignments and three print calls, using only tools already shown.
+Do not let a missing semicolon become a concern: none is needed. Circulate and
+check denominators. All supplied household sizes and incomes are positive here.
+:::
+
+## Worked answer · One household
+
+```python
+income = 1250
+consumption = 1000
+household_size = 2
+
+saving = income - consumption
+saving_share = saving / income
+income_per_person = income / household_size
+
+print(saving, saving_share, income_per_person)
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+250 0.2 625.0
+```
+:::
+
+**Now change consumption to `1300`.** Which results change? Which stay the same?
+
+::: {.notes}
+Clock 38:00–40:00 (2 minutes). Saving becomes -50 and the saving share -0.04; income per person
+remains 625.0. Ask for the sign and interpretation before running the variation.
+Negative saving means consumption exceeds current income in this accounting
+example. Use this as an economic check, not a claim that negative saving is a bug.
+:::
+
+## Floats can contain tiny representation errors
+
+```python
+total = 0.1 + 0.2
+print(total)
+print(round(total, 2))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+0.30000000000000004
+0.3
+```
+:::
+
+::: {.small-note}
+Many decimal fractions have approximate binary representations. Keep precision
+for calculations; choose sensible rounding for reporting.
+:::
+
+::: {.notes}
+Clock 40:00–42:00 (2 minutes). This is a warning against treating every final digit as
+economically meaningful, not a lesson on numerical analysis. round returns a
+rounded value; it does not make floats exact decimal arithmetic. Do not round
+every intermediate step. Percent formatting is introduced shortly.
+Reference: https://docs.python.org/3.12/tutorial/floatingpoint.html
+:::
+
+## Show a value with `print(...)`
+
+```python
+saving = 200
+
+print(saving)
+print("Saving:", saving)
+print("Saving:", saving, "EUR per month")
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+200
+Saving: 200
+Saving: 200 EUR per month
+```
+:::
+
+`print` displays several arguments with spaces between them. Labels explain the units.
+
+::: {.notes}
+Clock 42:00–44:00 (2 minutes). A notebook displays the value of its final bare expression;
+a script does not automatically display every calculated value. Use explicit
+print calls throughout this lesson so code behaves consistently in either place.
+The quotes delimit text; the quotes themselves are not printed by print.
+:::
+
+## Strings hold text
+
+```python
+household_id = "HH01"
+currency = 'EUR'
+label = currency + " per month"
+
+print(household_id)
+print(label)
+print(type(household_id))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+HH01
+EUR per month
+<class 'str'>
+```
+:::
+
+Single or double quotes work. Match the opening and closing quote.
+
+::: {.notes}
+Clock 44:00–46:00 (2 minutes). Use a string for an identifier that contains letters or needs
+leading zeros. + joins two strings, while it adds two numbers. A space inside
+the second string is deliberate. Avoid introducing escape sequences, multiline
+strings, regular expressions or string methods in this first block.
+:::
+
+## A number written as text is still text
+
+```python
+print(1000 + 200)
+print("1000" + "200")
+print(type("1000"))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+1200
+1000200
+<class 'str'>
+```
+:::
+
+::: {.key-idea}
+The same symbol, `+`, behaves differently for numbers and strings.
+:::
+
+::: {.notes}
+Clock 46:00–48:00 (2 minutes). Ask students to say twelve hundred versus the text one zero
+zero zero two zero zero. CSV files are text on disk; libraries decide how to
+interpret the fields when reading them, a topic for the data block. Do not
+assume that something that looks numeric already has a numeric Python type.
+:::
+
+## Convert deliberately before calculating
+
+```python
+income_text = "1000"
+price_text = "2.50"
+
+income = int(income_text)
+price = float(price_text)
+
+print(income + 200)
+print(2 * price)
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+1200
+5.0
+```
+:::
+
+`int("2.50")` raises `ValueError`. Use `float` for this decimal text.
+
+::: {.notes}
+Clock 48:00–51:00 (3 minutes). These examples deliberately use valid numeric strings, a dot
+as the decimal separator and no currency symbols. Conversion does not validate
+economic meaning. int on a float truncates toward zero, so do not present it as
+a general rounding tool. Do not strip arbitrary characters from data to force
+a conversion; diagnose the original field later in the data-cleaning block.
+:::
+
+## Format a readable result with an f-string
+
+```python
+saving = 200
+saving_share = 0.2
+
+print(f"Saving: {saving:.2f} EUR per month")
+print(f"Saving rate: {saving_share:.1%}")
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+Saving: 200.00 EUR per month
+Saving rate: 20.0%
+```
+:::
+
+- `f"..."` inserts values inside `{...}`.
+- `.2f` displays two decimal places; `.1%` displays a percentage with one decimal place.
+
+::: {.notes}
+Clock 51:00–54:00 (3 minutes). Explain each piece of the notation by changing the number of
+decimal places live. Percent formatting already multiplies the fraction by
+100 for display. Applying .1% to 20 instead of 0.2 would display 2000.0%.
+The variables themselves are unchanged by this formatting.
+Reference: https://docs.python.org/3.12/tutorial/inputoutput.html#formatted-string-literals
+:::
+
+## Your turn · Repair a type mismatch
+
+::: {.exercise}
+**Five minutes, including discussion.** The first version fails. Explain why,
+then convert the input and print the corrected result.
+:::
+
+::: columns
+::: {.column width="48%"}
+
+### Deliberate error
+
+```{.python data-expected-error="TypeError"}
+income_text = "1200"
+bonus = 100
+print(income_text + bonus)
+```
+
+You cannot add this string to an integer.
+
+:::
+::: {.column width="48%"}
+
+### One repair {.fragment}
+
+::: {.fragment}
+```python
+income_text = "1200"
+bonus = 100
+income = float(income_text)
+print(income + bonus)
+```
+
+```{.text code-line-numbers="false"}
+1300.0
+```
+:::
+
+:::
+:::
+
+::: {.notes}
+Clock 54:00–59:00 (5 minutes). Practice 2 in the notebook. Give students time to attempt the
+repair before revealing the right column. int would also be valid for this
+specific whole-number string and would print 1300. Do not penalise that answer.
+Converting bonus to text would join strings, not perform the intended addition.
+The notebook presents the deliberate error as Markdown so Run All still works.
+:::
+
+## A comparison produces a Boolean
+
+```python
+income = 1000
+consumption = 800
+spends_less_than_income = consumption < income
+
+print(spends_less_than_income)
+print(type(spends_less_than_income))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+True
+<class 'bool'>
+```
+:::
+
+Python's Boolean values are **`True`** and **`False`**, with capital initial letters.
+
+::: {.notes}
+Clock 59:00–61:00 (2 minutes). A comparison evaluates a question and produces a value. It does
+not yet choose a branch of code; if statements are in the next block. Both the
+comparison and the assigned name can be passed to print. Avoid treating the
+strings "True" and "False" as interchangeable with the Boolean values.
+:::
+
+## Compare values explicitly
+
+```python
+print(800 < 1000)
+print(1000 <= 1000)
+print(1000 > 800)
+print(1000 >= 1000)
+print(200 == 200)
+print(200 != 200)
+```
+
+::: {.answer .fragment}
+Outputs: `True`, `True`, `True`, `True`, `True`, `False`.
+:::
+
+`<=` and `>=` include equality. `==` tests equality; `!=` tests inequality.
+
+::: {.notes}
+Clock 61:00–64:00 (3 minutes). Read the symbols aloud and ask students to predict before
+revealing. Focus on inclusivity at the boundary. These are exact integer
+comparisons; float comparison needs care and will be revisited with checking
+tools. Do not substitute is for == when comparing these numeric values.
+Reference: https://docs.python.org/3.12/library/stdtypes.html#comparisons
+:::
+
+## Assignment and equality do different jobs
+
+```python
+income = 1000          # assign a value
+print(income == 1000)  # ask whether it is equal
+print(income == 800)
+print(income)
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+True
+False
+1000
+```
+:::
+
+Testing equality does **not** change the value assigned to `income`.
+
+::: {.notes}
+Clock 64:00–66:00 (2 minutes). Have students explain the single equals and double equals
+without relying on the word equals for both. Repeating income == 800 does not
+assign 800. Keep a clean distinction between an expression that returns a
+Boolean and an assignment instruction.
+:::
+
+## Combine Boolean questions
+
+```python
+income = 1000
+household_size = 2
+
+print((income <= 1200) and (household_size >= 2))
+print((income < 900) or (household_size >= 2))
+print(not (income <= 1200))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+True
+True
+False
+```
+:::
+
+**`and`:** both. **`or`:** at least one. **`not`:** reverse the Boolean result.
+
+::: {.notes}
+Clock 66:00–69:00 (3 minutes). All operands here are comparison results, so explain the
+Boolean meanings for those operands. Python's and/or can return other operand
+types; do not claim that they always convert any operands to bool. Use
+parentheses for readability. With these plain Python values, use the words
+and/or rather than the pandas operators introduced in a later block.
+Reference: https://docs.python.org/3.12/library/stdtypes.html#boolean-operations-and-or-not
+:::
+
+## Your turn · Check a boundary and a stored result
+
+::: {.exercise}
+**Five minutes.** This invented eligibility rule requires income at most 1200
+and at least two household members. Predict both output lines.
+:::
+
+```python
+income = 1200
+household_size = 2
+eligible = (income <= 1200) and (household_size >= 2)
+print(eligible)
+income = 1201
+print(eligible)
+```
+
+::: {.answer .fragment}
+`True`, then `True`. Recalculate `eligible` after changing income to obtain `False`.
+:::
+
+::: {.notes}
+Clock 69:00–74:00 (5 minutes). Practice 3 in the notebook. The first answer tests the
+inclusive boundary; the second tests assignment semantics. Give students two
+minutes to predict and two to run and repair, with one for debrief. The rule is
+an invented classroom example, not a real benefit policy. Accept a repair that
+reruns the comparison assignment after the updated income.
+:::
+
+## A list holds an ordered collection
+
+```python
+incomes = [1000, 1200, 800]
+
+print(incomes)
+print(type(incomes))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+[1000, 1200, 800]
+<class 'list'>
+```
+:::
+
+Use square brackets and commas. Here each position represents one synthetic household.
+
+::: {.notes}
+Clock 74:00–76:00 (2 minutes). Lists can contain different kinds of values, but this list
+contains one kind of measurement in consistent units. Order matters. A list
+alone does not record household IDs or prevent mixing up observations; proper
+tabular data handling comes later. Do not introduce arrays or vectorisation yet.
+:::
+
+## Indexing starts at zero
+
+```python
+incomes = [1000, 1200, 800]
+
+print(incomes[0])
+print(incomes[1])
+print(incomes[2])
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+1000
+1200
+800
+```
+:::
+
+::: {.key-idea}
+The first position is `0`, the second is `1`, and the third is `2`.
+:::
+
+::: {.notes}
+Clock 76:00–79:00 (3 minutes). Draw three cells labelled positions 0, 1 and 2. Contrast the
+value 1000 with its position 0. Square brackets select an item; parentheses
+call a tool such as print. Ask students to identify the second household's
+income by both its position and its value.
+Reference: https://docs.python.org/3.12/tutorial/introduction.html#lists
+:::
+
+## Negative indices count from the end
+
+```python
+incomes = [1000, 1200, 800]
+
+print(incomes[-1])
+print(incomes[-2])
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+800
+1200
+```
+:::
+
+::: {.small-note}
+For this three-item list, `incomes[3]` raises `IndexError`: that position does not exist.
+:::
+
+::: {.notes}
+Clock 79:00–81:00 (2 minutes). State that -1 means the last item, not a negative measurement.
+The valid positive indices here are 0, 1 and 2. Avoid deliberately breaking the
+main notebook flow; students may try the error in an extra scratch cell if they
+want to inspect it. len tells us the number of items, introduced below.
+:::
+
+## A slice selects several positions
+
+```python
+incomes = [1000, 1200, 800, 1500]
+
+print(incomes[0:2])
+print(incomes[:2])
+print(incomes[1:])
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+[1000, 1200]
+[1000, 1200]
+[1200, 800, 1500]
+```
+:::
+
+`start:stop` includes **start** and excludes **stop**. An omitted endpoint uses the corresponding end.
+
+::: {.notes}
+Clock 81:00–84:00 (3 minutes). Trace positions on paper before running. Explain that [0:2]
+selects positions 0 and 1. It does not include position 2. A slice produces
+another list here, while an index selects one item. An omitted start means 0;
+an omitted stop means the end for these positive-step examples.
+:::
+
+## Change one list item
+
+```python
+incomes = [1000, 1200, 800]
+incomes[1] = 1250
+
+print(incomes)
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+[1000, 1250, 800]
+```
+:::
+
+This changes the value at position `1`. The number of items stays the same.
+
+::: {.notes}
+Clock 84:00–86:00 (2 minutes). Lists are mutable: the list itself can be changed. Distinguish
+replacing an item from inserting a new item. Changing the second observation
+in teaching data is an exercise; preserve supplied raw data in real projects.
+:::
+
+## Append one new item
+
+```python
+incomes = [1000, 1200, 800]
+incomes.append(1500)
+
+print(incomes)
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+[1000, 1200, 800, 1500]
+```
+:::
+
+::: {.definition}
+`.append(...)` adds an item at the end and changes the list in place.
+:::
+
+Do **not** write `incomes = incomes.append(1500)`; `append` returns `None`.
+
+::: {.notes}
+Clock 86:00–88:00 (2 minutes). Explain the dot as selecting an operation belonging to this
+list, followed by parentheses supplying the new item. None is Python's marker
+for no value in this return position; it is not the string "None". Demonstrate
+the correct pattern rather than asking students to learn classes or methods
+formally today. Reference: https://docs.python.org/3.12/tutorial/datastructures.html#more-on-lists
+:::
+
+## Count, total, and average a list
+
+```python
+incomes = [1000, 1200, 800]
+
+print(len(incomes))
+print(sum(incomes))
+print(sum(incomes) / len(incomes))
+print(min(incomes), max(incomes))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+3
+3000
+1000.0
+800 1200
+```
+:::
+
+These are built-in tools. This average assumes the list is **non-empty** and numeric.
+
+::: {.notes}
+Clock 88:00–91:00 (3 minutes). len counts items rather than adding their values. Interpret
+the average as EUR per household per month for these three synthetic records.
+No external library is needed. min/max provide quick range checks; these do
+not establish that every value is valid. Averages of empty lists need a
+decision about missing information, handled with conditions in the next block.
+:::
+
+## Check a household total in two steps
+
+```python
+incomes = [1000, 1200, 800]
+consumptions = [800, 900, 850]
+
+total_saving = sum(incomes) - sum(consumptions)
+mean_saving = total_saving / len(incomes)
+
+print(total_saving)
+print(f"Mean saving: {mean_saving:.2f} EUR per month")
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+450
+Mean saving: 150.00 EUR per month
+```
+:::
+
+The inputs must cover the **same households and period**, in the same units.
+
+::: {.notes}
+Clock 91:00–94:00 (3 minutes). Hand check individual savings: 200, 300 and -50, which total
+450. The mean is 450 / 3. These lists are aligned by construction, not joined
+by a data tool. Equal lengths alone would not prove correct matching in real
+data. Negative saving is meaningful here and should not be silently removed.
+:::
+
+## Copy a list before making an independent change
+
+```python
+incomes = [1000, 1200, 800]
+alias = incomes
+separate = incomes.copy()
+
+alias[0] = 999
+print(incomes)
+print(separate)
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+[999, 1200, 800]
+[1000, 1200, 800]
+```
+:::
+
+`alias = incomes` gives the **same list** another name. `.copy()` creates a separate list here.
+
+::: {.notes}
+Clock 94:00–96:00 (2 minutes). Explain names as references, consistent with the variable
+definition earlier. This is a shallow copy, sufficient for a flat list of
+immutable numbers; nested lists need additional care and are outside scope.
+Do not claim that every assignment copies its object.
+:::
+
+## Your turn · Work with a list
+
+::: {.exercise}
+**Four minutes.** Start with the code below, then:
+
+1. Print the first item, last item, and first two items.
+2. Replace `800` with `900`, then append `1500`.
+3. Print the updated list, its count, total, and mean.
+:::
+
+```{.python .practice}
+incomes = [1000, 1200, 800]
+
+# TODO: select items before changing the list
+# TODO: update the third item and append one new item
+# TODO: calculate and display the summaries
+```
+
+::: {.notes}
+Clock 96:00–100:00 (4 minutes). Practice 4 in the notebook. Students first predict the list
+after each operation and then type the code. Check that they replace position
+2, not position 3, and do not assign the return value of append. The worked
+answer follows, so keep it off screen during the attempt.
+:::
+
+## Worked answer · Select, change, summarise
+
+```python
+incomes = [1000, 1200, 800]
+print(incomes[0], incomes[-1], incomes[:2])
+
+incomes[2] = 900
+incomes.append(1500)
+print(incomes)
+print(len(incomes), sum(incomes))
+print(sum(incomes) / len(incomes))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+1000 800 [1000, 1200]
+[1000, 1200, 900, 1500]
+4 4600
+1150.0
+```
+:::
+
+::: {.notes}
+Clock 100:00–102:00 (2 minutes). Debrief the order of the operations. The selected last item
+is 800 because the selection happened before the changes. The updated mean
+uses four items, not the original three. Ask what would happen if students
+reran only the append line: the extra 1500 would be appended again. Rerunning
+the whole cell resets the list first, producing a reproducible result.
+:::
+
+## Put the pieces together · A household summary
+
+::: {.exercise}
+**Eight minutes, individually.** Calculate saving, saving share, and income
+per person. Print a labelled report with two decimal places for amounts and
+one decimal place for the percentage. Print whether saving is non-negative.
+:::
+
+```{.python .practice}
+household_id = "HH04"
+income = 1500
+consumption = 1200
+household_size = 3
+
+# TODO: calculations
+# TODO: a labelled report, including units
+# TODO: a Boolean check of the saving amount
+```
+
+Finish by changing consumption to `1600`. Predict the new saving and its sign.
+
+::: {.notes}
+Clock 102:00–110:00 (8 minutes). Practice 5 in the notebook. Allocate five minutes for the
+baseline, two for the changed input and one to compare predictions. Students
+may refer to earlier examples, but should make their first attempt without AI.
+This is supervised classroom practice with feedback. Later take-home work may
+use AI under the assessment policy. Do not require functions, loops, imports
+or new packages. The worked answer follows.
+:::
+
+## Worked answer · A readable report
+
+```python
+household_id = "HH04"
+income = 1500
+consumption = 1200
+household_size = 3
+
+saving = income - consumption
+saving_share = saving / income
+income_per_person = income / household_size
+
+print(f"{household_id}: saving = {saving:.2f} EUR/month")
+print(f"Saving rate = {saving_share:.1%}")
+print(f"Income per person = {income_per_person:.2f} EUR/month")
+print("Non-negative saving:", saving >= 0)
+```
+
+::: {.notes}
+Clock 110:00–113:00 (3 minutes). Walk through inputs, calculations and outputs in that order.
+The output is on the next slide to keep this code readable on the projector.
+Have one student identify the denominator in each ratio and another explain
+the comparison. The script basic_python.py ends with this exact baseline.
+:::
+
+## Read the report as an economic statement
+
+::: {.terminal-output}
+```{.text code-line-numbers="false"}
+HH04: saving = 300.00 EUR/month
+Saving rate = 20.0%
+Income per person = 500.00 EUR/month
+Non-negative saving: True
+```
+:::
+
+```python
+income = 1500
+consumption = 1600
+print(income - consumption)
+print((income - consumption) >= 0)
+```
+
+::: {.answer .fragment}
+With consumption `1600`, saving is `-100` and the comparison returns `False`.
+:::
+
+::: {.notes}
+Clock 113:00–115:00 (2 minutes). Confirm that a negative balance here is not a Python error.
+It is a result to interpret. In the changed-input version the saving share is
+about -6.7%, and income per person remains 500.00. Recompute all derived values
+when changing an input. The four-line report above belongs to the preceding
+baseline code, not the changed-input snippet below it.
+:::
+
+## A program can run and still answer the wrong question
+
+```python
+income = 1000
+consumption = 800
+saving = income + consumption
+print(saving)
+```
+
+::: {.answer .fragment}
+Python prints `1800`. The intended saving is **`200`**: use subtraction.
+:::
+
+::: {.key-idea}
+Check the formula, units, and a hand-worked example. Successful execution is
+only one check.
+:::
+
+::: {.notes}
+Clock 115:00–118:00 (3 minutes). Ask students to identify the mistake before revealing the
+answer. No exception is raised, so reading tracebacks cannot solve this alone.
+Connect this to verifying an agent's code: plausible syntax and confident
+explanations do not establish that the intended calculation was implemented.
+The next block adds conditions, loops and user-defined functions.
+:::
+
+## Exit check · Predict, explain, then run
+
+```python
+incomes = [1000, 1200, 800]
+print(incomes[1])
+print(sum(incomes) / len(incomes))
+print("1000" == 1000)
+```
+
+::: {.answer .fragment}
+`1200`, `1000.0`, `False`. Explain the index, denominator, and types.
+:::
+
+::: {.small-note}
+Keep practising with `basic_python.ipynb`. Python 3.12 references:
+[numbers, text and lists](https://docs.python.org/3.12/tutorial/introduction.html),
+[list operations](https://docs.python.org/3.12/tutorial/datastructures.html#more-on-lists),
+[formatted output](https://docs.python.org/3.12/tutorial/inputoutput.html#formatted-string-literals).
+:::
+
+::: {.notes}
+Clock 118:00–120:00 (2 minutes). Ask for all three predictions before running. If time is
+tight, use this as an individual written exit ticket and discuss at the start
+of the next block. Restart the companion notebook kernel and run all cells to
+check that worked examples depend only on saved code. The notebook is supplied
+without saved outputs; its deliberate error is displayed as explanatory text.
+:::
