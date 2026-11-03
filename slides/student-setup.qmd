@@ -1,0 +1,831 @@
+---
+title: "Set up your computer"
+subtitle: "Research Methods 2026 · Student installation guide"
+author: "Swapnil Singh"
+date: "2026-11-03"
+date-format: "D MMMM YYYY"
+footer: "Research Methods 2026 · Student setup"
+title-slide-attributes:
+  data-notes: |
+    Self-paced preparation before the first class on 4 November 2026. Students
+    follow only their operating-system route, then the common steps. The main
+    repository README links to these browser slides and the downloadable
+    classroom code, notebook, data and environment files.
+    Official installation references were checked on 3 November 2026.
+---
+
+## Your goal before the first class
+
+::: {.key-idea}
+Your own computer can run the course script and open its notebook.
+:::
+
+You are ready when:
+
+1. The course environment runs **Python 3.12**.
+2. The setup checker reports **`SETUP CHECK PASSED`**.
+3. The notebook runs from a fresh start and reports saving **200**.
+4. Codex opens the course folder and can explain the starter calculation.
+
+::: {.notes}
+This is a practical completion check, not a programming assessment. Students
+should bring the working laptop to class. A later slide provides a concise
+help request if one of these checks fails. Different patch versions are fine.
+:::
+
+## The tools and what they do
+
+| Tool | Purpose | How you get it |
+|---|---|---|
+| Miniforge / Conda | Install and select a course environment | Install once |
+| Python + packages | Run calculations and work with data | Course environment file |
+| JupyterLab | Open notebooks and edit code in a browser | Course environment file |
+| Git | Save versions of your work | Operating-system installer |
+| GitHub account | Work with repositories online | Sign up in your browser |
+| Codex | Help read, change and check project code | Desktop app or editor extension |
+
+::: {.notes}
+The recommended new Conda installation is Miniforge, which uses conda-forge.
+A working Miniconda or Anaconda installation can be reused. JupyterLab supplies
+an editor and terminal as well as notebooks, so a separate editor is not a
+prerequisite for the desktop route. Quarto is an authoring tool and is excluded
+from the student environment. Codex is the selected coding agent.
+:::
+
+## Read this once before installing
+
+- Use your **laptop or desktop**, with an internet connection.
+- Save your work and allow time for downloads and setup help.
+- If Conda is already installed, first try `conda --version`.
+- Follow **one operating-system route**, then the common steps.
+
+::: {.definition}
+Type one command per line. Press **Enter**, then wait for it to finish.
+:::
+
+::: {.notes}
+Installation duration depends on hardware, connection and cached packages. Do
+not promise a fixed runtime. Students with a functioning Conda installation
+should avoid adding a second one. Terminal prompts such as (base), $, and >
+are not part of the commands shown. A phone can display this guide but cannot
+perform the local laptop setup used in class.
+:::
+
+## Choose your route
+
+| Your computer | Conda installer | Where to type commands |
+|---|---|---|
+| Windows, Intel / AMD 64-bit | Miniforge for Windows x86_64 | Miniforge Prompt |
+| Mac with an Apple chip | Miniforge for macOS arm64 | Terminal |
+| Mac with an Intel processor | Miniforge for macOS x86_64 | Terminal |
+| Linux | Miniforge for your architecture | Terminal |
+
+Follow the next slides for **your** computer, then join at **“Check Conda”**.
+
+::: {.notes}
+Mac: Apple menu > About This Mac identifies an Apple chip versus an Intel
+processor. Windows: Settings > System > About identifies the system type. The
+listed Miniforge Windows installer is x86_64; a student with Windows on ARM
+should ask the instructor to confirm their route. Native Windows is sufficient
+for this course; students do not need to set up WSL to follow this guide.
+Sources: https://github.com/conda-forge/miniforge#requirements-and-installers
+and https://support.apple.com/en-us/116943.
+:::
+
+## Windows · Install Miniforge
+
+1. Download the [official Windows installer](https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Windows-x86_64.exe).
+2. Run the `.exe` file and choose installation for your own user account.
+3. Keep the **Start menu shortcut** enabled.
+4. Leave **Add Miniforge to PATH** unchecked; complete installation.
+
+::: {.key-idea}
+Use **Miniforge Prompt** for the commands in this guide.
+:::
+
+::: {.notes}
+This route is for Windows x86_64. The file is Miniforge3-Windows-x86_64.exe.
+Read and follow the installer prompts, including the licence and location.
+Miniforge's documented default Windows workflow is its Start menu prompt;
+global PATH editing is unnecessary. If an installer cannot use the chosen
+location, record the error and ask for help instead of trying several installs.
+Official instructions: https://github.com/conda-forge/miniforge#windows.
+:::
+
+## Windows · Open the correct prompt
+
+1. Open the **Start menu**.
+2. Search for **Miniforge Prompt** and open it.
+3. Enter:
+
+```{.bash code-line-numbers="false"}
+conda --version
+```
+
+::: {.answer}
+A version number should appear. Continue at **“Check Conda”**.
+:::
+
+::: {.notes}
+Miniforge Prompt is a command window prepared for Conda. A normal Command
+Prompt, PowerShell window or Git Bash session may not know Conda yet. Do not
+ask students to change global shell configuration when the supplied prompt
+already works. Students reusing Miniconda or Anaconda may use its corresponding
+prepared prompt. Source: https://github.com/conda-forge/miniforge#usage.
+:::
+
+## macOS · Match the installer to your chip
+
+Open **Apple menu → About This Mac**.
+
+| What it shows | Download this terminal installer |
+|---|---|
+| Chip: Apple M-series | [Miniforge3-MacOSX-arm64.sh](https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-arm64.sh) |
+| Processor: Intel | [Miniforge3-MacOSX-x86_64.sh](https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-x86_64.sh) |
+
+Open **Terminal** using Spotlight or Applications → Utilities.
+
+::: {.notes}
+Use the chip description, not the laptop's purchase date. Choose the .sh
+installer linked on the slide. The next slide assumes it is in Downloads with
+its original filename. Apple describes the Chip versus Processor fields at
+https://support.apple.com/en-us/116943. Installer names are from
+https://github.com/conda-forge/miniforge#requirements-and-installers.
+:::
+
+## macOS · Run your downloaded installer
+
+**Apple chip:**
+
+```{.bash code-line-numbers="false"}
+bash ~/Downloads/Miniforge3-MacOSX-arm64.sh
+```
+
+**Intel processor:**
+
+```{.bash code-line-numbers="false"}
+bash ~/Downloads/Miniforge3-MacOSX-x86_64.sh
+```
+
+Run **one** of these. Follow the prompts and accept shell initialization.
+Close and reopen Terminal, then continue at **“Check Conda”**.
+
+::: {.notes}
+Read the licence and installation prompts and use the path actually downloaded.
+If the browser renamed the file or used another location, adjust that path.
+The interactive installer offers Conda shell initialization; accepting it
+allows activation after reopening Terminal. A .sh file is run by bash, rather
+than opened as a notebook. Source:
+https://github.com/conda-forge/miniforge#unix-like-platforms-macos-linux--wsl.
+:::
+
+## Linux · Download and run the matching installer
+
+Check the processor architecture:
+
+```{.bash code-line-numbers="false"}
+uname -m
+```
+
+- `x86_64`: [download the x86_64 installer](https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh).
+- `aarch64`: [download the aarch64 installer](https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-aarch64.sh).
+
+For the x86_64 download:
+
+```{.bash code-line-numbers="false"}
+bash ~/Downloads/Miniforge3-Linux-x86_64.sh
+```
+
+Accept shell initialization, then reopen Terminal.
+
+::: {.notes}
+For aarch64, substitute the matching downloaded filename in the bash command.
+If uname reports something else or the installer reports an unsupported system,
+ask for help with that specific architecture. These instructions assume the
+standard Downloads location. Source:
+https://github.com/conda-forge/miniforge#requirements-and-installers.
+:::
+
+## Check Conda · Everyone joins here
+
+Use Miniforge Prompt on Windows, or Terminal on macOS / Linux:
+
+```{.bash code-line-numbers="false"}
+conda --version
+conda env list
+```
+
+::: {.key-idea}
+You should see a Conda version and a list containing **`base`**.
+:::
+
+We will create a separate environment called **`research-methods`**.
+
+::: {.notes}
+An environment is a named collection of Python and packages. The base
+environment's Python version need not be 3.12: the course environment controls
+our Python version. A working existing Miniconda/Anaconda installation is
+sufficient here. The list may already contain other projects; keep them.
+Source: https://docs.conda.io/projects/conda/en/stable/user-guide/tasks/manage-environments.html.
+:::
+
+## Windows · Install Git
+
+1. Open the [official Git for Windows download page](https://git-scm.com/install/windows).
+2. Download and run the installer matching your computer.
+3. Keep Git available from the command line and other applications.
+4. Close and reopen **Miniforge Prompt** after installation.
+
+Check:
+
+```{.bash code-line-numbers="false"}
+git --version
+```
+
+::: {.notes}
+Use Git's official maintained installer. Its command-line access option makes
+git available in the prompt used for the Python workflow. Reopening matters
+because an existing terminal may retain the old PATH. If the check still fails,
+record it for setup help. Git installation and GitHub account creation are
+separate. Source: https://git-scm.com/install/windows.
+:::
+
+## macOS / Linux · Install Git
+
+::: columns
+::: {.column width="48%"}
+
+### macOS
+
+If Git is missing, install Apple's command-line tools:
+
+```{.bash code-line-numbers="false"}
+xcode-select --install
+```
+
+Finish the installation dialog.
+
+:::
+::: {.column width="48%"}
+
+### Ubuntu / Debian
+
+```{.bash code-line-numbers="false"}
+sudo apt update
+sudo apt install git
+```
+
+Other distributions: [Git's Linux instructions](https://git-scm.com/install/linux).
+
+:::
+:::
+
+Then run **`git --version`**. A version number means the check passed.
+
+::: {.notes}
+First run git --version; reuse a working installation. On macOS the Apple
+installer may take some time. On Linux sudo may ask for the user's password;
+terminal password entry usually shows no characters. This command requires
+normal administrative installation rights. If they are unavailable on a managed
+laptop, ask the institution for help. Sources: https://git-scm.com/install/mac
+and https://git-scm.com/install/linux.
+:::
+
+## Create or check your GitHub account
+
+1. Open [github.com/signup](https://github.com/signup), or sign into an existing account.
+2. Complete the email verification requested by GitHub.
+3. Check that you can sign in before class.
+
+::: {.definition}
+**Git** saves versions on your computer. **GitHub** hosts repositories online.
+:::
+
+We will set up commits and repository authentication in class.
+
+::: {.notes}
+The current official instructions allow a free personal account with a verified
+email address. Students do not need to buy a plan for the core course workflow.
+Do not ask them to create access tokens, configure SSH keys, or publish a test
+repository just to complete installation. Account instructions:
+https://docs.github.com/en/account-and-profile/how-tos/account-management/creating-an-account-on-github.
+:::
+
+## Get the student project files
+
+1. [Download the student starter project](downloads/research-methods-student-kit.zip) with the code and data.
+2. **Extract** it into a folder you can find again.
+3. Open the extracted **`research-methods`** folder.
+
+::: {.key-idea}
+Find **`environment-student.yml`** inside that folder before continuing.
+:::
+
+Keep the code, notebook and data folders together.
+
+::: {.notes}
+The download contains the runtime files; the slides remain online. On Windows
+use Extract All in File Explorer; on macOS the normal
+ZIP extraction opens the folder. Linux desktop file managers can extract ZIPs.
+Some extractors add an extra outer folder: locate the actual YAML file rather
+than relying on a presumed number of nested folders. A Git clone is unnecessary
+for this setup; the same runtime files can also be found in the repository.
+:::
+
+## Recognise the project root
+
+::: {.project-tree}
+```{.text code-line-numbers="false"}
+research-methods/
+├── README.md
+├── environment-student.yml
+├── scripts/
+│   └── check_setup.py
+└── codes/
+    └── lecture-1/
+        ├── household_saving.py
+        ├── project_running.ipynb
+        └── data/raw/households.csv
+```
+:::
+
+Run the installation commands from **`research-methods/`**.
+
+::: {.notes}
+This is the student kit root and contains the environment specification. It is
+different from codes/lecture-1, which becomes the working project root for the
+first classroom exercise. Make that change of starting folder explicit. The
+ZIP does not need the slide source, a .git directory, or private configuration.
+:::
+
+## Windows · Move the prompt into that folder
+
+Copy the extracted folder's full address from File Explorer.
+
+In **Miniforge Prompt**, use:
+
+```{.text code-line-numbers="false"}
+cd /d "FULL FOLDER ADDRESS"
+dir environment-student.yml
+```
+
+Replace **FULL FOLDER ADDRESS** with the address you copied; keep the quotes.
+
+::: {.answer}
+The directory listing should show **`environment-student.yml`**.
+:::
+
+::: {.notes}
+This is Windows Command Prompt syntax, as used by Miniforge Prompt, not Bash
+or PowerShell syntax. The /d also changes drive if needed. Quotes allow spaces
+in a project folder name. The placeholder must be replaced with the actual
+path; students should not paste it unchanged. Running from inside a compressed
+ZIP or from the lesson subfolder will fail the YAML-file check.
+:::
+
+## macOS / Linux · Move Terminal into that folder
+
+In **Terminal**, use:
+
+```{.bash code-line-numbers="false"}
+cd "FULL FOLDER ADDRESS"
+ls environment-student.yml
+```
+
+Replace **FULL FOLDER ADDRESS** with the actual extracted folder path.
+
+On macOS you can type `cd `, drag the folder into Terminal, and press Enter.
+
+::: {.answer}
+The listing should show **`environment-student.yml`**.
+:::
+
+::: {.notes}
+The space after cd matters for the drag-and-drop shortcut. If typing manually,
+use quotes around paths containing spaces. The exact home directory differs
+by person and machine; avoid a hard-coded instructor path. Linux students can
+also use their file manager's Open in Terminal action where available, then
+check that they are in the folder containing the YAML file.
+:::
+
+## Create the course environment · Once
+
+From the folder containing the YAML file:
+
+```{.bash code-line-numbers="false"}
+conda env create --file environment-student.yml
+```
+
+Conda installs **Python 3.12, JupyterLab, ipykernel, pandas, NumPy and Matplotlib**.
+
+::: {.small-note}
+Wait until the command finishes and the prompt returns before entering the next command.
+:::
+
+::: {.notes}
+The environment is named research-methods by the file. No standalone Python
+download or separate pip commands are needed. Downloads and solving can take
+time; a quiet interval alone is not a reason to cancel. Conda's documented
+environment-file command is backwards compatible with this invocation. If the
+environment already exists, activate it and check it rather than recreating or
+deleting it. Source: https://docs.conda.io/projects/conda/en/stable/commands/env/create.html.
+:::
+
+## Activate it · In each new terminal session
+
+```{.bash code-line-numbers="false"}
+conda activate research-methods
+python --version
+```
+
+::: {.terminal-output}
+```{.text code-line-numbers="false"}
+Python 3.12.x
+```
+:::
+
+The final number may differ. The course environment should use **3.12**.
+
+::: {.notes}
+The x stands for the patch version; it is not literal output. The terminal may
+display (research-methods) at its prompt after activation. Do not type that
+prefix. The base install can use a different Python version. Create the
+environment once, activate it whenever starting a new work session. Source:
+https://docs.conda.io/projects/conda/en/stable/user-guide/tasks/manage-environments.html.
+:::
+
+## Run the installation check
+
+Still in the student project root:
+
+```{.bash code-line-numbers="false"}
+python scripts/check_setup.py
+```
+
+The checker imports packages, finds Git, reads the data and runs the starter script.
+
+::: {.terminal-output}
+```{.text code-line-numbers="false"}
+SETUP CHECK PASSED
+```
+:::
+
+If you see **`FIX`** lines, use them to ask for help.
+
+::: {.notes}
+The displayed success line appears near the end, followed by a reminder to run
+the notebook. This checker is supplied in the kit. It does not install software,
+write data, or alter configuration. It checks the original income and consumption
+inputs, so run it before modifying the lesson example. Passing it does not replace
+the browser and notebook check that follows. No network access is needed to run it.
+:::
+
+## Run your first Python script
+
+```{.bash code-line-numbers="false"}
+cd codes/lecture-1
+python household_saving.py
+```
+
+::: {.terminal-output}
+```{.text code-line-numbers="false"}
+Monthly saving (EUR): 200
+```
+:::
+
+::: {.key-idea}
+You have run Python on your own computer.
+:::
+
+::: {.notes}
+The shell starts this step in the student kit root. cd enters the first
+lesson folder. The calculation uses synthetic monthly income 1000 and
+consumption 800; the script prints saving 200. The CSV is a separate teaching
+fixture. No file has been uploaded and the result does not require an agent.
+If Python cannot open the script, check the current folder and exact filename.
+:::
+
+## Start JupyterLab from the lesson folder
+
+In the same terminal, now inside **`codes/lecture-1`**:
+
+```{.bash code-line-numbers="false"}
+jupyter lab
+```
+
+- Your browser should open JupyterLab.
+- Keep the launch terminal open while working.
+- If the browser stays closed, use the local URL printed in the terminal.
+
+::: {.small-note}
+The browser is the interface to your local JupyterLab session.
+:::
+
+::: {.notes}
+Official launch instructions: https://jupyterlab.readthedocs.io/en/stable/getting_started/starting.html.
+The URL may include a session token; it should not be posted or included in
+help screenshots. The running terminal is serving the notebook and is expected
+to stay busy. A local browser page is not a request to upload the project to a
+website. Starting from the lesson folder makes its notebook and data visible.
+:::
+
+## Open the notebook and check a complete run
+
+1. In JupyterLab, open **`project_running.ipynb`**.
+2. Select its **Python 3** kernel if prompted.
+3. Choose **Kernel → Restart Kernel and Run All Cells…**.
+4. Check the outputs, then save the notebook.
+
+::: {.answer}
+The file check should be **`True`**. Saving should be **`200`**.
+:::
+
+::: {.notes}
+The kernel should come from the environment used to launch JupyterLab. Menu
+wording can vary slightly by version; select the action that restarts the kernel
+and runs every cell in page order. The baseline notebook is unexecuted and has
+five code cells. If the file check fails, inspect the working-folder output and
+the extracted data path. Do not change the inputs until this baseline passes.
+:::
+
+## Next time · Start work in three commands
+
+Open the correct prompt and first enter the **student project root**.
+
+Then run:
+
+```{.bash code-line-numbers="false"}
+conda activate research-methods
+cd codes/lecture-1
+jupyter lab
+```
+
+::: {.key-idea}
+Create the environment **once**. Activate it **for each session**.
+:::
+
+::: {.notes}
+These commands assume the starting folder contains environment-student.yml.
+A fresh terminal does not necessarily start there, so first use the relevant
+Windows or macOS/Linux cd step. A terminal already inside lecture-1 should not
+repeat the relative cd codes/lecture-1 command. The classroom notebook work
+does not require rerunning the environment installer each day.
+:::
+
+## Finish a session cleanly
+
+1. Save the notebook and any edited scripts.
+2. Return to the terminal where you launched JupyterLab.
+3. Press **Ctrl + C** to stop the server; confirm if prompted.
+
+Your files remain on disk for the next session.
+
+::: {.notes}
+Closing the browser tab alone may leave the local server running. Saving the
+notebook preserves its source and displayed results. The environment remains
+installed; there is no reason to remove it at the end of a work session. Do
+not close a terminal that is still creating the environment simply because a
+download is taking time. This shutdown step refers to the JupyterLab server.
+:::
+
+## Install Codex · Desktop route
+
+Codex is available in the **ChatGPT desktop app**.
+
+1. Follow the [official desktop quickstart](https://learn.chatgpt.com/docs/quickstart).
+2. Choose the installer for your operating system and install it.
+3. Open the app and sign in with your ChatGPT account.
+4. Select **Codex** from the ChatGPT product dropdown.
+
+::: {.notes}
+The current OpenAI quickstart documents Codex inside the ChatGPT desktop app.
+Use the platform download routes on the next slide. A ChatGPT browser chat does
+not by itself provide access to the student's local project. This guide uses
+ChatGPT sign-in and does not cover API-key setup. Sources:
+https://learn.chatgpt.com/docs/quickstart and https://learn.chatgpt.com/docs/auth.
+:::
+
+## Codex · Choose the desktop installer
+
+| Computer | Official route |
+|---|---|
+| Windows | [Windows desktop installation guide](https://learn.chatgpt.com/docs/windows/windows-app) |
+| macOS | [Desktop app download and quickstart](https://learn.chatgpt.com/docs/app) |
+| Linux | [Linux preview: supported systems and packages](https://learn.chatgpt.com/docs/linux/linux-app) |
+
+On Windows, use the **native Windows** setup with the Windows Python you installed.
+
+::: {.notes}
+Windows: the official guide links to the Microsoft Store distribution. On macOS
+choose a download compatible with the student's Mac; the IDE route is an
+alternative if a compatible build is unavailable. Linux: check the supported
+distribution and architecture. There is no need to install WSL for the native
+Windows route. Windows-native Conda and a WSL Python installation are different
+environments. Sources are the three official links on the slide.
+:::
+
+## Codex on Linux · Install the desktop package
+
+From the [official Linux desktop guide](https://learn.chatgpt.com/docs/linux/linux-app), choose the package for your distribution and processor.
+
+**Ubuntu / Debian, x64 example:**
+
+```{.bash code-line-numbers="false"}
+cd ~/Downloads
+sudo apt install ./chatgpt_amd64.deb
+```
+
+Use the actual downloaded filename. For ARM64, choose the ARM64 package.
+
+Open **ChatGPT** from Applications, sign in, then select **Codex**.
+
+::: {.notes}
+The Linux app is a preview. Check the official supported-distribution list.
+Fedora uses its matching RPM and dnf; use the official page instead of this
+Debian example. Other systems can use the IDE alternative where supported.
+Do not apply these apt commands on Windows or macOS.
+Source: https://learn.chatgpt.com/docs/linux/linux-app.
+:::
+
+## Alternative · Codex in VS Code
+
+Use this route if you already use VS Code or need an alternative to the desktop app.
+
+1. Install [Visual Studio Code](https://code.visualstudio.com/) for your computer.
+2. Follow [OpenAI's Codex extension guide](https://learn.chatgpt.com/docs/codex/ide) and its **Install the extension** link.
+3. Open the Codex sidebar and choose **Sign in with ChatGPT**.
+4. Open the extracted course folder in VS Code.
+
+::: {.small-note}
+Choose one Codex route. You do not need both the desktop app and extension.
+:::
+
+::: {.notes}
+The IDE guide documents a Command Palette fallback: Codex: Open Codex Sidebar.
+Use it if the sidebar icon is absent. Sign-in opens a browser and returns to
+the client. Notebook work can remain in JupyterLab; the extension is an
+alternative agent interface, not a requirement to configure VS Code notebooks.
+Sources: https://learn.chatgpt.com/docs/codex/ide and
+https://learn.chatgpt.com/docs/auth.
+:::
+
+## Open the course folder in Codex
+
+1. In the desktop app, add or open a **local project folder**.
+2. Choose the extracted **`research-methods`** folder containing the YAML file.
+3. Start a new **Codex** chat in that project.
+
+::: {.key-idea}
+Codex should work with the same files you opened in JupyterLab.
+:::
+
+Use the app's normal project permissions and review any access requests.
+
+::: {.notes}
+Exact button labels may vary. In the IDE route use File > Open Folder instead.
+Choose local work on this computer: a cloud workspace does not automatically
+use packages installed on the laptop. The selected root includes
+scripts/check_setup.py and codes/lecture-1. No GitHub connection is required
+to read this local extracted folder.
+Source: https://learn.chatgpt.com/docs/quickstart.
+:::
+
+## First Codex message · Read and explain
+
+::: {.exercise}
+Read `codes/lecture-1/household_saving.py` in this project.
+
+Explain its inputs, units and calculation. What should it print?
+
+**Do not edit files or install software.**
+:::
+
+::: {.answer}
+It should explain **`1000 - 800 = 200`**, measured in EUR per month.
+:::
+
+::: {.notes}
+This is a bounded read-only access check. Compare the answer with the actual
+script, not just whether it sounds plausible. If the file cannot be located,
+check the selected folder. For sign-in or usage problems, record the exact
+error for troubleshooting.
+:::
+
+## Check which Python Codex uses
+
+Ask Codex to run the checker using the **`research-methods`** environment:
+
+```{.bash code-line-numbers="false"}
+conda run --name research-methods python scripts/check_setup.py
+```
+
+::: {.key-idea}
+Activation in your earlier terminal does not activate a separate Codex session.
+:::
+
+If Codex cannot find Conda, run **`conda info --base`** in your working prompt and give it that installation path.
+
+::: {.notes}
+Ask it to show the command and full output, without installing packages or
+changing files. The command assumes the student project root. Codex may need
+the full executable path inside the known Conda installation, especially in
+Windows PowerShell. Use that existing installation. The checker does not test
+Codex login: the successful agent response and execution are separate checks.
+This is a course integration command, not special Codex configuration.
+:::
+
+## If installation or activation fails
+
+| What you see | First check |
+|---|---|
+| `conda` is not found on Windows | Open Miniforge Prompt from Start. |
+| `conda` is not found on macOS / Linux | Reopen Terminal after initialization. |
+| YAML file cannot be found | Are you in the extracted student project root? |
+| Environment already exists | Activate it, then run the setup checker. |
+| Downloads or solving fail | Save the first error and ask for setup help. |
+
+::: {.notes}
+For a missed Unix shell-initialization step, the official Miniforge instructions
+describe using the installed conda by its full path and running conda init.
+Do not assume every user's install path or shell. Give that fix individually
+when known, rather than asking beginners to paste several competing commands.
+Existing environments should be inspected before any update or removal.
+:::
+
+## If Python or the notebook fails
+
+| What you see | First check |
+|---|---|
+| Python reports the wrong version | Activate `research-methods`. |
+| A course package is missing | Is the course environment active? |
+| `git` is not found | Finish its installation and reopen the prompt. |
+| JupyterLab cannot show the notebook | Launch it from `codes/lecture-1`. |
+| The data check is `False` | Check the working folder and extracted data folders. |
+
+::: {.notes}
+Have students distinguish the terminal environment, notebook kernel and
+working folder. The setup checker reports missing imports without changing
+anything. On a managed computer a firewall or proxy may affect downloads;
+the instructor or local IT should address the actual error. Avoid unrelated
+reinstallations as the first response to a path or activation problem.
+:::
+
+## Ask for help with evidence
+
+Send the instructor:
+
+- Your **operating system and processor type**.
+- The **command** you entered.
+- The **first error message**, or the setup checker's **`FIX`** lines.
+
+::: {.small-note}
+An error screenshot helps. Keep passwords and Jupyter session tokens out of it.
+:::
+
+::: {.notes}
+Use the normal course contact channel. No new support address is introduced
+here. Do not ask students to upload their entire home directory or private
+research data. A specific command and its first error is usually enough to
+identify the next step. Encourage reporting before class rather than silently
+skipping setup. This is ordinary support guidance, not a request to send anything
+automatically from the course repository.
+:::
+
+## Ready to bring your laptop to class
+
+- [ ] Conda and Git each print a version number.
+- [ ] The active course environment uses Python **3.12**.
+- [ ] The checker reports **`SETUP CHECK PASSED`**.
+- [ ] The script reports saving **200**.
+- [ ] The notebook runs all cells: file check **`True`**, saving **200**.
+- [ ] You can sign into GitHub.
+- [ ] Codex opens the course folder and explains the saving calculation.
+
+::: {.notes}
+Use this checklist as the final student-facing completion criterion. There is
+no need to send successful setup output unless the instructor asks. The local
+checker does not test authentication or model access; check Codex sign-in
+separately.
+:::
+
+## Official installation references
+
+- [Miniforge installers and instructions](https://github.com/conda-forge/miniforge)
+- [Conda environments](https://docs.conda.io/projects/conda/en/stable/user-guide/tasks/manage-environments.html)
+- [Git installation](https://git-scm.com/install/)
+- [JupyterLab installation](https://jupyterlab.readthedocs.io/en/stable/getting_started/installation.html)
+- [Starting JupyterLab](https://jupyterlab.readthedocs.io/en/stable/getting_started/starting.html)
+- [GitHub account creation](https://docs.github.com/en/account-and-profile/how-tos/account-management/creating-an-account-on-github)
+- [Codex desktop setup](https://learn.chatgpt.com/docs/quickstart) · [IDE alternative](https://learn.chatgpt.com/docs/codex/ide)
+
+::: {.small-note}
+Installation details checked on **3 November 2026**. Use the linked official pages if an installer screen has changed.
+:::
+
+::: {.notes}
+These primary sources support the installation steps. Platform-specific Git
+pages are linked directly on the relevant slides. The student ZIP and checker
+are supplied course material, not third-party installer downloads. The guide
+has been rendered and its Python checks exercised in WSL; a clean Windows or
+macOS installation has not been executed by the authoring session.
+:::

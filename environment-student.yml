@@ -1,0 +1,14 @@
+# Student runtime; Quarto is only needed by slide authors (environment.yml).
+name: research-methods
+
+channels:
+  - conda-forge
+  - nodefaults
+
+dependencies:
+  - python=3.12
+  - jupyterlab>=4,<5
+  - ipykernel>=6,<8
+  - pandas>=2,<4
+  - numpy>=1.26,<3
+  - matplotlib>=3.8,<4

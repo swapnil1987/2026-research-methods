@@ -1,0 +1,669 @@
+---
+title: "Getting a project running"
+subtitle: "Research Methods 2026 · Day 1, first hour"
+author: "Swapnil Singh"
+date: "2026-11-04"
+date-format: "D MMMM YYYY"
+footer: "Research Methods 2026 · Getting a project running"
+title-slide-attributes:
+  data-notes: |
+    Clock 00:00–01:00 (1 minute). Welcome students. No programming experience is
+    assumed. Have the starter project open in JupyterLab before teaching. The
+    project root for this hour is codes/lecture-1/, inside the course repository.
+    Keep a terminal, household_saving.py, and project_running.ipynb ready.
+    Environment installation is pre-class preparation. Explain that students
+    will make one small economic calculation run and learn how to trust it.
+---
+
+## What will you be able to do?
+
+::: {.key-idea}
+Open a small project, run its code, and explain why the result appears.
+:::
+
+::: {.incremental}
+
+- Find the project's inputs and code.
+- Run a script and a notebook.
+- Explain a relative path and a notebook's memory.
+- Review one small change proposed by an agent.
+
+:::
+
+::: {.notes}
+Clock 01:00–03:00 (2 minutes). State the observable destination: every student
+will produce Monthly saving (EUR): 200 and explain where it came from.
+The hour has four parts: orient 0–15, scripts and paths 15–33, notebooks 33–46,
+and an agent demonstration plus exit check 46–60. Later blocks teach Python
+syntax, Git, and pandas in depth. Do not introduce those workflows here.
+:::
+
+## A project is a folder with a purpose
+
+::: columns
+::: {.column width="48%"}
+
+::: {.project-tree}
+```{.text code-line-numbers="false"}
+lecture-1/
+├── README.md
+├── household_saving.py
+├── project_running.ipynb
+├── data/
+│   └── raw/
+│       └── households.csv
+└── outputs/
+```
+:::
+
+:::
+::: {.column width="48%"}
+
+- **Instructions:** how to run the project.
+- **Code:** the steps of the calculation.
+- **Data:** the supplied inputs.
+- **Outputs:** generated results.
+
+:::
+:::
+
+::: {.small-note}
+Today's script uses two numbers written in the code. We will read the CSV later.
+:::
+
+::: {.notes}
+Clock 03:00–05:00 (2 minutes). Show the real folder tree, not just this diagram.
+Explain the filename extensions: .md is readable text, .py is Python source,
+.ipynb is a notebook, .csv is a plain-text data table. The CSV contains four
+invented households; no real people's data. Outputs is a destination for later
+tables and figures; this lesson prints to the screen. The README in outputs is
+only a placeholder. Locate codes/lecture-1 in the course repository once, then
+use that starter folder as the project root throughout this hour.
+:::
+
+## Open the project root
+
+1. Open the supplied **`codes/lecture-1`** folder.
+2. Find `README.md`, the script, and the notebook.
+3. Keep these files together in that folder.
+
+::: {.definition}
+The **project root** is the main folder of the project we are running.
+
+For this lesson, it is the folder called `lecture-1`.
+:::
+
+::: {.notes}
+Clock 05:00–07:00 (2 minutes). The common setup starts JupyterLab from this
+folder. In a prepared terminal at the course repository root, demonstrate
+cd codes/lecture-1 followed by jupyter lab. If a student has the standalone
+starter folder, open it directly and do not repeat that relative cd command.
+Do not ask beginners to clone a repository before the Git block. Remind them
+to extract a downloaded ZIP before opening or running its contents.
+:::
+
+## Three tools, three jobs
+
+| Tool | What you do there | Today's example |
+|---|---|---|
+| Text editor | Read, change, and save a file | `household_saving.py` |
+| Notebook | Combine explanation, code cells, and output | `project_running.ipynb` |
+| Terminal | Ask the computer to run a command | `python household_saving.py` |
+
+::: {.key-idea}
+JupyterLab gives us all three in one workspace.
+:::
+
+::: {.notes}
+Clock 07:00–09:00 (2 minutes). Show all three tabs in the actual interface.
+Double-click the .py file to open the text editor, double-click the .ipynb file
+to open the notebook, and use File > New > Terminal for the terminal. A terminal
+shell prompt and a notebook cell accept different kinds of instructions.
+The browser is the interface to the local JupyterLab server; opening it does
+not by itself upload their project. Keep the prepared Python environment active.
+:::
+
+## Check that Python is available
+
+In the prepared **terminal**, type:
+
+```bash
+python --version
+```
+
+::: {.terminal-output}
+```{.text code-line-numbers="false"}
+Python 3.12.x
+```
+:::
+
+::: {.small-note}
+The last number may differ. Use the course environment; ask for help if the command fails.
+:::
+
+::: {.notes}
+Clock 09:00–11:00 (2 minutes). Explain that Python is the program executing our
+instructions. The x on the slide stands for a patch version, not literal output.
+If necessary, activate the prepared research-methods environment. In the
+notebook choose its Python 3 kernel. Do not turn this into an installation
+session; use a prepared working setup and arrange follow-up help. The terminal
+command itself is not Python code to paste into an ordinary notebook cell.
+:::
+
+## Your turn · Find the pieces
+
+::: {.exercise}
+**Four minutes, in pairs.**
+
+1. Find the starter project root and open its README.
+2. Open the script in the editor and the notebook in another tab.
+3. Open a terminal and check the Python version.
+
+Point to the code, the raw data, and the outputs folder.
+:::
+
+::: {.answer .fragment}
+The script and notebook sit beside the README. The CSV is inside `data/raw/`.
+:::
+
+::: {.notes}
+Clock 11:00–15:00 (4 minutes, including feedback). Circulate. Ask one student
+to distinguish the course repository root from this lesson's project root.
+Check both students can locate a file. Before continuing, make sure the terminal
+is in codes/lecture-1, as explained in the starter README. Reveal the answer
+only after students have looked for the files. This is a navigation exercise,
+not a test of commands they have not learned.
+:::
+
+## Run the script from the project root
+
+In the **terminal**:
+
+```bash
+python household_saving.py
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+Monthly saving (EUR): 200
+```
+:::
+
+::: {.definition}
+A **script** is a saved sequence of instructions. Python runs this file from top to bottom.
+:::
+
+::: {.notes}
+Clock 15:00–18:00 (3 minutes). Run the supplied script. Ask students to identify
+the command, file being run, and output as three different things. Explain that
+the file extension .py is part of its name, and that a terminal command starts
+a new Python process each time. It does not inherit the notebook's variables.
+Have everyone obtain the baseline output before changing any code.
+:::
+
+## Read this tiny program
+
+```{.python code-line-numbers="1-2|3|5"}
+income = 1000
+consumption = 800
+saving = income - consumption
+
+print("Monthly saving (EUR):", saving)
+```
+
+::: {.key-idea .fragment}
+EUR 1,000 of income − EUR 800 of consumption = **EUR 200 saved per month**.
+:::
+
+::: {.notes}
+Clock 18:00–20:00 (2 minutes). Reveal the inputs, calculation, and print line in
+that order. These are synthetic amounts for one household and one month.
+Say that equals stores a value under a name; the next block will teach variables
+systematically. The script's opening docstring is explanatory text and is
+omitted from the slide. Do not introduce types, functions, or dataset operations.
+:::
+
+## Predict → change → save → run
+
+::: {.exercise}
+**Four minutes.** Change income from `1000` to `1200`.
+
+1. Predict saving before running anything.
+2. Save the script in the editor.
+3. Run `python household_saving.py` again.
+4. Compare the output with your prediction.
+:::
+
+::: {.answer .fragment}
+`1200 - 800 = 400`. The output should report **EUR 400 per month**.
+:::
+
+::: {.notes}
+Clock 20:00–24:00 (4 minutes, including debrief). Make students say or write 400
+before running. If the old value appears, first check that the editor was saved
+and that the terminal is running this same copy of the file. Do not suggest
+random reinstallations. Ask students to restore income to 1000, save, and rerun
+before moving on. Distinguish saving a file from running the saved file.
+:::
+
+## A path starts somewhere
+
+::: columns
+::: {.column width="48%"}
+
+### Absolute path
+
+Starts at a drive or filesystem root.
+
+```{.text code-line-numbers="false"}
+C:/course/lecture-1/
+```
+
+Specific to where you stored the project.
+
+:::
+::: {.column width="48%"}
+
+### Relative path
+
+Starts at the **current working folder**.
+
+```{.text code-line-numbers="false"}
+data/raw/households.csv
+```
+
+Works on another computer if the folder structure is kept.
+
+:::
+:::
+
+::: {.notes}
+Clock 24:00–26:00 (2 minutes). The absolute path is a Windows example, not a path
+students must create. macOS and Linux paths begin with /. Explain that / means
+go into a folder in the examples. Forward slashes work in these Python paths
+on Windows as well. Avoid typing user-specific home directories. Relative
+paths help portability but still require the correct working folder.
+:::
+
+## Same file, different starting folder
+
+| Current working folder | Relative path to the CSV |
+|---|---|
+| `lecture-1/` | `data/raw/households.csv` |
+| `lecture-1/data/` | `raw/households.csv` |
+| `lecture-1/outputs/` | `../data/raw/households.csv` |
+
+::: {.definition}
+`..` means **go up one folder**.
+:::
+
+::: {.notes}
+Clock 26:00–28:00 (2 minutes). Point to the starter tree. Trace each route with
+a finger. In the last row go up from outputs into lecture-1, then down through
+data and raw. All three paths identify the same existing CSV. Python does not
+automatically resolve a relative file path from the folder containing the
+script; the working folder is what matters for these ordinary paths.
+:::
+
+## “File not found” can mean “wrong starting folder”
+
+Run these cells in the **notebook**:
+
+```python
+from pathlib import Path
+Path.cwd()
+```
+
+```python
+Path("data/raw/households.csv").is_file()
+```
+
+::: {.answer .fragment}
+The working folder should end in `codes/lecture-1`. The file check should return **`True`**.
+:::
+
+::: {.notes}
+Clock 28:00–30:00 (2 minutes). Open the first two code cells of the supplied
+notebook. Demonstrate Shift+Enter now; explain the shortcut more fully in the
+notebook section. Path.cwd() displays the kernel's actual current folder.
+The displayed path is system-specific and may end only in lecture-1 for a
+standalone starter copy. If the check is False, compare cwd with the folder
+tree, filename, and extension. We are checking existence, not reading data.
+Path is a tool provided by Python; its import syntax is not assessed here.
+:::
+
+## Your turn · Choose the right path
+
+::: {.exercise}
+**Three minutes.** Your current working folder is `lecture-1/outputs/`.
+
+Which path reaches the raw CSV? Explain each step.
+
+**A.** `data/raw/households.csv`\
+**B.** `../data/raw/households.csv`\
+**C.** `../households.csv`
+:::
+
+::: {.answer .fragment}
+**B.** Go up to `lecture-1`, then into `data/raw`, then select `households.csv`.
+:::
+
+::: {.notes}
+Clock 30:00–33:00 (3 minutes). This is a paper or pair discussion exercise;
+students need not change their live working folder. A would look for a data
+subfolder inside outputs. C would look for the CSV directly in lecture-1.
+Reveal B only after explanations. Keep the notebook kernel in the project root
+for the next activity so that later cells run without another directory change.
+:::
+
+## A notebook combines explanation and code
+
+::: columns
+::: {.column width="48%"}
+
+### Markdown cell
+
+Explains the question, units, and interpretation.
+
+“Saving is income minus consumption, in EUR per month.”
+
+:::
+::: {.column width="48%"}
+
+### Code cell
+
+Sends instructions to Python.
+
+```python
+saving = income - consumption
+print(saving)
+```
+
+:::
+:::
+
+::: {.key-idea}
+Select a cell and press **Shift + Enter** to run it and move to the next cell.
+:::
+
+::: {.notes}
+Clock 33:00–35:00 (2 minutes). Show a Markdown cell and a code cell in the live
+notebook. Execute the input, calculation, and display cells in order. The
+excerpt on this slide assumes the input cell was already run. Point out the
+output area and execution counts. Editing code alone does not execute it.
+Markdown is explanatory text; its cell is rendered, rather than sent to Python.
+:::
+
+## The kernel remembers what ran
+
+::: {.definition}
+The **kernel** is the running Python process behind the notebook.
+It remembers values created by executed cells.
+:::
+
+::: {.incremental}
+
+- Cells can be run in any order.
+- Changing text does not update a remembered value.
+- The order on the screen can differ from the order you ran.
+
+:::
+
+::: {.notes}
+Clock 35:00–37:00 (2 minutes). Contrast this long-lived kernel with the fresh
+process started by each python household_saving.py terminal command. Execution
+counts record execution order, not an obligation to follow the page. An output
+saved in the notebook is a record of a past execution, not proof of current
+state. Restarting clears remembered variables but does not edit source cells.
+:::
+
+## Same notebook, a stale calculation
+
+::: {.path-label}
+First run all three cells with income `1000`. Then change and rerun only the input cell:
+:::
+
+```python
+income = 1200
+consumption = 800
+```
+
+::: {.path-label}
+Skip the calculation cell, which previously computed `saving = 200`:
+:::
+
+```python
+saving = income - consumption
+```
+
+::: {.path-label}
+Rerun only the display cell. What appears?
+:::
+
+```python
+print("Monthly saving (EUR):", saving)
+```
+
+::: {.answer .fragment}
+**200.** Updating `income` did not rerun the calculation of `saving`.
+:::
+
+::: {.notes}
+Clock 37:00–39:00 (2 minutes). Show this exact sequence live. Begin from the
+baseline notebook run so saving already exists and equals 200. Edit income to
+1200, execute that input cell, then execute the display cell while skipping the
+calculation cell. The displayed source looks sensible but the output is stale.
+Ask for 200 versus 400 before revealing the answer. State clearly that a Python
+assignment stores a value; it does not create a continuously updating formula.
+:::
+
+## Your turn · Make the hidden state visible
+
+::: {.exercise}
+**Three minutes.** In your own notebook:
+
+1. Start with income `1000`; run inputs, calculation, and display.
+2. Change income to `1200`; rerun **only the input cell**.
+3. Skip the calculation cell and rerun **only the display cell**.
+
+Explain why the displayed saving is still `200`.
+:::
+
+::: {.notes}
+Clock 39:00–42:00 (3 minutes). Students reproduce the demonstration themselves.
+If they see 400, check whether they ran the calculation cell as well. If they
+see NameError, the baseline calculation was never run in this kernel; run the
+three cells once at income 1000, then repeat. Both outcomes reveal execution
+history. Leave the edited income at 1200 for the clean rerun on the next slide.
+:::
+
+## Restart, then run every cell in order
+
+In JupyterLab, choose:
+
+**Kernel → Restart Kernel and Run All Cells…**
+
+::: {.key-idea}
+A clean run clears the remembered values and rebuilds them from the notebook's cells.
+:::
+
+::: {.answer .fragment}
+With income `1200` and consumption `800`, the complete run gives **400**.
+:::
+
+Save the notebook after checking its new output.
+
+::: {.notes}
+Clock 42:00–45:00 (3 minutes). Ask for the expected result first, then restart
+and run all. The menu wording may differ slightly by version. This action
+reruns every cell, including imports and the path check; no variable from a
+previous session should be needed. It executes the current notebook cells;
+save source edits before sharing. Restore income to 1000, restart and run all
+again, check saving 200 and the path check True, then save. Restarting checks
+execution order, not whether the economic formula is right.
+:::
+
+## Saved output records an earlier run
+
+- A `.py` file stores instructions.
+- A `.ipynb` file can store instructions **and displayed output**.
+- Reopening a notebook does not recreate its remembered variables.
+
+::: {.key-idea}
+Read the code, rerun it from a fresh start, and check the calculation.
+:::
+
+::: {.notes}
+Clock 45:00–46:00 (1 minute). Separate three checks: can it run, can it run from
+a clean start, and does it calculate what we intend? All three matter. Explain
+that a beautiful saved output could be old. The CSV is still untouched. This
+bridges notebook state to reviewing an agent's change; do not repeat the full
+reproducibility lecture scheduled for Day 2.
+:::
+
+## One small task for an agent
+
+::: {.key-idea}
+Add **saving as a share of income** to the existing script.
+:::
+
+For the baseline household:
+
+**EUR 200 saved / EUR 1,000 income = 0.2 = 20%.**
+
+::: {.definition}
+We choose the calculation and its check before asking the agent to change code.
+:::
+
+::: {.notes}
+Clock 46:00–48:00 (2 minutes). Use the supported classroom agent. Confirm the
+script has been restored to income 1000 and consumption 800. Explain that the
+agent proposes a code change; the student remains responsible for checking it.
+The new quantity is a share, not EUR. This demo is limited to positive income;
+zero-income handling comes later with conditions. If the live tool is
+unavailable, use the exact proposed change on the review slide as a fallback.
+:::
+
+## Give the agent a bounded request
+
+::: {.exercise}
+Edit **only `household_saving.py`**.
+
+For the positive income already supplied, append the saving share:
+**`saving / income`**. Print it with a clear label.
+
+Keep the existing inputs and saving output. Do not read or write data files,
+install packages, or change other files.
+
+Show the proposed change and explain it.
+:::
+
+::: {.notes}
+Clock 48:00–49:00 (1 minute). Submit this request to the classroom agent after
+showing the task to students. Name the file explicitly and ask for a small
+change. Do not delegate the entire course project. Point out the requested
+formula, preserved behaviour, limited scope, and review step. Wait for the tool
+only within this short demo; use the prepared example if necessary.
+:::
+
+## Review the proposed change
+
+The original calculation stays. A suitable addition is:
+
+```{.python code-line-numbers="1|2"}
+saving_share = saving / income
+print("Share of income saved:", saving_share)
+```
+
+Before accepting:
+
+- Is the denominator **income**?
+- Are the inputs and original output preserved?
+- Is only the requested file changed?
+
+::: {.notes}
+Clock 49:00–51:00 (2 minutes). Open the actual proposed edits and read them.
+If it differs from this example but satisfies the request, assess the actual
+behaviour rather than demanding identical syntax. Point out that a diff shows
+what changed. Git concepts will be taught later; a side-by-side editor view is
+enough here. Reject or correct an unrelated refactor, dependency addition, or
+wrong denominator before accepting. The input-domain restriction is explicit.
+:::
+
+## Check the agent's result by hand
+
+| Income, EUR/month | Consumption, EUR/month | Saving | Saving / income |
+|---:|---:|---:|---:|
+| 1,000 | 800 | 200 | 0.20 = 20% |
+| 2,000 | 1,500 | 500 | 0.25 = 25% |
+
+::: {.exercise}
+**Three minutes, including the demonstration.** Run both cases and compare.
+
+What would `200 / 800 = 0.25` measure in the first case?
+:::
+
+::: {.answer .fragment}
+Saving relative to **consumption**. That is a different denominator and a different question.
+:::
+
+::: {.notes}
+Clock 51:00–54:00 (3 minutes). Run the accepted script with both input pairs.
+Check the printed level and share, not merely whether the program exits.
+The second household distinguishes the cases and makes checking concrete.
+Explain that two hand checks support this small demo; they do not prove
+correctness for every possible input. Restore income 1000 and consumption 800
+afterwards. Students observe or run the accepted edit if access permits; the
+longer practice in agent supervision is scheduled for Day 2.
+:::
+
+## If the project will not run, narrow the problem
+
+| Symptom | First check |
+|---|---|
+| `python` is not found | Is the course environment active? |
+| Python cannot open the script | Are you in the starter folder? Is the filename right? |
+| Your edit has no effect | Did you save and run the same file? |
+| A notebook shows an old value | Did you rerun the calculation? Restart and run all. |
+| `NameError` in a notebook | Was the cell defining that name run first? |
+
+::: {.notes}
+Clock 54:00–56:00 (2 minutes). Read the actual error, including the filename
+and line number when supplied. Do not attempt the full traceback lesson here.
+Use one symptom from the room. Ask students to name one diagnostic action at
+a time. An error is evidence about a particular step; repeatedly asking an
+agent to fix everything makes the investigation harder to follow.
+:::
+
+## Exit check · Can someone else run your work?
+
+::: {.exercise}
+**Three minutes, individually.**
+
+1. Run the script with the original inputs: saving should be **200**.
+2. Restart and run the notebook: saving should be **200** and the path check **`True`**.
+3. Explain why a relative path needs a starting folder.
+4. Explain why a notebook can display an out-of-date result.
+:::
+
+::: {.notes}
+Clock 56:00–59:00 (3 minutes). The agent-edited script may also print the share
+0.2; its original saving output must remain. Check that the notebook input was
+restored to 1000 before the final run. Ask for short independent explanations:
+relative paths start from cwd; stored values change only when the relevant
+calculation runs. Students should save their files. Record setup issues for
+follow-up without extending the hour. No Git commit is required in this block.
+:::
+
+## Ready for basic Python {.section-slide background-color="#E85D4A"}
+
+Find the files. State the calculation. Run the code. Check the result.
+
+Next: variables, values, and the steps behind the program.
+
+::: {.notes}
+Clock 59:00–60:00 (1 minute). Return to the first slide's goal. Students now
+have a runnable project and an experience of both visible source and hidden
+execution state. The next block supplies the Python foundations for explaining
+each line in more detail. End on time.
+:::

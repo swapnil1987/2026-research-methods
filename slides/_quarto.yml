@@ -1,0 +1,48 @@
+project:
+  type: default
+  output-dir: _site
+  render:
+    - student-setup.qmd
+    - lecture-01.qmd
+  resources:
+    - theme/fonts/latinmodern-math.otf
+    - theme/fonts/GUST-FONT-LICENSE.txt
+
+format:
+  revealjs:
+    theme:
+      - default
+      - theme/course.scss
+      - theme/lesson.scss
+    include-in-header:
+      - theme/math-font.html
+    html-math-method: mathml
+    embed-resources: true
+    width: 1600
+    height: 900
+    margin: 0.06
+    center: false
+    controls: true
+    progress: true
+    slide-number: c/t
+    transition: fade
+    background-transition: fade
+    navigation-mode: linear
+    menu: true
+    # Quarto's chalkboard plugin cannot be embedded in a standalone HTML file.
+    chalkboard: false
+    preview-links: auto
+    code-copy: true
+    code-line-numbers: true
+    code-overflow: wrap
+    highlight-style: github
+    auto-stretch: false
+
+execute:
+  eval: false
+  echo: true
+  warning: false
+  message: false
+
+lang: en-GB
+editor: source

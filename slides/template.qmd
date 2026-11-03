@@ -1,0 +1,44 @@
+---
+title: "A clear research programming task"
+subtitle: "Research Methods 2026"
+author: "Swapnil Singh"
+date: "2026-11-04"
+date-format: "D MMMM YYYY"
+footer: "Research Methods 2026"
+---
+
+## Today
+
+::: {.key-idea}
+State the concrete result students will produce and how they will check it.
+:::
+
+::: {.notes}
+Add timing, a demonstration cue, and the expected student response.
+:::
+
+## One calculation
+
+```{.python code-line-numbers="1|2|3"}
+income = 1000
+consumption = 800
+saving = income - consumption
+```
+
+::: {.definition .fragment}
+Saving is income minus consumption, measured in EUR per month.
+:::
+
+## Predict, then run
+
+::: {.exercise}
+Change income to EUR 1,200. What should saving become?
+:::
+
+::: {.answer .fragment}
+EUR 400 per month. Rerun the calculation and compare.
+:::
+
+## Take the next step {.section-slide background-color="#E85D4A"}
+
+State the calculation. Run the code. Check the result.
