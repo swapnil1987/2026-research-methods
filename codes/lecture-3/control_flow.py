@@ -57,6 +57,22 @@ def run_examples():
     print(income_per_person(1200, 3))
     print(income_per_person(1000, 2))
 
+    print("Inline function comparison:")
+    print(saving_amount(1000, 800))
+    print((lambda income, consumption: income - consumption)(1000, 800))
+
+    print("Sorting by value, then by absolute amount:")
+    savings = [200, -50, 0, 300]
+    print(sorted(savings))
+    print(sorted(savings, key=lambda amount: abs(amount)))
+    print(savings)
+
+    print("Lambda prediction answer:")
+    savings = [-200, 50, 0, 300]
+    ordered = sorted(savings, key=lambda amount: abs(amount))
+    print(ordered)
+    print(savings)
+
     print("Saving shares:")
     incomes = [1000, 0, 2000]
     consumptions = [800, 100, 1500]

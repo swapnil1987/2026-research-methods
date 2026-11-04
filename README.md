@@ -22,6 +22,9 @@ Instructor: Swapnil Singh.
 
 Day 1 contains eight contact hours. Open each lecture directly in your browser.
 
+Lecture 3 covers regular functions after loops, followed by
+[inline functions (`lambda`)](https://swapnil1987.github.io/2026-research-methods/lecture-03.html#/inline-functions-with-lambda).
+
 ## Grading at a glance
 
 ![Grading: programming and research 67%, writing 33%. Each exercise contributes 10% for the submission and 15% for an individual test; the final practical contributes 17%. Passing requires at least 50/100 overall and 23.5/47 across the independent assessments combined.](docs/figures/grading-overview.png)

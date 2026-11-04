@@ -21,8 +21,9 @@ open a terminal here, activate the environment, and run `jupyter lab`; skip the
 `cd codes/lecture-3` line.
 
 The notebook contains worked examples and four larger practice tasks, plus a
-running-total prediction activity. Attempt each task before reading its worked
-answer. This is classroom practice, not the graded take-home exercise. The
+running-total prediction activity and a short `lambda` sorting prediction.
+Attempt each task before reading its worked answer. This is classroom practice,
+not the graded take-home exercise. The
 deliberate `ValueError` example is displayed as Markdown so **Restart Kernel
 and Run All Cells** succeeds. Try the deliberate error only in an extra scratch
 cell if you want to see its traceback.
@@ -89,7 +90,23 @@ For paired lists, check both their lengths and their household order. `zip`
 pairs by position and stops at the shorter input; it does not match household
 identifiers. These teaching lists are aligned by construction.
 
+## Inline functions with lambda
+
+After ordinary functions, the notebook introduces `lambda parameters: expression`.
+The expression supplies the function's return value. Compare a lambda with
+`def`, then pass one directly to `sorted` using `key=lambda amount: abs(amount)`.
+This orders saving amounts by distance from zero, keeps their original signs,
+and leaves the original list unchanged. For the prediction input
+`[-200, 50, 0, 300]`, the result is `[0, 50, -200, 300]`.
+
+Use `def` for named calculations, multiple steps, and input validation. Lambda
+does not promise faster execution. In this particular sorting example,
+`key=abs` is a shorter equivalent; the lambda shows explicitly how an input
+becomes a sorting key.
+
 ## References
 
 - [Python 3.12: conditions, loops and functions](https://docs.python.org/3.12/tutorial/controlflow.html)
+- [Python 3.12: lambda expressions](https://docs.python.org/3.12/tutorial/controlflow.html#lambda-expressions)
+- [Python 3.12: sorted](https://docs.python.org/3.12/library/functions.html#sorted)
 - [Built-in exceptions: ValueError](https://docs.python.org/3.12/library/exceptions.html#ValueError)

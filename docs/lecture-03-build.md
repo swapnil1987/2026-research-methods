@@ -64,3 +64,41 @@ on the earlier saving_share definition. The repeated function-definition cell
 was removed from the notebook; the remaining code is unchanged. The integrating
 review should inspect the full-width report and longer function/check slides
 at classroom size.
+
+## 4 November 2026: inline functions
+
+Three slides introduce `lambda` after the ordinary-function examples:
+comparison with `def`, an inline `sorted` key, and a prediction task. The deck
+now has 42 slides, with the new material on slides 29–31. Speaker notes remain
+contiguous from 00:00 to 120:00; the six-minute introduction occupies 82:00–88:00.
+The following explanations are shortened, with the larger practice tasks and
+the final 20 minutes unchanged.
+
+The notebook and worked script contain the same examples. The notebook now
+has 40 unexecuted code cells. The main README links directly to the lambda
+section of the existing lecture. `def` remains the recommended form for named,
+multi-step calculations and input checks. Notes explain that lambda does not
+promise compiler inlining or faster execution, and that `key=abs` is a shorter
+equivalent for this particular teaching example.
+
+Verification used Python 3.12 in `research-methods`: all 41 slide Python blocks
+matched their expected outputs or the single intentional ValueError; all 40
+notebook code cells ran in a fresh course kernel; the script retained its
+documented final four lines. The distributed notebook retains no saved outputs.
+
+Rendered the changed deck using the compatible `topics-econometrics` environment:
+
+```bash
+XDG_CACHE_HOME=/tmp/research-methods-quarto-cache \
+conda run --no-capture-output --name topics-econometrics \
+quarto render slides/lecture-03.qmd
+```
+
+The rendered deck has 42 slides and a working lambda-section anchor. All slides
+were checked at 1600 × 900 for missing notes, clipped code, content outside slide
+boundaries, JavaScript exceptions, and failed requests; no issues were found.
+Screenshots of all three new slides were opened for visual inspection. A
+390 × 844 screenshot of the lambda introduction was also inspected; Reveal's
+existing scaled scroll layout remains, with no horizontal document overflow.
+Evidence is under `.cache/lecture-03-lambda/`. GitHub Pages rebuilds the existing
+lecture and classroom code/data download when this change reaches `main`.

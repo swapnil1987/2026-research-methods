@@ -620,6 +620,79 @@ The returned number can be stored, formatted, or used in another calculation.
 Clock 79:00–82:00 (3 minutes). Ask students to identify the parameters and arguments. The two calls are independent. Remind them that a household size of zero is invalid; the assumptions on this simple first version are part of its specification.
 :::
 
+## Inline functions with lambda
+
+```{.python}
+def saving_amount(income, consumption):
+    return income - consumption
+
+print(saving_amount(1000, 800))
+print((lambda income, consumption: income - consumption)(1000, 800))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+200
+200
+```
+:::
+
+::: {.key-idea}
+`lambda parameters: expression` creates a small function. Its single expression supplies the return value; do not write `return`.
+:::
+Use `def` for named, reusable calculations, especially when they need several steps or input checks.
+
+::: {.notes}
+Clock 82:00–84:00 (2 minutes). Python's lambda expression creates an anonymous function; it does not promise compiler inlining or faster execution. Point to the parameters before the colon, the expression after it, and the final arguments (1000, 800). The immediate call is only a syntax demonstration. For a reusable saving_amount calculation, keep the clearer def version. Lambda is most useful when supplying a short function directly to another function, as on the next slide. Reference: https://docs.python.org/3.12/tutorial/controlflow.html#lambda-expressions
+:::
+
+## Pass a small function to sorted
+
+```{.python}
+savings = [200, -50, 0, 300]
+print(sorted(savings))
+print(sorted(savings, key=lambda amount: abs(amount)))
+print(savings)
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+[-50, 0, 200, 300]
+[0, -50, 200, 300]
+[200, -50, 0, 300]
+```
+:::
+`sorted` returns a new list. `abs(-50)` is `50`: the `key` function orders values by their distance from zero, while keeping their original signs.
+
+::: {.notes}
+Clock 84:00–86:00 (2 minutes). First explain sorted without a key: increasing numerical order. Then read the lambda as a rule receiving one saving amount and returning its absolute value for comparison. The expression after key= supplies a function; sorted calls it for the items. The key changes the comparison, not the values placed in the new list. The original savings list is unchanged. In this exact example key=abs is shorter and gives the same result; the explicit lambda makes the input-to-result rule visible for teaching. Reference: https://docs.python.org/3.12/library/functions.html#sorted
+:::
+
+## Your turn · Predict the lambda sorting rule
+
+::: {.exercise}
+Before running, write the output of each print call. Explain whether `-200` stays negative and whether the original list changes.
+:::
+
+```{.python .practice}
+savings = [-200, 50, 0, 300]
+ordered = sorted(savings, key=lambda amount: abs(amount))
+print(ordered)
+print(savings)
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+[0, 50, -200, 300]
+[-200, 50, 0, 300]
+```
+:::
+The sorting keys are `200`, `50`, `0`, and `300`. They determine the order; the output retains the original amounts.
+
+::: {.notes}
+Clock 86:00–88:00 (2 minutes). Allow one minute for independent predictions and one for discussion. Hide the output until students have attempted both lines. Ask which single amount is received by the lambda at each call and why -200 is not replaced by 200. This is a short extra prediction activity, not a fifth large classroom task. Remind students to use def for the multi-step, validated saving_share function that follows.
+:::
+
 ## Decide what zero income means before dividing
 
 ```{.python}
@@ -642,7 +715,7 @@ Saving amount: -100
 Saving in EUR is still defined. Saving **divided by income** is undefined when income is zero.
 
 ::: {.notes}
-Clock 82:00–85:00 (3 minutes). Do not replace the undefined share with zero. That would claim the household saved zero percent of income. The amount is -100 in this example, while the ratio has a zero denominator. Missing or undefined values need an explicit policy.
+Clock 88:00–90:00 (2 minutes). Do not replace the undefined share with zero. That would claim the household saved zero percent of income. The amount is -100 in this example, while the ratio has a zero denominator. Missing or undefined values need an explicit policy.
 :::
 
 ## Use None for this undefined result
@@ -663,7 +736,7 @@ No defined saving share
 `None` is not `0`, not an empty string, and not the text `"None"`. Test it with `is None`.
 
 ::: {.notes}
-Clock 85:00–88:00 (3 minutes). Use is None as the conventional identity check for this single marker. Do not generalise is to ordinary numeric equality. In our function contract None means specifically undefined due to zero income; other lessons may distinguish different reasons for missing information.
+Clock 90:00–92:00 (2 minutes). Use is None as the conventional identity check for this single marker. Do not generalise is to ordinary numeric equality. In our function contract None means specifically undefined due to zero income; other lessons may distinguish different reasons for missing information.
 :::
 
 ## Reject input values outside the specification
@@ -685,7 +758,7 @@ Invalid input: check the amounts
 Our classroom contract accepts numeric, finite, **non-negative inputs**. It still allows negative **saving**.
 
 ::: {.notes}
-Clock 88:00–91:00 (3 minutes). This is a declared exercise specification, not a universal claim that economic income can never be negative. We reject negative inputs here so students practise explicit validation. Numeric types and finite values are supplied preconditions; we do not claim this comparison validates arbitrary text or missing values.
+Clock 92:00–94:00 (2 minutes). This is a declared exercise specification, not a universal claim that economic income can never be negative. We reject negative inputs here so students practise explicit validation. Numeric types and finite values are supplied preconditions; we do not claim this comparison validates arbitrary text or missing values.
 :::
 
 ## A complete saving-share function
@@ -709,7 +782,7 @@ print(saving_share(1000, 800))
 `raise ValueError(...)` stops this call with an explanation. `return` ends the function call immediately.
 
 ::: {.notes}
-Clock 91:00–95:00 (4 minutes). The function contract is consistent across the companion script and later lessons. It accepts numeric finite amounts, rejects negative income or consumption, returns None for zero income, and otherwise returns a fractional share. Invalid values are checked before the zero-income case. Error interpretation follows in Lecture 4.
+Clock 94:00–97:00 (3 minutes). The function contract is consistent across the companion script and later lessons. It accepts numeric finite amounts, rejects negative income or consumption, returns None for zero income, and otherwise returns a fractional share. Invalid values are checked before the zero-income case. Error interpretation follows in Lecture 4.
 :::
 
 ## Check ordinary, boundary, and negative-saving cases
@@ -738,7 +811,7 @@ True
 :::
 
 ::: {.notes}
-Clock 95:00–98:00 (3 minutes). Each check has a different purpose: ordinary positive saving, exact zero saving, negative saving, and an undefined ratio. The values are hand-checkable; tests should exercise the stated cases, not just call the same easy example repeatedly. These four examples do not exhaust all possible numeric input problems.
+Clock 97:00–99:00 (2 minutes). Each check has a different purpose: ordinary positive saving, exact zero saving, negative saving, and an undefined ratio. The values are hand-checkable; tests should exercise the stated cases, not just call the same easy example repeatedly. These four examples do not exhaust all possible numeric input problems.
 :::
 
 ## An invalid input should give a clear error
@@ -759,7 +832,7 @@ Expected error: `ValueError: Amounts must be non-negative`.
 :::
 
 ::: {.notes}
-Clock 98:00–100:00 (2 minutes). This is a deliberate error demonstration. It appears as Markdown in the companion notebook, so Restart and Run All succeeds. Try the error in an extra scratch cell if desired. Error handling with try/except is outside this lesson; the next lecture teaches how to read such messages.
+Clock 99:00–100:00 (1 minute). This is a deliberate error demonstration. It appears as Markdown in the companion notebook, so Restart and Run All succeeds. Try the error in an extra scratch cell if desired. Error handling with try/except is outside this lesson; the next lecture teaches how to read such messages.
 :::
 
 ## Call a function inside a loop
