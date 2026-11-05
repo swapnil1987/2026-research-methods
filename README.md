@@ -1,5 +1,14 @@
 # Research Methods 2026
 
+## Assignment 1 is posted
+
+The first coding assignment is now available: [Open Assignment 1 (PDF)](assignments/exercise-01/assignment-01.pdf).
+
+**Pull-request deadline: Monday 9 November 2026 at 23:59 (Europe/Vilnius time).**
+Create your pull request and include your completed notebook and README by this deadline.
+
+---
+
 Python programming and reproducible research with coding agents, for PhD
 students in economics. 
 

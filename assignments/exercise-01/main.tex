@@ -1,0 +1,251 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=2cm,headheight=14pt]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern,microtype,amsmath,booktabs,tabularx,array,enumitem,fancyhdr}
+\usepackage{xcolor,listings,textcomp}
+\usepackage[colorlinks=true,urlcolor=blue,linkcolor=blue]{hyperref}
+\hypersetup{pdftitle={Research Methods 2026 -- Coding Assignment 1},pdfauthor={Swapnil Singh}}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Research Methods 2026}
+\fancyhead[R]{Coding Assignment 1}
+\fancyfoot[C]{\thepage}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\setlist{topsep=3pt,itemsep=2pt,parsep=0pt,leftmargin=*}
+\renewcommand{\arraystretch}{1.12}
+\newcommand{\py}[1]{\texttt{\detokenize{#1}}}
+\newcommand{\question}[2]{\section*{#1\hfill{\normalsize[#2 marks]}}}
+\lstset{language=Python,basicstyle=\ttfamily\small,keywordstyle=\color{blue!65!black},
+  commentstyle=\color{black!60},stringstyle=\color{red!55!black},
+  backgroundcolor=\color{black!3},frame=single,rulecolor=\color{black!15},
+  numbers=left,numberstyle=\tiny\color{black!50},numbersep=8pt,
+  xleftmargin=1.8em,framexleftmargin=0.5em,breaklines=true,
+  showstringspaces=false,upquote=true,columns=fullflexible,keepspaces=true,
+  aboveskip=6pt,belowskip=6pt}
+
+\begin{document}
+\begin{center}
+{\Large\textbf{Coding Assignment 1}}\\[4pt]
+{\large Household support: implement, inspect, and verify}\\[5pt]
+Research Methods 2026 \quad | \quad Swapnil Singh
+\end{center}
+
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\textbf{Deadline} & Monday 9 November 2026, 23:59 (Europe/Vilnius) \\
+\textbf{Weight} & 100 assignment marks; contributes 10\% of the whole course grade \\
+\textbf{Work} & Individual; plan approximately three hours \\
+\textbf{Hand in} & \py{exercise_01.ipynb} and \py{README.md} through a GitHub pull request \\
+\end{tabularx}
+
+\textbf{Scope.} Use the material from Lectures 1--4: running a project, basic
+Python, conditions, loops, functions, inline functions (\py{lambda}), and checks.
+All inputs are Python lists supplied below. No CSV import, pandas, NumPy,
+plotting, or external data is required. Git commands and version-control
+knowledge are not assessed.
+Use built-in Python tools
+and, for floating-point checks, \py{math.isclose}. List comprehensions and
+\py{try}/\py{except} are not required.
+
+\textbf{AI assistance is permitted.}
+
+\section*{Inputs and policy specification}
+These eight households are invented for this assignment. Income and consumption
+are EUR per month; household size is persons. Positions in the four lists refer
+to the same household. Preserve the supplied lists.
+
+\begin{lstlisting}
+household_ids = ["A01", "A02", "A03", "A04",
+                 "A05", "A06", "A07", "A08"]
+income_text = ["1200", "0", "1500", "700",
+               "2400", "800", "0", "1800"]
+consumptions = [1250, 150, 1600, 850, 2600, 950, 0, 1400]
+household_sizes = [2, 1, 3, 1, 4, 2, 2, 3]
+\end{lstlisting}
+
+For income $I$, consumption $C$, and size $n$, the hypothetical monthly transfer is
+\[
+T(I,C,n)=
+\begin{cases}
+0, & I/n>600,\\
+\min\{100n,\;\max\{C-I,0\}\}, & I/n\leq600.
+\end{cases}
+\]
+Thus eligibility includes exactly EUR 600 per person. An eligible household
+receives its consumption shortfall, capped at EUR 100 per person. A household
+without a shortfall receives zero. Consumption is held fixed throughout.
+
+Define income after support as $Y=I+T$, saving before as $S=I-C$, and saving
+after as $S'=Y-C$. A saving share is saving divided by the corresponding income;
+it is \py{None} when that income is zero. Negative saving is valid.
+
+\newpage
+\question{1. Trace values and notebook state}{12}
+The following snippet is separate from the eight-household inputs. Before
+running it, write your predictions in a Markdown cell. Keep that first attempt,
+then run the snippet and explain any corrections. Initial prediction errors do
+not themselves lose marks if the final reasoning is correct.
+
+\begin{lstlisting}
+incomes = [1000, 800, 0]
+saved_incomes = incomes
+first_share = (incomes[0] - 800) / incomes[0]
+incomes[0] = 1200
+saved_incomes.append(600)
+print(incomes)
+print(saved_incomes[-1], len(incomes))
+print(f"{first_share:.0%}")
+\end{lstlisting}
+
+\begin{enumerate}[label=(\alph*)]
+\item Give the three output lines and trace the relevant values. \hfill [4]
+\item Explain why appending through \py{saved_incomes} affects \py{incomes},
+and why changing an income does not update \py{first_share}. \hfill [4]
+\item Make \py{saved_incomes} an independent copy of the original list and
+recalculate the share after changing income to 1200. Show your changes and the
+new three output lines. \hfill [4]
+\end{enumerate}
+
+\question{2. Implement the policy as functions}{28}
+Write the following three functions. Return values rather than only printing
+them. Assume amounts are finite real numbers and household sizes are integers;
+you do not need general type, NaN, or infinity checks.
+
+\begin{enumerate}[label=(\alph*)]
+\item \py{saving_share(income, consumption)} \hfill [8]
+
+Raise \py{ValueError} if either amount is negative. Otherwise return \py{None}
+for zero income, and $(I-C)/I$ for positive income. Check invalid amounts
+\emph{before} the zero-income case. Return a fractional share, not a percentage.
+
+\item \py{transfer(income, consumption, size)} \hfill [12]
+
+Raise \py{ValueError} for negative income, negative consumption, or
+\py{size <= 0}, before calculating eligibility. For valid inputs, implement
+the policy on page 1 exactly. Every valid call must return a number, including
+zero when no transfer is payable.
+
+\item \py{post_policy_share(income, consumption, size)} \hfill [8]
+
+Call your \py{transfer} function, add its result to original income, and call
+\py{saving_share} using that new income and unchanged consumption. Return the
+result. Reuse both helpers; do not duplicate their policy or share formulas.
+\end{enumerate}
+
+\textbf{Explain your design in at most 100 words:} distinguish parameters from
+arguments, explain why \py{return} is needed, and explain why input checks
+precede division. Functions must use their arguments rather than depend on
+remembered notebook values. Place these explanations beside the relevant code.
+The marks above cover both implementation and explanation.
+
+\newpage
+\question{3. Build and interpret a checked report}{30}
+Use your functions from Question 2. Write explicit loops where requested so that
+your reasoning is visible. Keep full precision in calculations and round only
+for display. Counts must identify their denominator or population.
+
+\begin{enumerate}[label=(\alph*)]
+\item \textbf{Prepare inputs.} Convert \py{income_text} to a new list of numbers
+using a loop; leave the original strings unchanged. Check that all four input
+lists have equal lengths \emph{before} processing. Raise \py{ValueError} for a
+length mismatch; do not let \py{zip} silently omit households. \hfill [4]
+
+\item \textbf{Calculate household results.} Use an explicit loop over the
+aligned inputs. Build result lists and print a labelled report with one line
+per household containing: ID, original income, consumption, size, transfer,
+saving before, saving after, share before, and share after. Use two decimal
+places for EUR amounts and percentage displays; print \texttt{undefined} for
+\py{None}. Do not replace an undefined share with zero. \hfill [8]
+
+\item \textbf{Compare totals and averages.} Calculate and report: \hfill [8]
+\begin{itemize}
+\item total transfer, number of households receiving a positive transfer, and
+numbers with negative saving before and after;
+\item the pooled saving share before, $\sum_i S_i/\sum_i I_i$, and after,
+$\sum_i S'_i/\sum_i Y_i$;
+\item the arithmetic mean of defined household saving shares before and after,
+with the number included in each mean;
+\item the mean after support restricted to households whose share was already
+defined \emph{before} support, using the same households for both periods.
+\end{itemize}
+In at most 120 words, compare the pooled shares and household means. Identify
+any change in which households enter the means and explain why comparing means
+over different sets can be misleading. No statistical method beyond totals,
+counts, and arithmetic averages is needed.
+
+\item \textbf{Use an inline function.} Build a new list containing only the
+defined \emph{pre-policy} household shares. Use \py{sorted} with a \py{lambda}
+key to order them by distance from a target saving share of \py{0.10}, nearest
+first. Print this list and explain what the lambda receives and returns.
+Retain the original share values, including their signs; do not output the
+distances instead. Preserve the original result list, including \py{None}.
+\hfill [4]
+
+\item \textbf{Test a counterfactual.} Make an independent copy of the numeric
+income list and change only A01's income from 1200 to 1202. Recompute A01's
+transfer, income after support, and saving after support. Show these quantities
+under both inputs and the change in each. Explain in at most 80 words whether
+higher original income necessarily gives higher income after support under
+this policy. Verify that your original input list remains unchanged. \hfill [6]
+\end{enumerate}
+
+\textbf{Interpretation matters.} Distinguish a change in a household's saving
+amount from a change in its saving share. A program that runs or prints a
+plausible number does not establish that it answers the stated question.
+
+\newpage
+\question{4. Audit an agent-written function}{20}
+An agent proposes the function below. Its intended contract is to return the
+arithmetic mean of \emph{defined} saving shares, including valid zero and
+negative shares. It must raise \py{ValueError} for unequal list lengths and
+return \py{None} when no share is defined, including empty inputs. It must not
+modify its inputs. Assume each individual input pair meets Question 2's
+numeric and non-negative conditions. \py{saving_share} is your correct helper.
+
+\begin{lstlisting}
+def proposed_mean(incomes, consumptions):
+    total = 0
+    count = 0
+    for income, consumption in zip(incomes, consumptions):
+        share = saving_share(income, consumption)
+        if share is not None and share != 0:
+            total = 0
+            total = total + share
+            count = count + 1
+    return total / count
+\end{lstlisting}
+
+\begin{enumerate}[label=(\alph*)]
+\item Identify \textbf{four distinct defects} and connect each to the intended
+contract. Do not count the same defect twice. \hfill [8]
+\item Write a repaired \py{mean_defined_share(incomes, consumptions)} using a
+loop and your helper. Preserve the intended contract. \hfill [6]
+\item Give four small diagnostic input pairs. For each, state the expected
+correct outcome, what the proposal actually does, and which defect it exposes.
+Use cases that separate the defects as far as possible. An outcome may be a
+number, \py{None}, or an exception type. \hfill [6]
+\end{enumerate}
+
+Put deliberately failing calls and their observed errors in Markdown code
+blocks in the final notebook. You may investigate them in scratch cells first;
+you do not need to learn \py{try}/\py{except} to finish this task.
+
+\question{5. Supply evidence and a reproducible hand-in}{10}
+\begin{enumerate}[label=(\alph*)]
+\item Include at least \textbf{eight meaningful, passing assertions} covering
+ordinary saving, negative saving, zero income, the eligibility boundary,
+the transfer cap, no shortfall, all-undefined shares, and the counterfactual's
+preserved original input. Use \py{is None} for undefined results and
+\py{math.isclose} for floating-point comparisons. For four assertions, explain
+in one sentence which plausible mistake each would detect. \hfill [6]
+\item Restart the kernel and run all cells in order. The final notebook must
+run without manual intervention or unhandled exceptions, and reproduce all
+reported results. Keep the original first prediction from Question 1 in
+Markdown. \hfill [2]
+\item In \py{README.md}, give the Python version, instructions to open and run
+the notebook, and a brief AI-use record (or a no-AI statement). Submit the
+notebook and README through a pull request. \hfill [2]
+\end{enumerate}
+
+\end{document}
