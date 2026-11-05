@@ -1,6 +1,8 @@
 # Research Methods 2026
 
-## Assignment 1 is posted
+## News
+
+**5 November 2026 — Assignment 1 is posted.**
 
 The first coding assignment is now available: [Open Assignment 1 (PDF)](assignments/exercise-01/assignment-01.pdf).
 
