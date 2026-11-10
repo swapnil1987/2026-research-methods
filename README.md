@@ -2,6 +2,11 @@
 
 ## News
 
+**10 November 2026: the second teaching-day materials are ready.**
+Open the [data science and graphics slides](https://swapnil1987.github.io/2026-research-methods/day-02.html) and
+[download the pandas/plotnine notebook and data](https://swapnil1987.github.io/2026-research-methods/downloads/research-methods-day-2.zip).
+Add plotnine to your course environment before class using the instructions below.
+
 **5 November 2026 — Assignment 1 is posted.**
 
 The first coding assignment is now available: [Open Assignment 1 (PDF)](assignments/exercise-01/assignment-01.pdf).
@@ -35,6 +40,40 @@ Day 1 contains eight contact hours. Open each lecture directly in your browser.
 
 Lecture 3 covers regular functions after loops, followed by
 [inline functions (`lambda`)](https://swapnil1987.github.io/2026-research-methods/lecture-03.html#/inline-functions-with-lambda).
+
+## Second teaching day: data science and clear research results
+
+**Wednesday 11 November 2026.** Six teaching hours, excluding breaks and any
+individual test. This is the second full teaching day; the earlier Basic Python
+deck remains Day 1, Lecture 2.
+
+[Open the complete HTML slides](https://swapnil1987.github.io/2026-research-methods/day-02.html)
+
+| Block | Minutes | Topic |
+|---|---:|---|
+| 1 | 15 | Research question, observations, units, and the purpose of a figure |
+| 2 | 55 | A first pandas dataset, CSV loading, inspection, and selection |
+| 3 | 50 | Cleaning, missing values, duplicates, derived variables, and checks |
+| 4 | 45 | Grouped summaries, denominators, and validated joins |
+| 5 | 60 | Grammar of graphics with plotnine: mappings, layers, scales, and facets |
+| 6 | 45 | Figure redesign, labels, ordering, and presentation choices |
+| 7 | 30 | Clear tables, units, precision, and observation counts |
+| 8 | 60 | Exporting, reproducible workflows, and an independent classroom lab |
+| **Total** | **360** | |
+
+- [Classroom notebook, worked script, and synthetic data](codes/day-2/)
+- [Download Day 2 code and data](https://swapnil1987.github.io/2026-research-methods/downloads/research-methods-day-2.zip)
+
+For an existing course environment, run in a terminal before class:
+
+```bash
+conda install -n research-methods -c conda-forge "plotnine>=0.15,<0.16"
+conda activate research-methods
+python -c "import pandas, plotnine; print(pandas.__version__, plotnine.__version__)"
+```
+
+The notebook contains exercises and worked answers. CSV loading starts from first
+principles. Slide decks stay online; the download contains runtime files only.
 
 ## Grading at a glance
 

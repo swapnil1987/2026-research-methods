@@ -9,6 +9,7 @@ on:
       - "codes/**"
       - "scripts/check_setup.py"
       - "scripts/package-student-kit.py"
+      - "scripts/package-day-2.py"
       - "docs/student-setup.md"
       - "environment-student.yml"
       - ".github/workflows/pages.yml"
@@ -40,6 +41,9 @@ jobs:
 
       - name: Package classroom code and data
         run: python3 scripts/package-student-kit.py
+
+      - name: Package Day 2 classroom code and data
+        run: python3 scripts/package-day-2.py
 
       - name: Make the setup guide the site landing page
         run: cp slides/_site/student-setup.html slides/_site/index.html

@@ -11,4 +11,5 @@ dependencies:
   - pandas>=2,<4
   - numpy>=1.26,<3
   - matplotlib>=3.8,<4
+  - plotnine>=0.15,<0.16
   - quarto>=1.6,<2

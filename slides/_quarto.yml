@@ -9,6 +9,7 @@ project:
     - lecture-04.qmd
     - lecture-05.qmd
     - lecture-06.qmd
+    - day-02.qmd
   resources:
     - theme/fonts/latinmodern-math.otf
     - theme/fonts/GUST-FONT-LICENSE.txt

@@ -27,7 +27,7 @@ def main():
     )
 
     modules = {}
-    for name in ("jupyterlab", "ipykernel", "pandas", "numpy", "matplotlib"):
+    for name in ("jupyterlab", "ipykernel", "pandas", "numpy", "matplotlib", "plotnine"):
         try:
             modules[name] = importlib.import_module(name)
         except (ImportError, OSError) as error:

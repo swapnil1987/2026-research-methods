@@ -101,3 +101,17 @@ Python lessons have unexecuted notebooks and runnable scripts; the Git lesson
 uses a terminal/browser handout and a practice starter. Class code and data live
 under the matching `codes/lecture-N/` folders. They are separate from the graded
 Exercise 1 task sheet.
+
+## Second teaching day
+
+day-02.qmd follows the same course template and code stylesheet. Its eight
+blocks total 360 teaching minutes, including classroom exercises, excluding
+breaks and an individual test. The lesson starts CSV loading from first
+principles and uses pandas and plotnine with a deterministic synthetic fixture.
+Editable plotting code, the notebook, and input documentation live in
+codes/day-2/. The raw-data generator is scripts/generate-day-2-data.py.
+Image assets under slides/assets/day-02/ derive from that code.
+
+Package this lesson with python scripts/package-day-2.py. The Pages workflow
+renders day-02.html and publishes research-methods-day-2.zip alongside the
+existing Day 1 materials. The archive contains no slides or executed outputs.
