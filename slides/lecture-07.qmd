@@ -1,0 +1,545 @@
+---
+title: "Pandas basics"
+subtitle: "Research Methods 2026 · Day 2 · Lecture 7"
+author: "Swapnil Singh"
+date: "2026-11-11"
+date-format: "D MMMM YYYY"
+footer: "Research Methods 2026 · Pandas basics"
+css: theme/basic-python.css
+title-slide-attributes:
+  data-notes: |
+    Clock 00:00–01:00 (1 minute). Open codes/day-2/01_pandas.ipynb.
+    This is a 60-minute lecture with exercises. Use the research-methods
+    kernel and run cells in order. Breaks are additional.
+---
+
+## Six households in a DataFrame
+
+```{.python}
+import pandas as pd
+df = pd.DataFrame({
+    "id": ["A", "B", "C", "D", "E", "F"],
+    "income": [1000, 1500, 800, 2000, 1200, 0],
+    "consumption": [800, 1600, 700, 1400, 900, 200],
+    "size": [1, 2, 1, 4, 2, 1],
+    "region": ["N", "S", "N", "S", "N", "S"],
+})
+print(df.to_string(index=False))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+id  income  consumption  size region
+ A    1000          800     1      N
+ B    1500         1600     2      S
+ C     800          700     1      N
+ D    2000         1400     4      S
+ E    1200          900     2      N
+ F       0          200     1      S
+```
+:::
+
+::: {.notes}
+Clock 01:00–04:00 (3 minutes). Type the constructor, then point to one row and one column in the output. The six households are invented and money is EUR per month. The dictionary supplies column names and equal-length lists. Open 01_pandas.ipynb. Reference: https://pandas.pydata.org/docs/getting_started/intro_tutorials/01_table_oriented.html
+:::
+
+## Rows, columns and a preview
+
+```{.python}
+print("Shape:", df.shape)
+print("Columns:", df.columns.tolist())
+print(df.head(2).to_string(index=False))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+Shape: (6, 5)
+Columns: ['id', 'income', 'consumption', 'size', 'region']
+id  income  consumption  size region
+ A    1000          800     1      N
+ B    1500         1600     2      S
+```
+:::
+
+A DataFrame has a row index and named columns.
+
+::: {.notes}
+Clock 04:00–06:00 (2 minutes). shape gives rows then columns. head(2) displays the first two rows and does not change df. Ask which number would change after adding a household.
+:::
+
+## A column or a table
+
+```{.python}
+income = df["income"]
+one_column = df[["income"]]
+print(type(income).__name__, income.shape)
+print(type(one_column).__name__, one_column.shape)
+print(income.head(3).to_string())
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+Series (6,)
+DataFrame (6, 1)
+0    1000
+1    1500
+2     800
+```
+:::
+
+One column name gives a Series. A list of names keeps a DataFrame.
+
+::: {.notes}
+Clock 06:00–08:00 (2 minutes). The double brackets are two operations: the inner brackets make a Python list and the outer brackets select columns. Both objects retain the row index. Reference: https://pandas.pydata.org/docs/getting_started/intro_tutorials/03_subset_data.html
+:::
+
+## Selecting columns in a different order
+
+```{.python}
+money = df[["id", "consumption", "income"]]
+print(money.head(4).to_string(index=False))
+print("Original columns:", len(df.columns))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+id  consumption  income
+ A          800    1000
+ B         1600    1500
+ C          700     800
+ D         1400    2000
+Original columns: 5
+```
+:::
+
+The list controls which columns appear and their order.
+
+::: {.notes}
+Clock 08:00–10:00 (2 minutes). Change the order live and inspect df afterwards. Selecting money does not remove columns from df. No inplace operations are needed.
+:::
+
+## Arithmetic on whole columns
+
+```{.python}
+saving = df["income"] - df["consumption"]
+print(saving.to_string(index=False))
+print("Total saving:", saving.sum())
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+ 200
+-100
+ 100
+ 600
+ 300
+-200
+Total saving: 900
+```
+:::
+
+The subtraction matches entries by their row index.
+
+::: {.notes}
+Clock 10:00–13:00 (3 minutes). Calculate A and B by hand first. Explain that the same arithmetic applies to every row without a for loop. Point out negative saving for B and F. Reference: https://pandas.pydata.org/docs/getting_started/intro_tutorials/05_add_columns.html
+:::
+
+## Adding calculated columns
+
+```{.python}
+df["saving"] = df["income"] - df["consumption"]
+df["income_pp"] = df["income"] / df["size"]
+cols = ["id", "saving", "income_pp"]
+print(df[cols].to_string(index=False))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+id  saving  income_pp
+ A     200     1000.0
+ B    -100      750.0
+ C     100      800.0
+ D     600      500.0
+ E     300      600.0
+ F    -200        0.0
+```
+:::
+
+Income per person divides each household's income by its size.
+
+::: {.notes}
+Clock 13:00–15:00 (2 minutes). The household sizes are all positive. E has income per person of 600, while D has 500 despite larger total income. A new assignment adds a column or replaces one with the same name.
+:::
+
+## A comparison for every row
+
+```{.python}
+mask = df["saving"] < 0
+print(mask.to_string(index=False))
+print("Negative-saving households:", mask.sum())
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+False
+ True
+False
+False
+False
+ True
+Negative-saving households: 2
+```
+:::
+
+The result is a Boolean Series with the same row index.
+
+::: {.notes}
+Clock 15:00–17:00 (2 minutes). Ask students to predict which two entries will be True. Summing Boolean values counts the True entries. They already know True and False from Day 1.
+:::
+
+## Filtering rows and selecting columns
+
+```{.python}
+mask = df["saving"] < 0
+selected = df.loc[mask, ["id", "income", "saving"]]
+print(selected.to_string(index=False))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+id  income  saving
+ B    1500    -100
+ F       0    -200
+```
+:::
+
+Inside loc: the row condition comes first, then the column names.
+
+::: {.notes}
+Clock 17:00–20:00 (3 minutes). Read loc[rows, columns] aloud. The comma separates the two axes. Show that mask is a Series, not a single if condition. selected retains the original labels 1 and 5 even though we hide them when printing.
+:::
+
+## Selecting a list of categories
+
+```{.python}
+north = df["region"].isin(["N"])
+both = df["region"].isin(["N", "S"])
+print(df.loc[north, ["id", "region"]].to_string(index=False))
+print("N or S:", both.sum())
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+id region
+ A      N
+ C      N
+ E      N
+N or S: 6
+```
+:::
+
+isin tests membership for each row.
+
+::: {.notes}
+Clock 20:00–22:00 (2 minutes). Compare the first mask with df['region'] == 'N'. Extend the list to two region codes. Membership avoids writing the same equality repeatedly. Keep categories as strings.
+:::
+
+## Two conditions in one filter
+
+```{.python}
+mask = (df["income"] <= 1200) & (df["size"] >= 2)
+print(df.loc[mask, ["id", "income", "size"]].to_string(index=False))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+id  income  size
+ E    1200     2
+```
+:::
+
+Use & for both conditions, | for either. Put each comparison in parentheses.
+
+::: {.notes}
+Clock 22:00–25:00 (3 minutes). First identify households passing each condition separately. Their intersection contains E. Python and/or expect one truth value, whereas & and | combine elementwise Boolean Series.
+:::
+
+## Exercise 1 · Households in the north
+
+::: {.exercise}
+Write the filter yourself. Predict the household IDs before running it.
+:::
+
+```{.python}
+# Work with the six-row df.
+# 1. Select region N and income at least 1000.
+# 2. Keep id, income and size, in that order.
+# 3. Print the selected rows and their count.
+```
+
+::: {.notes}
+Clock 25:00–30:00 (5 minutes). Give four minutes to write and test a loc expression, then ask for the predicted IDs. A and E meet both conditions. Keep the answer on the next slide until students have attempted the selection.
+:::
+
+## Worked answer · North and income
+
+```{.python}
+mask = (df["region"] == "N") & (df["income"] >= 1000)
+selected = df.loc[mask, ["id", "income", "size"]]
+print(selected.to_string(index=False))
+print("Selected:", len(selected))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+id  income  size
+ A    1000     1
+ E    1200     2
+Selected: 2
+```
+:::
+
+Changing >= to > would remove a household exactly on the boundary.
+
+::: {.notes}
+Clock 30:00–32:00 (2 minutes). Ask which household disappears when the threshold becomes greater than 1000: A. E remains. This checks both the comparison and the count.
+:::
+
+## Largest values first
+
+```{.python}
+ranked = df.sort_values("saving", ascending=False)
+print(ranked[["id", "saving"]].head(3).to_string(index=False))
+print("First ID in df:", df.iloc[0]["id"])
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+id  saving
+ D     600
+ E     300
+ A     200
+First ID in df: A
+```
+:::
+
+sort_values returns a sorted table. df keeps its original order.
+
+::: {.notes}
+Clock 32:00–34:00 (2 minutes). Predict D, E, A. Show ascending=True as a variation. We assign the result to ranked rather than rely on hidden mutation.
+:::
+
+## Rows by position with iloc
+
+```{.python}
+first_two = ranked.iloc[:2]
+print(first_two[["id", "saving"]].to_string())
+print("One value:", ranked.iloc[0]["saving"])
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+  id  saving
+3  D     600
+4  E     300
+One value: 600
+```
+:::
+
+iloc[:2] selects positions 0 and 1. The slice excludes position 2.
+
+::: {.notes}
+Clock 34:00–36:00 (2 minutes). ranked retains original row labels: the first two rows are labelled 3 and 4. Position and label now differ, making the distinction visible.
+:::
+
+## Row labels survive filtering
+
+```{.python}
+north = df.loc[df["region"] == "N", ["id", "income"]]
+print(north.to_string())
+print("Label 4:", north.loc[4, "income"])
+print("Position 1:", north.iloc[1]["income"])
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+  id  income
+0  A    1000
+2  C     800
+4  E    1200
+Label 4: 1200
+Position 1: 800
+```
+:::
+
+loc uses labels. iloc uses positions.
+
+::: {.notes}
+Clock 36:00–38:00 (2 minutes). The north subset has labels 0, 2, 4. Label 4 identifies E; position 1 identifies C. Ask students to explain 1200 versus 800 without changing the order.
+:::
+
+## Counting households by category
+
+```{.python}
+print(df["region"].value_counts().to_string())
+print("All households:", len(df))
+print("Sizes:", df["size"].value_counts().sort_index().to_dict())
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+region
+N    3
+S    3
+All households: 6
+Sizes: {1: 3, 2: 2, 4: 1}
+```
+:::
+
+value_counts counts observations in each category.
+
+::: {.notes}
+Clock 38:00–40:00 (2 minutes). Check that the regional counts add to six. The size dictionary is ordered by the size label after sort_index, not by frequency. This is preparation for grouped summaries later.
+:::
+
+## Quick numerical summaries
+
+```{.python}
+print("Mean income:", df["income"].mean())
+print("Median income:", df["income"].median())
+print("Saving range:", df["saving"].min(), df["saving"].max())
+print("Total saving:", df["saving"].sum())
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+Mean income: 1083.3333333333333
+Median income: 1100.0
+Saving range: -200 600
+Total saving: 900
+```
+:::
+
+A method call such as mean() reduces the column to one result.
+
+::: {.notes}
+Clock 40:00–42:00 (2 minutes). The zero-income household remains in the mean. Use (1000+1500+800+2000+1200+0)/6 as a hand check. The median averages 1000 and 1200.
+:::
+
+## Exercise 2 · Income and household size
+
+::: {.exercise}
+Build a filter, then sort its result. Check each selected row by hand.
+:::
+
+```{.python}
+# Use df, including the columns already calculated.
+# Keep households with income_pp >= 600 and saving > 0.
+# Sort the selected households by income_pp, largest first.
+# Print id, income_pp and saving. Then print total saving.
+```
+
+::: {.notes}
+Clock 42:00–48:00 (6 minutes). Allow five minutes for independent work and one to compare results. A, C, E qualify, in that order after sorting income per person. The total saving is 600. Require students to calculate saving for the subset, rather than accidentally summing df.
+:::
+
+## Worked answer · A filter followed by a sort
+
+```{.python}
+mask = (df["income_pp"] >= 600) & (df["saving"] > 0)
+selected = df.loc[mask, ["id", "income_pp", "saving"]]
+selected = selected.sort_values("income_pp", ascending=False)
+print(selected.to_string(index=False))
+print("Selected saving:", selected["saving"].sum())
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+id  income_pp  saving
+ A     1000.0     200
+ C      800.0     100
+ E      600.0     300
+Selected saving: 600
+```
+:::
+
+The final sum uses selected, so it describes the displayed households.
+
+::: {.notes}
+Clock 48:00–51:00 (3 minutes). Compare total saving of the selected households with the total for all six. Discuss why the filter excludes D even though it has the highest total saving.
+:::
+
+## Reading the classroom CSV
+
+```{.python}
+raw = pd.read_csv("data/raw/households.csv")
+print("Shape:", raw.shape)
+print(raw.head(3).to_string(index=False))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+Shape: (201, 5)
+household_id income  consumption  size region_code
+        H001   1510       1610.0     1           N
+        H002   1996       1620.0     2           S
+        H003   4014       3200.0     3           E
+```
+:::
+
+Run the notebook from codes/day-2/. The data folder sits beside it.
+
+::: {.notes}
+Clock 51:00–54:00 (3 minutes). The input contains invented households and amounts in EUR per month. read_csv returns a DataFrame just like the one constructed earlier. There are 201 source rows; inspecting the input comes before calculation. Reference: https://pandas.pydata.org/docs/getting_started/intro_tutorials/02_read_write.html
+:::
+
+## A numeric-looking column can contain text
+
+```{.python}
+print(raw[["income", "consumption", "size"]].dtypes.to_string())
+print(raw["income"].head(3).tolist())
+print(raw.loc[raw["income"] == "missing", ["household_id", "income"]]
+      .to_string(index=False))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+income             str
+consumption    float64
+size             int64
+['1510', '1996', '4014']
+household_id  income
+        H008 missing
+```
+:::
+
+The quoted income values and the word missing need preparation.
+
+::: {.notes}
+Clock 54:00–57:00 (3 minutes). Do not subtract consumption from this income column yet. pandas 2 may show object and pandas 3 may show str; both indicate textual data in this fixture. The following lecture converts and checks the input.
+:::
+
+## A selection from the larger file
+
+```{.python}
+mask = (raw["region_code"] == "N") & (raw["size"] == 2)
+selected = raw.loc[mask, ["household_id", "size", "region_code"]]
+print(selected.head(3).to_string(index=False))
+print("Selected rows:", len(selected))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+household_id  size region_code
+        H017     2           N
+        H037     2           N
+        H057     2           N
+Selected rows: 10
+```
+:::
+
+The same selection syntax works with six rows or 201 rows.
+
+::: {.notes}
+Clock 57:00–60:00 (3 minutes). Ask students to replace region N with E and compare the count. The household_id is a string identifier, not an amount to average. Keep raw unchanged for the cleaning lecture.
+:::

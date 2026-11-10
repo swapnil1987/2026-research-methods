@@ -1,0 +1,575 @@
+---
+title: "Preparing data"
+subtitle: "Research Methods 2026 · Day 2 · Lecture 8"
+author: "Swapnil Singh"
+date: "2026-11-11"
+date-format: "D MMMM YYYY"
+footer: "Research Methods 2026 · Preparing data"
+css: theme/basic-python.css
+title-slide-attributes:
+  data-notes: |
+    Clock 00:00–01:00 (1 minute). Open codes/day-2/02_preparing.ipynb.
+    This is a 60-minute lecture with exercises. Use the research-methods
+    kernel and run cells in order. Breaks are additional.
+---
+
+## The input before any changes
+
+```{.python}
+import pandas as pd
+raw = pd.read_csv("data/raw/households.csv")
+clean = raw.copy()
+print("Source rows:", len(raw))
+print(clean.head(3).to_string(index=False))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+Source rows: 201
+household_id income  consumption  size region_code
+        H001   1510       1610.0     1           N
+        H002   1996       1620.0     2           S
+        H003   4014       3200.0     3           E
+```
+:::
+
+Income and consumption are EUR per month. Each ID identifies a synthetic household.
+
+::: {.notes}
+Clock 01:00–04:00 (3 minutes). Open 02_preparing.ipynb from codes/day-2/. This lecture starts independently of the preceding notebook. raw remains our original in-memory copy. The disk CSV is an input, not an export destination.
+:::
+
+## An exact duplicate
+
+```{.python}
+tiny = pd.DataFrame({
+    "id": ["A", "A", "B"],
+    "income": [1000, 1000, 1500],
+})
+print("Duplicate rows:", tiny.duplicated().tolist())
+print(tiny.drop_duplicates().to_string(index=False))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+Duplicate rows: [False, True, False]
+id  income
+ A    1000
+ B    1500
+```
+:::
+
+duplicated marks repeated rows after their first occurrence.
+
+::: {.notes}
+Clock 04:00–06:00 (2 minutes). Both columns match for the two A rows. drop_duplicates returns the retained rows. Ask why the first A is not marked True. Reference: https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.drop_duplicates.html
+:::
+
+## The same ID can hide conflicting values
+
+```{.python}
+conflict = pd.DataFrame({
+    "id": ["A", "A", "B"],
+    "income": [1000, 1200, 1500],
+})
+print("Exact duplicates:", conflict.duplicated().sum())
+print(conflict.loc[conflict["id"].duplicated(keep=False)]
+      .to_string(index=False))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+Exact duplicates: 0
+id  income
+ A    1000
+ A    1200
+```
+:::
+
+These A rows disagree. Removing one requires information beyond the ID.
+
+::: {.notes}
+Clock 06:00–08:00 (2 minutes). The exact-duplicate count is zero. duplicated(keep=False) on the ID selects both conflicting records. Do not teach students to keep an arbitrary first record for a conflicting identifier.
+:::
+
+## Removing the repeated classroom record
+
+```{.python}
+print("Exact duplicates:", clean.duplicated().sum())
+clean = clean.drop_duplicates().copy()
+print("Rows after deduplication:", len(clean))
+print("Unique IDs:", clean["household_id"].is_unique)
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+Exact duplicates: 1
+Rows after deduplication: 200
+Unique IDs: True
+```
+:::
+
+The fixture has one repeated row and 200 distinct household records.
+
+::: {.notes}
+Clock 08:00–10:00 (2 minutes). All column values agree in the repeated row. Verify the unique-ID check after removing it. A false uniqueness check would need investigation rather than another automatic deletion.
+:::
+
+## Converting text to numbers
+
+```{.python}
+text_income = pd.Series(["1000", "missing", "", None])
+numeric = pd.to_numeric(text_income, errors="coerce")
+print(pd.DataFrame({
+    "input": text_income, "numeric": numeric,
+}).to_string(index=False))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+  input  numeric
+   1000   1000.0
+missing      NaN
+             NaN
+    NaN      NaN
+```
+:::
+
+errors="coerce" converts unusable text to a missing numerical value.
+
+::: {.notes}
+Clock 10:00–13:00 (3 minutes). Work through each of the four cases. The conversion does not interpret the word missing as zero. pandas may display NaN or a missing sentinel depending on dtype. Reference: https://pandas.pydata.org/docs/reference/api/pandas.to_numeric.html
+:::
+
+## Converting the income column
+
+```{.python}
+print("Before:", clean["income"].dtype)
+clean["income"] = pd.to_numeric(clean["income"], errors="coerce")
+print("After:", clean["income"].dtype)
+print(clean[["income", "consumption"]].isna().sum().to_string())
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+Before: str
+After: float64
+income         2
+consumption    3
+```
+:::
+
+Two incomes and three consumption amounts need attention.
+
+::: {.notes}
+Clock 13:00–15:00 (2 minutes). The empty income entry was already missing after read_csv, and the text token becomes missing now. Missing consumption was numeric on input. Counts here are after deduplication.
+:::
+
+## Zero income is an observed value
+
+```{.python}
+income = pd.Series([1000.0, 0.0, None])
+print("Income:", income.tolist())
+print("Missing:", income.isna().tolist())
+print("Zero:", income.eq(0).tolist())
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+Income: [1000.0, 0.0, nan]
+Missing: [False, False, True]
+Zero: [False, True, False]
+```
+:::
+
+A missing value and a measured zero answer different questions.
+
+::: {.notes}
+Clock 15:00–17:00 (2 minutes). There are three mutually exclusive states in the displayed Series: positive, zero, missing. isna handles the missing-value check; testing equality to NaN would not identify it reliably.
+:::
+
+## Finding the incomplete records
+
+```{.python}
+required = ["income", "consumption"]
+incomplete = clean[required].isna().any(axis=1)
+cols = ["household_id", "income", "consumption"]
+print(clean.loc[incomplete, cols].to_string(index=False))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+household_id  income  consumption
+        H008     NaN       3860.0
+        H023     NaN       1910.0
+        H032  2068.0          NaN
+        H068  4266.0          NaN
+        H102  1738.0          NaN
+```
+:::
+
+any(axis=1) asks whether either required amount is missing within each row.
+
+::: {.notes}
+Clock 17:00–20:00 (3 minutes). Read isna as the first step: it makes a two-column Boolean table. any(axis=1) reduces that table across columns, producing one Boolean for each household. Retain this list for discussing the sample.
+:::
+
+## Exercise 1 · A complete-record sample
+
+::: {.exercise}
+Keep observed zero incomes. Use dropna(subset=...) to express the sample rule.
+:::
+
+```{.python}
+# Start with clean after deduplication and numeric conversion.
+# Keep rows with BOTH income and consumption observed.
+# Print counts before and after, and the zero-income count.
+# Verify that raw still contains 201 rows.
+```
+
+::: {.notes}
+Clock 20:00–26:00 (6 minutes). Allow five minutes to write the selection and checks, then discuss. The before/after counts should be 200 and 195; two zero incomes remain. This is a declared classroom rule, not a universal recommendation for missing research data.
+:::
+
+## Worked answer · Five exclusions, two zeros retained
+
+```{.python}
+before = len(clean)
+clean = clean.dropna(subset=required).copy()
+print("Before:", before, "After:", len(clean))
+print("Zero incomes:", clean["income"].eq(0).sum())
+print("Original rows:", len(raw))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+Before: 200 After: 195
+Zero incomes: 2
+Original rows: 201
+```
+:::
+
+This lesson uses the 195 complete monetary records for all later comparisons.
+
+::: {.notes}
+Clock 26:00–28:00 (2 minutes). Compare the five-row incomplete-record list with the fall from 200 to 195. Missing input exclusion can affect representativeness in real work. Keep that discussion brief and tied to the visible rows.
+:::
+
+## Saving for every retained household
+
+```{.python}
+clean["saving"] = clean["income"] - clean["consumption"]
+cols = ["household_id", "income", "consumption", "saving"]
+print(clean[cols].head(4).to_string(index=False))
+print("Negative saving:", clean["saving"].lt(0).sum())
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+household_id  income  consumption  saving
+        H001  1510.0       1610.0  -100.0
+        H002  1996.0       1620.0   376.0
+        H003  4014.0       3200.0   814.0
+        H004  6272.0       4400.0  1872.0
+Negative saving: 57
+```
+:::
+
+Negative saving records consumption above current income.
+
+::: {.notes}
+Clock 28:00–30:00 (2 minutes). Calculate the first row by hand: 1510 minus 1610 is -100. Negative saving is an economically meaningful result, even though negative income inputs would violate this fixture's definition.
+:::
+
+## Income per person
+
+```{.python}
+clean["income_per_person"] = clean["income"] / clean["size"]
+cols = ["household_id", "income", "size", "income_per_person"]
+print(clean[cols].head(3).round(2).to_string(index=False))
+print("Nonpositive sizes:", clean["size"].le(0).sum())
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+household_id  income  size  income_per_person
+        H001  1510.0     1             1510.0
+        H002  1996.0     2              998.0
+        H003  4014.0     3             1338.0
+Nonpositive sizes: 0
+```
+:::
+
+Check the denominator: household size must be positive.
+
+::: {.notes}
+Clock 30:00–32:00 (2 minutes). The rounded display is for reading. The stored income_per_person keeps full numerical precision. H003 is 4014 divided by 3, or 1338. Household size is persons, so the new unit is EUR per person per month.
+:::
+
+## Division by zero in a column
+
+```{.python}
+example = pd.DataFrame({
+    "income": [1000.0, 0.0],
+    "consumption": [800.0, 200.0],
+})
+example["saving"] = example["income"] - example["consumption"]
+example["share"] = example["saving"] / example["income"]
+print(example.to_string(index=False))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+ income  consumption  saving  share
+ 1000.0        800.0   200.0    0.2
+    0.0        200.0  -200.0   -inf
+```
+:::
+
+The second share is infinite. It has no useful saving-rate interpretation.
+
+::: {.notes}
+Clock 32:00–34:00 (2 minutes). Contrast vectorized numerical division with the ZeroDivisionError seen with built-in Python numbers on Day 1. Do not replace this result with zero: a household consuming 200 with zero income has a negative saving amount, and an undefined ratio.
+:::
+
+## A denominator only where income is positive
+
+```{.python}
+income = pd.Series([1000.0, 0.0, 800.0])
+denominator = income.where(income > 0)
+print(pd.DataFrame({
+    "income": income, "denominator": denominator,
+}).to_string(index=False))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+ income  denominator
+ 1000.0       1000.0
+    0.0          NaN
+  800.0        800.0
+```
+:::
+
+where keeps values satisfying the condition and marks the others missing.
+
+::: {.notes}
+Clock 34:00–36:00 (2 minutes). This changes the denominator used in a ratio, while preserving the original income Series. Explain the argument as a Boolean mask, using the comparison lesson from the previous deck. Reference: https://pandas.pydata.org/docs/reference/api/pandas.Series.where.html
+:::
+
+## Amounts remain defined when shares are missing
+
+```{.python}
+denominator = clean["income"].where(clean["income"] > 0)
+clean["saving_share"] = clean["saving"] / denominator
+cols = ["household_id", "income", "saving", "saving_share"]
+print(clean.loc[clean["income"].eq(0), cols].to_string(index=False))
+print("Defined shares:", clean["saving_share"].count())
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+household_id  income  saving  saving_share
+        H013     0.0 -2080.0           NaN
+        H043     0.0 -1570.0           NaN
+Defined shares: 193
+```
+:::
+
+All 195 households have saving amounts. 193 have defined saving shares.
+
+::: {.notes}
+Clock 36:00–39:00 (3 minutes). The zero-income households save -2080 and -1570 EUR per month. They remain available for amount totals. The defined-share count excludes these two ratios. Later group summaries must state which count they use.
+:::
+
+## Exercise 2 · Larger households with low income
+
+::: {.exercise}
+Use the cleaned sample. Put each condition in parentheses before combining them.
+:::
+
+```{.python}
+# Add negative_saving = saving < 0.
+# Select size >= 3, income_per_person < 750,
+# and negative_saving == True.
+# Print household_id, size, income_per_person and saving.
+# Show three rows, then the total number selected.
+```
+
+::: {.notes}
+Clock 39:00–45:00 (6 minutes). Give five minutes to compute, filter and inspect, then one minute to compare counts. This combines three conditions with a calculated column. Students should keep unrounded income per person in the filter.
+:::
+
+## Worked answer · Three conditions
+
+```{.python}
+clean["negative_saving"] = clean["saving"] < 0
+mask = (
+    (clean["size"] >= 3) & (clean["income_per_person"] < 750)
+    & clean["negative_saving"]
+)
+cols = ["household_id", "size", "income_per_person", "saving"]
+selected = clean.loc[mask, cols]
+print(selected.head(3).round(2).to_string(index=False))
+print("Selected:", len(selected))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+household_id  size  income_per_person  saving
+        H013     3                0.0 -2080.0
+        H033     3              433.0   -51.0
+        H043     3                0.0 -1570.0
+Selected: 10
+```
+:::
+
+::: {.notes}
+Clock 45:00–47:00 (2 minutes). Ask students to verify one displayed record using income and household size. Printing only three rows is a preview, not a sample reduction: len(selected) counts all matching records.
+:::
+
+## Checks that match the data definitions
+
+```{.python}
+assert clean["household_id"].is_unique
+assert clean["size"].gt(0).all()
+assert clean[["income", "consumption"]].ge(0).all().all()
+assert clean[required].notna().all().all()
+print("Passed: IDs, sizes, money inputs and required values")
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+Passed: IDs, sizes, money inputs and required values
+```
+:::
+
+Assertions stop the run when an assumed property fails.
+
+::: {.notes}
+Clock 47:00–49:00 (2 minutes). All monetary inputs are nonnegative under this dataset's definitions. A failure should trigger inspection of affected rows, rather than automatic deletion. The two all calls reduce a two-dimensional Boolean table to one truth value.
+:::
+
+## Selecting suspicious rows for inspection
+
+```{.python}
+check = pd.DataFrame({
+    "id": ["A", "B", "C"], "income": [1000, -100, 800],
+    "size": [2, 1, 0],
+})
+bad = (check["income"] < 0) | (check["size"] <= 0)
+print(check.loc[bad].to_string(index=False))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+id  income  size
+ B    -100     1
+ C     800     0
+```
+:::
+
+The mask identifies B and C for investigation.
+
+::: {.notes}
+Clock 49:00–51:00 (2 minutes). The range rule follows this small example's input definitions. In other research settings a negative income field can have a legitimate meaning, so the rule belongs in the data documentation. No real CSV rows are altered here.
+:::
+
+## Rounding a display keeps the underlying values
+
+```{.python}
+values = pd.Series([1000 / 3, 800 / 3])
+print("Display:", values.round(1).tolist())
+print("Stored:", values.tolist())
+print("Mean from stored values:", values.mean())
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+Display: [333.3, 266.7]
+Stored: [333.3333333333333, 266.6666666666667]
+Mean from stored values: 300.0
+```
+:::
+
+Round the table for readers after making calculations with the stored values.
+
+::: {.notes}
+Clock 51:00–53:00 (2 minutes). Do not assign values.round(1) back to the analysis Series. This establishes the precision distinction needed for later tables and figure labels. It is visible numerical behaviour rather than a generic presentation rule.
+:::
+
+## A preparation function
+
+```{.python}
+def prepare_households(source):
+    out = source.drop_duplicates().copy()
+    out["income"] = pd.to_numeric(out["income"], errors="coerce")
+    out = out.dropna(subset=["income", "consumption"]).copy()
+    out["saving"] = out["income"] - out["consumption"]
+    out["income_per_person"] = out["income"] / out["size"]
+    denominator = out["income"].where(out["income"] > 0)
+    out["saving_share"] = out["saving"] / denominator
+    return out
+
+prepared = prepare_households(raw)
+print("Prepared households:", len(prepared))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+Prepared households: 195
+```
+:::
+
+::: {.notes}
+Clock 53:00–56:00 (3 minutes). The function combines operations already taught, using local out rather than changing source. Validation remains necessary; keep the explicit assertions from the earlier slide. The later lessons use the supplied lesson_data.py helper so each notebook can start fresh.
+:::
+
+## Checking a fresh preparation run
+
+```{.python}
+fresh = prepare_households(pd.read_csv("data/raw/households.csv"))
+assert len(fresh) == 195
+assert fresh["household_id"].is_unique
+assert fresh["saving_share"].count() == 193
+print(fresh[["saving", "income_per_person"]].head(3).to_string(index=False))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+ saving  income_per_person
+ -100.0             1510.0
+  376.0              998.0
+  814.0             1338.0
+```
+:::
+
+Reloading the original input prevents dependence on an earlier notebook state.
+
+::: {.notes}
+Clock 56:00–58:00 (2 minutes). The exact counts are known fixture checks. In a changing research dataset the expected counts would need to be documented with the input vintage. Restart-and-run execution is checked for the companion notebook.
+:::
+
+## Exporting the prepared table
+
+```{.python}
+from pathlib import Path
+Path("outputs").mkdir(exist_ok=True)
+fresh.to_csv("outputs/prepared_households.csv", index=False)
+check = pd.read_csv("outputs/prepared_households.csv")
+print("Exported rows:", len(check))
+print("Undefined shares:", check["saving_share"].isna().sum())
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+Exported rows: 195
+Undefined shares: 2
+```
+:::
+
+The export goes to outputs/. The original CSV stays in data/raw/.
+
+::: {.notes}
+Clock 58:00–60:00 (2 minutes). index=False avoids exporting the temporary pandas row index as another data column. The final file has 195 rows and two missing saving shares. Later lectures can always reconstruct it from the original raw files.
+:::

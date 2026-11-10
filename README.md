@@ -2,10 +2,10 @@
 
 ## News
 
-**10 November 2026: the second teaching-day materials are ready.**
-Open the [data science and graphics slides](https://swapnil1987.github.io/2026-research-methods/day-02.html) and
-[download the pandas/plotnine notebook and data](https://swapnil1987.github.io/2026-research-methods/downloads/research-methods-day-2.zip).
-Add plotnine to your course environment before class using the instructions below.
+**10 November 2026: Day 2 lectures are available.**
+Six separate lectures cover pandas, plotnine, and presenting research results.
+[Open the Day 2 lecture list](https://swapnil1987.github.io/2026-research-methods/day-02.html)
+or use the individual links below.
 
 **5 November 2026 — Assignment 1 is posted.**
 
@@ -41,39 +41,33 @@ Day 1 contains eight contact hours. Open each lecture directly in your browser.
 Lecture 3 covers regular functions after loops, followed by
 [inline functions (`lambda`)](https://swapnil1987.github.io/2026-research-methods/lecture-03.html#/inline-functions-with-lambda).
 
-## Second teaching day: data science and clear research results
+## Day 2: data science and presenting results
 
-**Wednesday 11 November 2026.** Six teaching hours, excluding breaks and any
-individual test. This is the second full teaching day; the earlier Basic Python
-deck remains Day 1, Lecture 2.
+**Wednesday 11 November 2026.** Six teaching hours, with classroom exercises.
+Breaks and any individual test are additional.
 
-[Open the complete HTML slides](https://swapnil1987.github.io/2026-research-methods/day-02.html)
+| Lecture | Time | Slides | Notebook |
+|---|---|---|---|
+| Day 2, Lecture 7 | 1 hour | [Pandas basics](https://swapnil1987.github.io/2026-research-methods/lecture-07.html) | [01_pandas.ipynb](codes/day-2/01_pandas.ipynb) |
+| Day 2, Lecture 8 | 1 hour | [Preparing data](https://swapnil1987.github.io/2026-research-methods/lecture-08.html) | [02_preparing.ipynb](codes/day-2/02_preparing.ipynb) |
+| Day 2, Lecture 9 | 1 hour | [Grouped summaries and joins](https://swapnil1987.github.io/2026-research-methods/lecture-09.html) | [03_summaries.ipynb](codes/day-2/03_summaries.ipynb) |
+| Day 2, Lecture 10 | 75 minutes | [Grammar of graphics with plotnine](https://swapnil1987.github.io/2026-research-methods/lecture-10.html) | [04_grammar.ipynb](codes/day-2/04_grammar.ipynb) |
+| Day 2, Lecture 11 | 1 hour | [Figure design](https://swapnil1987.github.io/2026-research-methods/lecture-11.html) | [05_design.ipynb](codes/day-2/05_design.ipynb) |
+| Day 2, Lecture 12 | 45 minutes | [Tables and a research report](https://swapnil1987.github.io/2026-research-methods/lecture-12.html) | [06_tables.ipynb](codes/day-2/06_tables.ipynb) |
 
-| Block | Minutes | Topic |
-|---|---:|---|
-| 1 | 15 | Research question, observations, units, and the purpose of a figure |
-| 2 | 55 | A first pandas dataset, CSV loading, inspection, and selection |
-| 3 | 50 | Cleaning, missing values, duplicates, derived variables, and checks |
-| 4 | 45 | Grouped summaries, denominators, and validated joins |
-| 5 | 60 | Grammar of graphics with plotnine: mappings, layers, scales, and facets |
-| 6 | 45 | Figure redesign, labels, ordering, and presentation choices |
-| 7 | 30 | Clear tables, units, precision, and observation counts |
-| 8 | 60 | Exporting, reproducible workflows, and an independent classroom lab |
-| **Total** | **360** | |
+Each lecture has its own notebook and worked Python script. Begin with Lecture 7.
+The examples start with small tables, then use the supplied synthetic household CSV.
 
-- [Classroom notebook, worked script, and synthetic data](codes/day-2/)
+- [Browse all Day 2 notebooks, scripts, and data](codes/day-2/)
 - [Download Day 2 code and data](https://swapnil1987.github.io/2026-research-methods/downloads/research-methods-day-2.zip)
 
-For an existing course environment, run in a terminal before class:
+Add plotnine to an existing course environment before class:
 
 ```bash
 conda install -n research-methods -c conda-forge "plotnine>=0.15,<0.16"
 conda activate research-methods
 python -c "import pandas, plotnine; print(pandas.__version__, plotnine.__version__)"
 ```
-
-The notebook contains exercises and worked answers. CSV loading starts from first
-principles. Slide decks stay online; the download contains runtime files only.
 
 ## Grading at a glance
 

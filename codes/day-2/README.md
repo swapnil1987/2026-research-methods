@@ -1,60 +1,47 @@
-# Day 2: data science and clear research results
+# Day 2: data science and presenting results
 
-Six teaching hours on 11 November 2026, excluding breaks and an individual test.
-No prior pandas or plotting knowledge is assumed.
+Open the notebook for the current lecture in JupyterLab. Run from this folder,
+with data/ beside the notebooks.
 
-## Setup
+| Lecture | Notebook | Worked script |
+|---|---|---|
+| 7. Pandas basics | [01_pandas.ipynb](01_pandas.ipynb) | [01_pandas.py](01_pandas.py) |
+| 8. Preparing data | [02_preparing.ipynb](02_preparing.ipynb) | [02_preparing.py](02_preparing.py) |
+| 9. Grouped summaries and joins | [03_summaries.ipynb](03_summaries.ipynb) | [03_summaries.py](03_summaries.py) |
+| 10. Grammar of graphics with plotnine | [04_grammar.ipynb](04_grammar.ipynb) | [04_grammar.py](04_grammar.py) |
+| 11. Figure design | [05_design.ipynb](05_design.ipynb) | [05_design.py](05_design.py) |
+| 12. Tables and a research report | [06_tables.ipynb](06_tables.ipynb) | [06_tables.py](06_tables.py) |
 
-Use Python 3.12 and the research-methods environment. New users create the updated
-environment-student.yml. Existing users run these commands in a terminal:
+The notebooks contain classroom exercises followed by worked answers.
+Try each exercise before opening its worked answer.
+
+## Start
+
+Create the environment from environment-student.yml, or add plotnine to your
+existing course environment:
 
     conda install -n research-methods -c conda-forge "plotnine>=0.15,<0.16"
     conda activate research-methods
-    python -c "import pandas, plotnine; print(pandas.__version__, plotnine.__version__)"
 
-From the repository root, change to codes/day-2/ and start jupyter lab.
-Open data_science.ipynb and select the research-methods kernel. A separately
-downloaded folder works if the notebook, script, and data/ folder stay together.
-No Git commands are needed. Run python worked_analysis.py from this folder
-for the worked script. Outputs go under outputs/. The distributed notebook has
-no saved outputs; restart and run all cells to reproduce the lesson.
+From this folder, run:
 
-## Sequence and exercises
+    jupyter lab
 
-Research question 15 minutes; first pandas dataset 55; preparation and checks 50;
-summaries and joins 45; grammar of graphics 60; figure design 45; tables 30;
-reproducible workflow and classroom lab 60. Total: 360 minutes.
-Seven numbered exercises have worked answers. Attempt each before reading its
-answer. An additional coding-agent discussion asks for a bounded styling change.
-These are classroom materials, separate from graded assignments and test keys.
+Choose the research-methods kernel. For a worked script, run for example:
 
-## Data and analytical choices
+    python 04_grammar.py
 
-See data/README.md. All households and regions are synthetic and unweighted.
-The 201 raw rows contain one exact duplicate and five incomplete monetary
-records. The declared cleaning policy retains 195 households. Two have zero
-income, leaving 193 defined saving shares. The checked region join preserves
-195 rows and matches every code. Do not replace undefined shares with zero.
-The complete-record policy is a classroom example, not a universal prescription.
+Figures, tables, and other generated files go in outputs/.
 
-The mean household share and pooled share answer different questions. Here the
-pooled totals also include consumption of zero-income households. These
-descriptive synthetic comparisons do not establish causation or represent
-real regional populations.
+## Data
 
-## Outputs
+All households are invented. Income, consumption, and saving are EUR per month.
+See [the input description](data/README.md). Lecture 7 starts with a small
+hand-checkable table. Lecture 8 prepares the CSV sample. Later lectures reuse
+those preparation steps through [lesson_data.py](lesson_data.py).
 
-Figures show distributions, relationships, regional means, and fixed-scale
-facets. The script writes PNGs, a PDF, an HTML display table, and unrounded CSV summaries. Plot code
-remains editable. Slide images reproduce that code. Preserve original money
-units and distinguish fractional shares from percentage displays.
-For reproducing slide PNG assets, use each named plot's save method with
-width=9, height=4.6, dpi=150; save a vector PDF or SVG for print.
+## References
 
-## Primary references
-
-- https://pandas.pydata.org/docs/getting_started/intro_tutorials/
-- https://pandas.pydata.org/docs/user_guide/merging.html
-- https://plotnine.org/guide/aesthetic-mappings.html
-- https://plotnine.org/reference/geom_col.html
-- https://plotnine.org/reference/ggplot.html
+- [pandas introductory tutorials](https://pandas.pydata.org/docs/getting_started/intro_tutorials/)
+- [plotnine aesthetic mappings](https://plotnine.org/guide/aesthetic-mappings.html)
+- [plotnine reference](https://plotnine.org/reference/)

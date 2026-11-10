@@ -1,0 +1,25 @@
+body {color:#242424; font-family:"Segoe UI",Arial,sans-serif;}
+main {max-width:1120px; margin:auto;}
+h1 {font-family:Georgia,serif; border-bottom:4px solid #e85d4a; padding-bottom:.3em;}
+a {color:#b83d2f;}
+table {font-size:1rem;}
+td,th {padding:.7em !important;}
+
+@media (max-width:600px) {
+  main table, main tbody, main tbody tr, main tbody td {
+    display:block;
+    width:100% !important;
+  }
+  main table colgroup, main table thead {display:none;}
+  main tbody tr {padding:.7rem 0; border-bottom:1px solid #dedbd6;}
+  main tbody td {
+    padding:.12rem 0 !important;
+    border:0 !important;
+    overflow-wrap:normal;
+    word-break:normal;
+  }
+  main tbody td:first-child {font-weight:650;}
+  main tbody td:first-child::before {content:"Lecture ";}
+  main tbody td:nth-child(2) {font-size:1.12rem;}
+  main tbody td:nth-child(4)::before {content:"Notebook: ";}
+}

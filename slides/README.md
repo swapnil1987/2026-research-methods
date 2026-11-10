@@ -104,14 +104,18 @@ Exercise 1 task sheet.
 
 ## Second teaching day
 
-day-02.qmd follows the same course template and code stylesheet. Its eight
-blocks total 360 teaching minutes, including classroom exercises, excluding
-breaks and an individual test. The lesson starts CSV loading from first
-principles and uses pandas and plotnine with a deterministic synthetic fixture.
-Editable plotting code, the notebook, and input documentation live in
-codes/day-2/. The raw-data generator is scripts/generate-day-2-data.py.
-Image assets under slides/assets/day-02/ derive from that code.
+Day 2 follows Day 1's separate lecture structure. lecture-07.qmd through
+lecture-12.qmd cover pandas, preparing data, summaries and joins, plotnine,
+figure design, and tables/reporting. Each deck has its own notebook and script
+under codes/day-2/. These six lectures total 360 teaching minutes including
+practice. The common course template and 30px code style are unchanged.
 
-Package this lesson with python scripts/package-day-2.py. The Pages workflow
-renders day-02.html and publishes research-methods-day-2.zip alongside the
-existing Day 1 materials. The archive contains no slides or executed outputs.
+day-02.qmd is a readable contents page linking to the six HTML decks.
+Lecture 7 starts pandas from first principles. Later plotting examples use the
+sample prepared in Lecture 8, via codes/day-2/lesson_data.py. Every plotted
+figure has editable Python code. Assets use lecture-number prefixes under
+slides/assets/day-02/.
+
+Package the notebooks, scripts, raw inputs, and environment with
+python scripts/package-day-2.py. Slides stay online. The Pages workflow builds
+the contents page, all lecture decks, and the runtime-only download.

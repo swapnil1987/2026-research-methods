@@ -1,0 +1,606 @@
+---
+title: "Grouped summaries and joins"
+subtitle: "Research Methods 2026 · Day 2 · Lecture 9"
+author: "Swapnil Singh"
+date: "2026-11-11"
+date-format: "D MMMM YYYY"
+footer: "Research Methods 2026 · Grouped summaries and joins"
+css: theme/basic-python.css
+title-slide-attributes:
+  data-notes: |
+    Clock 00:00–01:00 (1 minute). Open codes/day-2/03_summaries.ipynb.
+    This lecture takes 60 minutes including classroom practice.
+---
+
+## Four households, two regions
+
+Open 03_summaries.ipynb. All amounts are synthetic EUR per month.
+
+```{.python}
+import pandas as pd
+small = pd.DataFrame({
+    "id": ["A", "B", "C", "D"],
+    "code": ["N", "N", "S", "S"],
+    "income": [1000, 3000, 2000, 4000],
+    "saving": [-100, 600, 400, 600],
+})
+print(small.to_string(index=False))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+id code  income  saving
+ A    N    1000    -100
+ B    N    3000     600
+ C    S    2000     400
+ D    S    4000     600
+```
+:::
+
+::: {.notes}
+Clock 01:00–03:00 (2 minutes). Ask for the mean saving before showing any groupby syntax. These four records stay visible in the notebook.
+:::
+
+## One column, three summaries
+
+Mean saving is 375 EUR per household. Total saving is 1500 EUR.
+
+```{.python}
+print("Mean:", small["saving"].mean())
+print("Median:", small["saving"].median())
+print("Total:", small["saving"].sum())
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+Mean: 375.0
+Median: 500.0
+Total: 1500
+```
+:::
+
+::: {.notes}
+Clock 03:00–05:00 (2 minutes). Calculate -100+600+400+600 by hand. The median is the average of the two middle sorted values, 400 and 600.
+:::
+
+## Several operations with agg
+
+The list selects operations. The columns select variables.
+
+```{.python}
+totals = small[["income", "saving"]].agg(
+    ["mean", "median", "sum"]
+)
+print(totals.to_string())
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+         income  saving
+mean     2500.0   375.0
+median   2500.0   500.0
+sum     10000.0  1500.0
+```
+:::
+
+::: {.notes}
+Clock 05:00–07:00 (2 minutes). Point to agg, then the list of function names. Contrast the different units of mean and sum. Reference: https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.agg.html
+:::
+
+## A mean within each region
+
+Each region becomes one row in the result.
+
+```{.python}
+regional = small.groupby(
+    "code", as_index=False
+)["saving"].mean()
+print(regional.to_string(index=False))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+code  saving
+   N   250.0
+   S   500.0
+```
+:::
+
+::: {.notes}
+Clock 07:00–09:00 (2 minutes). Walk through N -> two rows -> one mean. as_index=False keeps code as an ordinary column. Reference: https://pandas.pydata.org/docs/getting_started/intro_tutorials/06_calculate_statistics.html
+:::
+
+## The calculation behind groupby
+
+North: (-100 + 600) / 2. South: (400 + 600) / 2.
+
+```{.python}
+north = small.loc[small["code"] == "N", "saving"]
+south = small.loc[small["code"] == "S", "saving"]
+print("North:", north.tolist(), north.mean())
+print("South:", south.tolist(), south.mean())
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+North: [-100, 600] 250.0
+South: [400, 600] 500.0
+```
+:::
+
+::: {.notes}
+Clock 09:00–11:00 (2 minutes). Students connect the new method to filtering learned in Lecture 7. groupby repeats the same operation over all groups.
+:::
+
+## Names for the output columns
+
+Each pair gives the input column and the operation.
+
+```{.python}
+regional = small.groupby("code", as_index=False).agg(
+    households=("id", "size"),
+    mean_saving=("saving", "mean"),
+    total_saving=("saving", "sum"),
+)
+print(regional.to_string(index=False))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+code  households  mean_saving  total_saving
+   N           2        250.0           500
+   S           2        500.0          1000
+```
+:::
+
+::: {.notes}
+Clock 11:00–14:00 (3 minutes). Read one named aggregation slowly. households is the new column, id is the input column, size counts the rows.
+:::
+
+## The summary is another DataFrame
+
+You can select, calculate, sort, or plot the result.
+
+```{.python}
+print(regional.columns.tolist())
+print(regional["mean_saving"].tolist())
+print(regional["households"].sum())
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+['code', 'households', 'mean_saving', 'total_saving']
+[250.0, 500.0]
+4
+```
+:::
+
+::: {.notes}
+Clock 14:00–15:00 (1 minutes). This removes the common impression that a grouped result is only a printed display. The household counts should sum to the four source rows.
+:::
+
+## Sort the regional comparison
+
+South appears first because its mean saving is larger.
+
+```{.python}
+ranked = regional.sort_values(
+    "mean_saving", ascending=False
+)
+print(ranked[["code", "mean_saving"]].to_string(
+    index=False
+))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+code  mean_saving
+   S        500.0
+   N        250.0
+```
+:::
+
+::: {.notes}
+Clock 15:00–17:00 (2 minutes). The underlying observations stay unchanged. Ask which argument would reverse the order.
+:::
+
+## Rows and observed values
+
+size counts rows. count counts non-missing values in its input column.
+
+```{.python}
+observed = small.copy()
+observed.loc[0, "saving"] = float("nan")
+counts = observed.groupby("code", as_index=False).agg(
+    rows=("id", "size"),
+    saving_values=("saving", "count"),
+)
+print(counts.to_string(index=False))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+code  rows  saving_values
+   N     2              1
+   S     2              2
+```
+:::
+
+::: {.notes}
+Clock 17:00–20:00 (3 minutes). There are still two northern households, but only one observed saving. Missing values can make the denominator differ between columns.
+:::
+
+## A comparison creates a Boolean column
+
+True contributes 1 and False contributes 0 to the sum.
+
+```{.python}
+small["shortfall"] = small["saving"] < 0
+print(small[["id", "saving", "shortfall"]].to_string(
+    index=False
+))
+print("Shortfalls:", small["shortfall"].sum())
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+id  saving  shortfall
+ A    -100       True
+ B     600      False
+ C     400      False
+ D     600      False
+Shortfalls: 1
+```
+:::
+
+::: {.notes}
+Clock 20:00–22:00 (2 minutes). Students already know Boolean comparisons from Day 1. Here pandas applies it to every row.
+:::
+
+## A Boolean mean is a proportion
+
+One of two northern households has negative saving: 1 / 2 = 0.5.
+
+```{.python}
+rates = small.groupby("code", as_index=False).agg(
+    households=("id", "size"),
+    shortfall_rate=("shortfall", "mean"),
+)
+print(rates.to_string(index=False))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+code  households  shortfall_rate
+   N           2             0.5
+   S           2             0.0
+```
+:::
+
+::: {.notes}
+Clock 22:00–24:00 (2 minutes). The percentage is 50%, not 0.5%. Students explain the southern zero using the original rows.
+:::
+
+## Exercise 1: a regional comparison
+
+::: {.exercise}
+Work in the notebook. Predict the two median saving values before running.
+:::
+
+```{.python}
+small["saving_rate"] = (
+    small["saving"] / small["income"]
+)
+# Group by code.
+# Report households, median saving, and mean saving_rate.
+# Sort the result by median saving, largest first.
+```
+
+::: {.notes}
+Clock 24:00–29:00 (5 minutes). Give three minutes to attempt and two to compare reasoning. North median250, South500. The worked answer comes next.
+:::
+
+## Exercise 1: worked answer
+
+::: {.answer}
+The median combines the middle values within each region.
+:::
+
+```{.python}
+answer = small.groupby("code", as_index=False).agg(
+    households=("id", "size"),
+    median_saving=("saving", "median"),
+    mean_rate=("saving_rate", "mean"),
+)
+answer = answer.sort_values("median_saving", ascending=False)
+print(answer.round(3).to_string(index=False))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+code  households  median_saving  mean_rate
+   S           2          500.0      0.175
+   N           2          250.0      0.050
+```
+:::
+
+::: {.notes}
+Clock 29:00–32:00 (3 minutes). Ask a student to explain why North's mean rate is0.05: (-0.1+0.2)/2. Mean rate and median amount answer different questions.
+:::
+
+## A small denominator example
+
+The households save 20% and 10% of their incomes.
+
+```{.python}
+two = pd.DataFrame({
+    "income": [1000, 3000],
+    "saving": [200, 300],
+})
+two["rate"] = two["saving"] / two["income"]
+print(two.to_string(index=False))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+ income  saving  rate
+   1000     200   0.2
+   3000     300   0.1
+```
+:::
+
+::: {.notes}
+Clock 32:00–34:00 (2 minutes). Both incomes are positive, so the contrast here comes entirely from weighting. Use this tiny example before discussing the larger sample.
+:::
+
+## Mean rate and pooled rate
+
+15% gives equal weight to households. 12.5% divides combined saving by combined income.
+
+```{.python}
+mean_rate = two["rate"].mean()
+pooled_rate = two["saving"].sum() / two["income"].sum()
+print(f"Mean household rate: {mean_rate:.1%}")
+print(f"Pooled saving rate:  {pooled_rate:.1%}")
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+Mean household rate: 15.0%
+Pooled saving rate:  12.5%
+```
+:::
+
+::: {.notes}
+Clock 34:00–37:00 (3 minutes). Calculate 500/4000 by hand. The pooled rate gives more influence to the higher-income household. The rate must match the research question.
+:::
+
+## A separate table of region names
+
+The shared code connects each household to one region name.
+
+```{.python}
+names = pd.DataFrame({
+    "code": ["N", "S"],
+    "region": ["North", "South"],
+})
+print(names.to_string(index=False))
+print("Unique codes:", names["code"].is_unique)
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+code region
+   N  North
+   S  South
+Unique codes: True
+```
+:::
+
+::: {.notes}
+Clock 37:00–39:00 (2 minutes). Use the two tables side by side in the notebook. The lookup has one row per region code.
+:::
+
+## A left join keeps the household rows
+
+Many households match one row in the region table.
+
+```{.python}
+joined = small.merge(
+    names, on="code", how="left",
+    validate="many_to_one",
+)
+print(joined[["id", "code", "region"]].to_string(
+    index=False
+))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+id code region
+ A    N  North
+ B    N  North
+ C    S  South
+ D    S  South
+```
+:::
+
+::: {.notes}
+Clock 39:00–42:00 (3 minutes). Point out that on specifies the shared key. Left means preserve the household rows. validate checks the intended relationship. Reference: https://pandas.pydata.org/docs/user_guide/merging.html
+:::
+
+## A duplicated lookup row multiplies data
+
+Both northern households now match two lookup rows.
+
+```{.python}
+bad_names = pd.concat(
+    [names, names.iloc[[0]]], ignore_index=True
+)
+unchecked = small.merge(bad_names, on="code", how="left")
+print("Households:", len(small))
+print("Joined rows:", len(unchecked))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+Households: 4
+Joined rows: 6
+```
+:::
+
+::: {.notes}
+Clock 42:00–44:00 (2 minutes). Ask which rows duplicate and why the join still runs. A plausible regional mean can conceal row multiplication.
+:::
+
+## Validation catches the duplicate key
+
+The error stops us from using the six-row result.
+
+```{.python}
+try:
+    small.merge(
+        bad_names, on="code", how="left",
+        validate="many_to_one",
+    )
+except pd.errors.MergeError as error:
+    print(type(error).__name__)
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+MergeError
+```
+:::
+
+::: {.notes}
+Clock 44:00–46:00 (2 minutes). The try/except structure only keeps the demonstration runnable. Students do not need to memorize exception handling. The important argument is validate.
+:::
+
+## An unmatched code remains visible
+
+The left join retains household A. Its missing region exposes the unmatched code.
+
+```{.python}
+unknown = small.copy()
+unknown.loc[0, "code"] = "X"
+joined = unknown.merge(names, on="code", how="left")
+missing = joined.loc[joined["region"].isna(), ["id", "code"]]
+print(missing.to_string(index=False))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+id code
+ A    X
+```
+:::
+
+::: {.notes}
+Clock 46:00–48:00 (2 minutes). Contrast unmatched keys with duplicate keys. validate checks cardinality, while isna checks whether the lookup covered every code.
+:::
+
+## The full classroom sample
+
+The helper repeats Lecture 8's preparation and adds the region names.
+
+```{.python}
+from lesson_data import load_households
+df = load_households()
+print("Households:", len(df))
+print("Defined saving shares:", df["saving_share"].count())
+print(df[["region", "saving"]].head(3).to_string(index=False))
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+Households: 195
+Defined saving shares: 193
+region  saving
+ North  -100.0
+ South   376.0
+  East   814.0
+```
+:::
+
+::: {.notes}
+Clock 48:00–50:00 (2 minutes). All195 households have defined saving amounts. Two zero-income households have undefined saving shares. They remain in the amount analysis.
+:::
+
+## A summary of 195 households
+
+Each regional count contributes to the full sample of 195 households.
+
+```{.python}
+summary = df.groupby("region", as_index=False).agg(
+    households=("household_id", "size"),
+    mean_saving=("saving", "mean"),
+    median_saving=("saving", "median"),
+)
+print(summary.round(1).to_string(index=False))
+assert summary["households"].sum() == len(df)
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+region  households  mean_saving  median_saving
+  East          49        351.8          366.0
+ North          50        223.1          171.0
+ South          49        351.0          212.0
+  West          47        274.9          109.0
+```
+:::
+
+::: {.notes}
+Clock 50:00–52:00 (2 minutes). Have students identify the highest mean and highest median before sorting. These synthetic comparisons have no population interpretation.
+:::
+
+## Exercise 2: combine two summaries
+
+::: {.exercise}
+Return four rows. Check that the household counts still sum to 195.
+:::
+
+```{.python}
+df["shortfall"] = df["saving"] < 0
+# Build one table: region, households, mean_saving.
+# Build another: region, shortfall_rate.
+# Join them on region, using validate="one_to_one".
+# Sort by shortfall_rate, largest first.
+```
+
+::: {.notes}
+Clock 52:00–57:00 (5 minutes). Allow four minutes for independent coding and a minute to compare the joined table. Use groupby named aggregation as the first step.
+:::
+
+## Exercise 2: worked answer
+
+::: {.answer}
+One-to-one checks that each region appears once in each summary.
+:::
+
+```{.python}
+rates = df.groupby("region", as_index=False).agg(
+    shortfall_rate=("shortfall", "mean"),
+)
+report = summary.merge(
+    rates, on="region", how="left", validate="one_to_one"
+).sort_values("shortfall_rate", ascending=False)
+columns = ["region", "households", "mean_saving", "shortfall_rate"]
+print(report[columns].round(3).to_string(index=False))
+assert report["households"].sum() == len(df)
+```
+
+::: {.terminal-output .fragment}
+```{.text code-line-numbers="false"}
+region  households  mean_saving  shortfall_rate
+  West          47      274.915           0.383
+ North          50      223.120           0.300
+  East          49      351.837           0.245
+ South          49      351.041           0.245
+```
+:::
+
+::: {.notes}
+Clock 57:00–60:00 (3 minutes). The joined table combines results without changing the household sample. Have students account for every region and explain each denominator.
+:::
