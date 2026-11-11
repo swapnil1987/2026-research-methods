@@ -2,6 +2,11 @@
 
 ## News
 
+**11 November 2026 — Assignment 2 is posted.**
+
+[Open Assignment 2 (PDF)](assignments/exercise-02/assignment-02.pdf).
+Open your pull request by **Monday, 16 November 2026 at 23:59 Vilnius time**.
+
 **10 November 2026: Day 2 lectures are available.**
 Six separate lectures cover pandas, plotnine, and presenting research results.
 [Open the Day 2 lecture list](https://swapnil1987.github.io/2026-research-methods/day-02.html)

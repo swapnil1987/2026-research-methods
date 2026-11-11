@@ -1,0 +1,133 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=2cm,headheight=14pt]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern,microtype,booktabs,tabularx,enumitem,fancyhdr}
+\usepackage{xcolor}
+\definecolor{linkblue}{HTML}{174A80}
+\usepackage[colorlinks=true,urlcolor=linkblue,linkcolor=linkblue]{hyperref}
+\hypersetup{pdftitle={Research Methods 2026 -- Coding Assignment 2},pdfauthor={Swapnil Singh}}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Research Methods 2026}
+\fancyhead[R]{Coding Assignment 2}
+\fancyfoot[C]{\thepage}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\setlist[enumerate]{label=(\alph*),leftmargin=*,topsep=2pt,itemsep=3pt,parsep=0pt}
+\setlist[itemize]{leftmargin=*,topsep=2pt,itemsep=1pt,parsep=0pt}
+\newcommand{\py}[1]{\texttt{\detokenize{#1}}}
+\newcommand{\task}[2]{\subsection*{#1\hfill{\normalsize[#2 marks]}}}
+\newcommand{\dataurl}{https://raw.githubusercontent.com/machow/nycflights13-py/1d40369400d77379a78641afd119fc302a5a9659/nycflights13/data}
+
+\begin{document}
+\begin{center}
+{\Large\textbf{Coding Assignment 2}}\\[3pt]
+{\large What can a traveller learn from a year of flights?}
+\end{center}
+
+A travel editor wants to know how often flights from New York arrived late in 2013.
+Give the editor a table they can check. Then pitch a question of your own and
+answer it with one figure the editor could publish.
+
+\textbf{Individual take-home assignment}\quad 100 marks $\cdot$ 10\% of the course grade
+$\cdot$ about three hours. Use pandas and plotnine from the Day~2 environment.
+
+Open your pull request by \textbf{Monday, 16 November 2026 at 23:59 Vilnius time}.
+
+\subsection*{Get the data}
+Download both files into a folder called \py{data} beside your notebook.
+Keep the original files so that someone can run your analysis again.
+
+\begin{itemize}
+\item \href{\dataurl/flights.csv.zip}{\textbf{Download flights.csv.zip}} for
+336,776 scheduled flight records from Newark (EWR), Kennedy (JFK)
+and LaGuardia (LGA) in 2013. Keep this file zipped.
+\item \href{\dataurl/airlines.csv}{\textbf{Download airlines.csv}} to get the
+full airline \py{name} for each \py{carrier} code.
+If the CSV opens as text, save it as \py{airlines.csv}.
+\end{itemize}
+
+\begin{quote}\ttfamily\small
+import pandas as pd\\
+flights = pd.read\_csv("data/flights.csv.zip")\\
+airlines = pd.read\_csv("data/airlines.csv")
+\end{quote}
+
+Departure and arrival delays are measured in minutes against the schedule.
+Negative values mean early and zero means on time. The \py{hour} column is the
+scheduled departure hour. The data come from the U.S. Bureau of Transportation
+Statistics via Hadley Wickham's \emph{nycflights13} (CC0). Michael Chow provides the CSV files.
+See the \href{https://nycflights13.tidyverse.org/reference/flights.html}{flight variable guide}
+and \href{https://nycflights13.tidyverse.org/reference/airlines.html}{airline lookup guide}.
+
+\task{1. Build the analysis sample}{20}
+\begin{enumerate}
+\item State what one row represents in each file. Show both shapes, check the
+type of \py{arr_delay}, and count exact duplicate flight rows across all original
+columns. Explain whether any rows need removing. An airline flight number can
+recur on different dates. \hfill [8]
+\item Show how many flight records have a known arrival delay and how many have
+a missing one. Check that the two counts add up to your flight total.
+Create a late-arrival indicator for delays of \textbf{15 minutes or more}.
+Keep the outcome missing when the delay is missing. Show how your rule handles
+an early arrival, 14 minutes, exactly 15 minutes and a missing value. \hfill [12]
+\end{enumerate}
+
+\task{2. Attach the airline names}{10}
+Join the lookup to the flight records using \py{carrier}. Check that each lookup
+code occurs once, validate the many-to-one join in pandas, and show the row
+counts before and after. Report how many flights have an unmatched code.
+Use the airline names in your table on the next page.
+
+\newpage
+\task{3. Give the editor a table they can check}{30}
+\begin{enumerate}
+\item Identify the five busiest airlines by their number of scheduled flight
+records. Present one row per airline, busiest first, then a final row for
+\textbf{all airlines combined}, including those outside the top five.
+Show the airline name, scheduled flights, flights with a known arrival delay,
+late arrivals, and the percentage late among flights with a known arrival delay.
+Give columns reader-friendly headings and round only the displayed percentages
+to one decimal place. \hfill [18]
+\item Pick one of the five airlines. Filter its underlying flight records and
+recompute its numerator and denominator independently of the summary table.
+Show the arithmetic for that airline's percentage and check that it agrees
+with the table. \hfill [6]
+\item Suppose the editor divides the total number of known late arrivals by
+\emph{all scheduled flights}. Calculate this alternative for the all-airlines
+row. Report how much it changes the headline rate in percentage points and
+explain what the alternative denominator counts. \hfill [6]
+\end{enumerate}
+
+\task{4. Pitch and illustrate your own finding}{40}
+Choose a reader and a question you can answer from these records. Go beyond
+redrawing the five-airline table. For example, how does the chance of a late
+arrival change from morning to evening at each airport? How often does a flight that leaves at least
+15 minutes late still arrive by its scheduled time? You may pursue a different question.
+
+\begin{enumerate}
+\item \textbf{The pitch.} Name your reader and the comparison they care about.
+Define the measure, the flights you include and any cutoffs you choose. Give
+the number of flights behind the figure. \hfill [8]
+\item \textbf{The figure.} Make one figure in plotnine. Choose the geometry,
+variables, grouping and scale that bring out your comparison. Give it a headline
+supported by the data, label the units and make the groups easy to distinguish
+at the size a reader will see. \hfill [14]
+\item \textbf{The edit.} Keep a first version in the notebook. Change one design
+decision that affects how a reader sees the evidence. Show the final version
+and explain in two sentences what is easier to see and what detail, if any,
+is lost. A simple figure can earn full marks. \hfill [8]
+\item \textbf{The caption.} In 60--100 words, answer your question with a numerical
+comparison calculated in the notebook. Name the source, period and one specific
+limit on what the comparison can establish. \hfill [10]
+\end{enumerate}
+
+\subsection*{What to submit}
+Open a pull request to \py{main} from your own branch. In
+\py{submissions/exercise-02/YOUR-USERNAME/}, include \py{exercise_02.ipynb}
+with the table, figure drafts and caption, the final \py{figure.png}, and a
+short \py{README.md} with the download and run instructions. Keep the two raw
+downloads on your computer. Restart the kernel and run all cells in order to
+check that the notebook recreates the table and saves the final figure.
+\end{document}
