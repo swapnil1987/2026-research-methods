@@ -1,19 +1,14 @@
-# Coding Assignment 2
-
-[Open the assignment (PDF)](assignment-02.pdf)
-
-Open your pull request by **Monday, 16 November 2026 at 23:59 Vilnius time**.
-
-Download the two inputs and save them in a folder called `data` beside your notebook. Both links point to the same fixed version of the data. Keep the flights file zipped. If the airline lookup opens in a browser tab, save the page as `airlines.csv`.
-
-- [Download flights.csv.zip (7.9 MiB)](https://raw.githubusercontent.com/machow/nycflights13-py/1d40369400d77379a78641afd119fc302a5a9659/nycflights13/data/flights.csv.zip)
-- [Download airlines.csv](https://raw.githubusercontent.com/machow/nycflights13-py/1d40369400d77379a78641afd119fc302a5a9659/nycflights13/data/airlines.csv)
-
-```python
-import pandas as pd
-
-flights = pd.read_csv("data/flights.csv.zip")
-airlines = pd.read_csv("data/airlines.csv")
-```
-
-The U.S. Bureau of Transportation Statistics collected the flight records. Hadley Wickham's *nycflights13* documents the data and distributes them under CC0. The downloads are Michael Chow's CSV version. [Flight variables](https://nycflights13.tidyverse.org/reference/flights.html) · [Airline codes](https://nycflights13.tidyverse.org/reference/airlines.html)
+Coding Assignment 2
+Overview
+This notebook analyses flight delays for flights departing from New York-area airports in 2013.
+It includes a summary of late arrivals by airline and a comparison of how frequently flights of different distances recover from late departures.
+Data
+Download flights.csv.zip and airlines.csv from the course assignment materials.
+Place both files in a folder named data, beside exercise_02.ipynb. Keep flights.csv.zip compressed.
+Requirements
+Python with pandas and plotnine, using the Research Methods course environment.
+How to run
+	1	Open exercise_02.ipynb in JupyterLab.
+	2	Select the research-methods kernel.
+	3	Restart the kernel and run all cells in order.
+The notebook reproduces the airline summary table and both versions of the figure. It also saves the final chart as figure.png.
