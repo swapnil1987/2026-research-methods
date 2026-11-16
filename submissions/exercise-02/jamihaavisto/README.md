@@ -17,3 +17,7 @@ jupyter lab
 ```
 
 Open `exercise_02.ipynb` in JupyterLab, restart the kernel, and run all cells in order. The notebook includes the draft and final figure versions; the final figure is also provided separately as `figure.png`.
+
+## AI use
+
+OpenAI Luna was used to assist with writing and reviewing the code for this assignment.
