@@ -1,5 +1,15 @@
 # Research Methods 2026
 
+## Final practical — Who gets the carbon dividend?
+
+In this 60-minute individual assessment, use AI and data on 240 fictional households to compare an equal carbon dividend with a rebate rule you design. Hand in one executed notebook with a code-generated table, a figure, and a recommendation of up to 150 words.
+
+**[Download the complete student packet (ZIP)](https://raw.githubusercontent.com/swapnil1987/2026-research-methods/main/assignments/final-practical/final-practical-student-packet.zip)**. Extract it into one folder, then open `final_practical.ipynb` in the course Jupyter environment with `households.csv` beside it.
+
+- [Assignment brief and marking criteria (PDF)](assignments/final-practical/student-brief.pdf)
+- [Starter notebook](assignments/final-practical/final_practical.ipynb)
+- [Household dataset (CSV)](assignments/final-practical/households.csv)
+
 ## News
 
 **11 November 2026 — Assignment 2 is posted.**
